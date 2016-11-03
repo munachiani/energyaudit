@@ -50,7 +50,7 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
                                 <section id="loginForm">
-                                    <form action="http://energyaudit.test.vggdev.com/Account/Login" class="" id="loginuser" method="post" role="form"><input name="__RequestVerificationToken" type="hidden" value="sblkIP6O0i4906NxCFmNe8pf4Vi-r6jDKXLZPjDDBgFuBJcxbRQto18UXBdbuTbzXvk8hJYHjWpTkYLd6VlgymC7aAw9oqYsZJVHvJEuIqE1")>
+                                    <form action="" class="" id="loginuser" method="post" role="form"><input name="__RequestVerificationToken" type="hidden" value="sblkIP6O0i4906NxCFmNe8pf4Vi-r6jDKXLZPjDDBgFuBJcxbRQto18UXBdbuTbzXvk8hJYHjWpTkYLd6VlgymC7aAw9oqYsZJVHvJEuIqE1")>
                                         <div id="err" class=""></div>
                                         <div class="row form-group">
                                             <div class="form-group col-md-12">
@@ -179,11 +179,12 @@
                             window.location.href = location.origin + "/Dashboard/SaveUserTrail"
                         },
                         error: function () {
+                            window.location.href = "{{url('dashboard')}}";
                             //window.location.href = location.protocol + "//" + location.hostname + ":2233/Account/Login";
-                            $("#logloader").hide();
+                           /* $("#logloader").hide();
                             document.getElementById("err").removeAttribute("class", 'hidden');
                             document.getElementById("err").setAttribute("class", "alert alert-callout alert-danger alert-dismissable");
-                            $("#err").html("Invalid Username/Password").show();
+                            $("#err").html("Invalid Username/Password").show();*/
                         }
                     }).done(function (data) {
 
