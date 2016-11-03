@@ -1,0 +1,556 @@
+//var alldata = [];
+var status = true;
+var status1 = true;
+var status2 = true;
+var status3 = true;
+var status4 = true;
+var status5 = true;
+var val = 0;
+var limstate = 0;
+var limdate = 0;
+var limpick = 0;
+var limdisco = 0;
+var limparent = 0;
+var start_date = "";
+var end_date = "";
+var by_pick = "";
+var state_name = "";
+var loc_gov_name = "";
+var disco_name = "";
+var par_name = "";
+var keypage = true;
+var dataexcel = [];
+var table = "";
+var user_role = document.getElementById('user_role').innerHTML;
+function getCustomerNote() {
+    var tokenz = localStorage.getItem("access_token");
+
+    var access_token = "bearer " + tokenz;
+    var user_id = document.getElementById('user_id').innerHTML;
+    //alert(access_token);
+    $.ajax({
+        type: 'GET',
+        url: location.origin + '/api/customersnotes?user_id=' + user_id + '&lim=' + val,
+        dataType: 'json',
+        headers: {
+            Authorization: access_token
+        },
+        beforeSend: function () {
+
+        },
+        success: function (data) {
+
+
+            if (data.length == 0) {
+                status = false;
+            }
+            else if ((data !== undefined || data.length != 0) && status) {
+                dataexcel = dataexcel.concat(data);
+                console.log(dataexcel);
+                //dataToExcel();
+                //console.log(data);
+                for (var x = 0; x < data.length; x++) {
+                    var addr = data[x].site_latitude + ", " + data[x].site_longitude;
+                    table.row.add(["<a class='btn btn-primary' data-value='" + data[x].customer_note_id + "' href='/Customer/ViewBill/" + data[x].customer_note_id + "'>View Bills</a>", user_role == "Disco"?"":"<a class='btn btn-danger' data-value='" + data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" + data[x].customer_note_id + "'>Delete</a>", data[x].mda_name, data[x].government_level, data[x].parent_fed_minis_name, data[x].sector_name, data[x].site_address, addr, data[x].closet_landmark, data[x].village, data[x].town, data[x].city, data[x].lga_name, data[x].state_name, data[x].disco_name,
+                        data[x].business_unit,
+                        data[x].disco_acct_number, data[x].customer_type,
+                        data[x].customer_class, data[x].meter_installed ? "Yes" : "No", data[x].meter_no, data[x].meter_type, data[x].meter_brand, data[x].meter_model
+                    ]).draw();
+                }
+
+                val += 80;
+            }
+        },
+        error: function () {
+
+        }
+    }).done(function () {
+
+        if (status === true) {
+            getCustomerNote();
+        } else {
+            dataToExcel();
+        }
+
+    });
+}
+
+function daterange() {
+    $("#datepick2").change(function (e) {
+        e.preventDefault();
+        //e.returnValue = false;
+        //console.log("cool");
+        limdate = 0;
+        status1 = true;
+        $('#datatables-4').DataTable().clear().draw();
+        start_date = $("#datepick").val();
+        end_date = $("#datepick2").val();
+
+        if (start_date.length <= 0) {
+            $(".validatemessage").html('<div class="alert alert-dismissible alert-danger" id="erroralert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Oops!, You Need To Select Start Date</div>');
+        } else if (start_date > end_date) {
+            $(".validatemessage").html('<div class="alert alert-dismissible alert-danger" id="erroralert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Oops!, Specify Correct Date Range </div>');
+        } else if (start_date > 0 && start_date > end_date) {
+            $(".validatemessage").html('<div class="alert alert-dismissible alert-danger" id="erroralert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Oops!, Specify Correct Date Range </div>');
+        } else {
+            filterByDate();
+            //$("form").submit();
+        }
+    });
+    $("#datepick").change(function (e) {
+        e.preventDefault();
+        e.returnValue = false;
+        limdate = 0;
+        status1 = true;
+        //$('#datatables-3').DataTable().clear().draw();
+        var startdate = $("#datepick").val();
+        var enddate = $("#datepick2").val();
+        start_date = startdate;
+        end_date = enddate;
+        //.log(startdate);
+        if (enddate.length <= 0) {
+            $(".validatemessage").html('<div class="alert alert-dismissible alert-danger" id="erroralert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Oops!, You Need To Select Start Date</div>');
+        } else if (startdate > enddate) {
+            $(".validatemessage").html('<div class="alert alert-dismissible alert-danger" id="erroralert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Oops!, Specify Correct Date Range </div>');
+        } else if (enddate > 0 && startdate > enddate) {
+            $(".validatemessage").html('<div class="alert alert-dismissible alert-danger" id="erroralert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Oops!, Specify Correct Date Range </div>');
+        } else {
+            //if(keypage)
+            //  filterByDate(startdate, enddate);
+            //$("form").submit();
+        }
+    });
+}
+
+function filterByDate() {
+    var tokenz = localStorage.getItem("access_token");
+
+    var access_token = "bearer " + tokenz;
+    //console.log(startdate);
+    //console.log(enddate);
+    $.ajax({
+        type: 'GET',
+        url: location.origin + '/api/customernoteinfo?start_date=' + start_date + "&end_date=" + end_date + "&lim=" + limdate,
+        dataType: 'json',
+        headers: {
+            Authorization: access_token
+        },
+        beforeSend: function () {
+
+        },
+        success: function (data) {
+            console.log(data);
+            //var table = $('#datatables-4').DataTable({ "ordering": false });
+            //console.log(location.origin + '/api/customernoteinfo?start_date=' + start_date + "&end_date=" + end_date + "&lim=" + limdate);
+            if (data.length == 0) {
+                status1 = false;
+            }
+            else if ((data !== undefined || data.length != 0) && status1) {
+                //console.log(data);
+                dataexcel = dataexcel.concat(data);
+                //dataToExcel();
+                for (var x = 0; x < data.length; x++) {
+                    var addr = data[x].site_latitude + ", " + data[x].site_longitude;
+                    table.row.add(["<a class='btn btn-primary' data-value='" + data[x].customer_note_id + "' href='/Customer/ViewBill/" + data[x].customer_note_id + "'>View Bills</a>", user_role == "Disco" ? "" : "<a class='btn btn-danger' data-value='" + data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" + data[x].customer_note_id + "'>Delete</a>", data[x].mda_name, data[x].government_level, data[x].parent_fed_minis_name, data[x].sector_name, data[x].site_address, addr, data[x].closet_landmark, data[x].village, data[x].town, data[x].city, data[x].lga_name, data[x].state_name, data[x].disco_name,
+                        data[x].business_unit,
+                        data[x].disco_acct_number, data[x].customer_type,
+                        data[x].customer_class, data[x].meter_installed ? "Yes" : "No", data[x].meter_no, data[x].meter_type, data[x].meter_brand, data[x].meter_model
+                    ]).draw();
+                    //alldata.push(dataa[x]);
+                }
+                console.log(data);
+                limdate += 150;
+
+            }
+
+        },
+        error: function () {
+
+        }
+    }).done(function () {
+        if (status1 === true) {
+            filterByDate();
+        } else {
+            dataToExcel();
+        }
+        keypage = false;
+    });
+}
+
+
+
+function getRegion(selectedItem, ddlLgas) {
+    var region = localStorage.getItem('region');
+    var procemessage = "<option value=''>Please wait...</option>";
+    $("#Region").html(procemessage).show();
+    $.ajax({
+        cache: false,
+        type: "GET",
+        url: "/ReportInfo/GetRegionbyStateId",
+        dataType: "json",
+        data: { "id": selectedItem },
+        beforeSend: function () {
+
+            $("#message").show();
+            //ddlLgas.val("Select LGA");
+        },
+        success: function (data) {
+            ddlLgas.html('');
+            $("#message").hide();
+            if (data.length > 0) {
+
+                ddlLgas.append($('<option></option>').val(null).html("Select LGA"));
+                ddlLgas.append($('<option></option>').val("All").html("All"));
+                localStorage.setItem("data", JSON.stringify(data));
+                $.each(data, function (id, option) {
+                    ddlLgas.append($('<option></option>').val(option.Value).html(option.Text));
+                    ddlLgas.val(region);
+                });
+                $("#Region").removeAttr("disabled");
+
+            } else {
+                ddlLgas.append($('<option></option>').val('-1').html("N/A"));
+            }
+
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //alert('Failed to retrieve Local Governments.');
+        }
+    });
+};
+
+
+function filterByRegion() {
+    var tokenz = localStorage.getItem("access_token");
+
+    var access_token = "bearer " + tokenz;
+
+    $.ajax({
+        type: "GET",
+        url: location.origin + "/api/customernoteinfo?state_name=" + state_name + "&local_gov_name=" + loc_gov_name + "&distribution_company_name=" + disco_name + "&parent_fed_name=" + par_name + "&lim=" + limstate,
+        dataType: 'json',
+        headers: {
+            Authorization: access_token
+        },
+        beforeSend: function () {
+
+        },
+        success: function (data) {
+            console.log(status2);
+            //var table = $('#datatables-4').DataTable({ "ordering": false });
+
+            if (data.length == 0) {
+                status2 = false;
+            }
+            else if ((data !== undefined || data.length != 0) && status2) {
+                //console.log(data);
+                dataexcel = dataexcel.concat(data);
+                //dataToExcel();
+                for (var x = 0; x < data.length; x++) {
+                    var addr = data[x].site_latitude + ", " + data[x].site_longitude;
+                    table.row.add(["<a class='btn btn-primary' data-value='" + data[x].customer_note_id + "' href='/Customer/ViewBill/" + data[x].customer_note_id + "'>View Bills</a>", user_role == "Disco" ? "" : "<a class='btn btn-danger' data-value='" + data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" + data[x].customer_note_id + "'>Delete</a>", data[x].mda_name, data[x].government_level, data[x].parent_fed_minis_name, data[x].sector_name, data[x].site_address, addr, data[x].closet_landmark, data[x].village, data[x].town, data[x].city, data[x].lga_name, data[x].state_name, data[x].disco_name,
+                        data[x].business_unit,
+                        data[x].disco_acct_number, data[x].customer_type,
+                        data[x].customer_class, data[x].meter_installed ? "Yes" : "No", data[x].meter_no, data[x].meter_type, data[x].meter_brand, data[x].meter_model
+                    ]).draw();
+                    //alldata.push(dataa[x]);
+                }
+                //console.log(data);
+                limstate += 150;
+
+            }
+
+        },
+        error: function () {
+
+        }
+    }).done(function () {
+        if (status2 === true) {
+            filterByRegion();
+        } else {
+            dataToExcel();
+        }
+
+    });
+}
+
+function filterByMinistry() {
+    var tokenz = localStorage.getItem("access_token");
+
+    var access_token = "bearer " + tokenz;
+    //console.log(limparent);
+    $.ajax({
+        type: "GET",
+        url: location.origin + "/api/customernoteinfo?state_name=" + state_name + "&local_gov_name=" + loc_gov_name + "&distribution_company_name=" + disco_name + "&parent_fed_name=" + par_name + "&lim=" + limparent,
+        dataType: 'json',
+        headers: {
+            Authorization: access_token
+        },
+        beforeSend: function () {
+
+        },
+        success: function (data) {
+            //console.log(data);
+            //var table = $('#datatables-4').DataTable({ "ordering": false });
+
+            if (data.length == 0) {
+                status5 = false;
+            }
+            else if ((data !== undefined || data.length != 0) && status5) {
+                dataexcel = dataexcel.concat(data);
+                //dataToExcel();
+                for (var x = 0; x < data.length; x++) {
+                    var addr = data[x].site_latitude + ", " + data[x].site_longitude;
+                    table.row.add(["<a class='btn btn-primary' data-value='" + data[x].customer_note_id + "' href='/Customer/ViewBill/" + data[x].customer_note_id + "'>View Bills</a>", user_role == "Disco" ? "" : "<a class='btn btn-danger' data-value='" + data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" + data[x].customer_note_id + "'>Delete</a>", data[x].mda_name, data[x].government_level, data[x].parent_fed_minis_name, data[x].sector_name, data[x].site_address, addr, data[x].closet_landmark, data[x].village, data[x].town, data[x].city, data[x].lga_name, data[x].state_name, data[x].disco_name,
+                        data[x].business_unit,
+                        data[x].disco_acct_number, data[x].customer_type,
+                        data[x].customer_class, data[x].meter_installed ? "Yes" : "No", data[x].meter_no, data[x].meter_type, data[x].meter_brand, data[x].meter_model
+                    ]).draw();
+                    //alldata.push(dataa[x]);
+                }
+                //console.log(data);
+                limparent += 150;
+
+            }
+
+        },
+        error: function () {
+
+        }
+    }).done(function () {
+        if (status5 === true) {
+            filterByMinistry();
+        } else {
+            dataToExcel();
+        }
+
+
+    });
+}
+
+function filterByDisco() {
+    var tokenz = localStorage.getItem("access_token");
+
+    var access_token = "bearer " + tokenz;
+    //console.log(limparent);
+    $.ajax({
+        type: "GET",
+        url: location.origin + "/api/customernoteinfo?state_name=" + state_name + "&local_gov_name=" + loc_gov_name + "&distribution_company_name=" + disco_name + "&parent_fed_name=" + par_name + "&lim=" + limdisco,
+        dataType: 'json',
+        headers: {
+            Authorization: access_token
+        },
+        beforeSend: function () {
+
+        },
+        success: function (data) {
+            //console.log(data);
+            //var table = $('#datatables-4').DataTable({ "ordering": false });
+
+            if (data.length == 0) {
+                status4 = false;
+            }
+            else if ((data !== undefined || data.length != 0) && status5) {
+                dataexcel = dataexcel.concat(data);
+                //dataToExcel();
+                for (var x = 0; x < data.length; x++) {
+                    var addr = data[x].site_latitude + ", " + data[x].site_longitude;
+                    table.row.add(["<a class='btn btn-primary' data-value='" + data[x].customer_note_id + "' href='/Customer/ViewBill/" + data[x].customer_note_id + "'>View Bills</a>", user_role == "Disco" ? "" : "<a class='btn btn-danger' data-value='" + data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" + data[x].customer_note_id + "'>Delete</a>", data[x].mda_name, data[x].government_level, data[x].parent_fed_minis_name, data[x].sector_name, data[x].site_address, addr, data[x].closet_landmark, data[x].village, data[x].town, data[x].city, data[x].lga_name, data[x].state_name, data[x].disco_name,
+                        data[x].business_unit,
+                        data[x].disco_acct_number, data[x].customer_type,
+                        data[x].customer_class, data[x].meter_installed ? "Yes" : "No", data[x].meter_no, data[x].meter_type, data[x].meter_brand, data[x].meter_model
+                    ]).draw();
+                    //alldata.push(dataa[x]);
+                }
+                //console.log(data);
+                limdisco += 150;
+
+            }
+
+        },
+        error: function () {
+
+        }
+    }).done(function () {
+        if (status4 === true) {
+            filterByDisco();
+        } else {
+            dataToExcel();
+        }
+
+
+    });
+}
+
+function dataToExcel() {
+    // Test script to generate a file from JavaScript such
+    // that MS Excel will honor non-ASCII characters.
+
+    testJson = dataexcel;
+
+    // Simple type mapping; dates can be hard
+    // and I would prefer to simply use `datevalue`
+    // ... you could even add the formula in here.
+    testTypes = {
+        "customer_note_id": "String",
+        "mda_name": "String",
+        "government_level": "String",
+        "parent_fed_minis_name": "String",
+        "sector_name": "String",
+        "site_address": "String",
+        "site_address_coordinate": "String",
+        "closet_landmark": "String",
+        "village": "String",
+        "town": "String",
+        "city": "String",
+        "lga_name": "String",
+        "state_name": "String",
+        "disco_name": "String",
+        "business_unit": "String",
+        "disco_acct_number": "String",
+        "customer_type": "String",
+        "customer_class": "String",
+        "meter_installed": "String",
+        "meter_no": "String",
+        "meter_type": "String",
+        "meter_brand": "String",
+        "meter_model": "String",
+        "site_latitude": "String",
+        "site_longitude": "String",
+        "created_date": "String",
+    };
+
+    emitXmlHeader = function () {
+        var headerRow = '<ss:Row>\n';
+        for (var colName in testTypes) {
+            headerRow += '  <ss:Cell>\n';
+            headerRow += '    <ss:Data ss:Type="String">';
+            headerRow += colName.replace(/_/g, ' ').toUpperCase() + '</ss:Data>\n';
+            headerRow += '  </ss:Cell>\n';
+        }
+        headerRow += '</ss:Row>\n';
+        return '<?xml version="1.0"?>\n' +
+            '<ss:Workbook xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">\n' +
+            '<ss:Worksheet ss:Name="Sheet1">\n' +
+            '<ss:Table>\n\n' + headerRow;
+    };
+
+    emitXmlFooter = function () {
+        return '\n</ss:Table>\n' +
+            '</ss:Worksheet>\n' +
+            '</ss:Workbook>\n';
+    };
+
+    jsonToSsXml = function (jsonObject) {
+        var row;
+        var col;
+        var xml;
+        var data = typeof jsonObject != "object" ? JSON.parse(jsonObject) : jsonObject;
+
+        xml = emitXmlHeader();
+
+        for (row = 0; row < data.length; row++) {
+            xml += '<ss:Row>\n';
+
+            for (col in data[row]) {
+                xml += '  <ss:Cell>\n';
+                xml += '    <ss:Data ss:Type="' + testTypes[col] + '">';
+                xml += data[row][col] + '</ss:Data>\n';
+                xml += '  </ss:Cell>\n';
+            }
+
+            xml += '</ss:Row>\n';
+        }
+
+        xml += emitXmlFooter();
+        return xml;
+    };
+
+
+    //console.log(jsonToSsXml(testJson));
+    download = function (content, filename, contentType) {
+        if (!contentType) contentType = 'application/octet-stream';
+        var a = document.getElementById('test');
+        var blob = new Blob([content], {
+            'type': contentType
+        });
+        a.href = window.URL.createObjectURL(blob);
+        a.download = filename;
+    };
+
+    download(jsonToSsXml(testJson), 'customernotedata.xls', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+}
+
+
+function reloadPage() {
+    window.location.reload();
+}
+
+
+$(document).ready(function () {
+    table = $('#datatables-4').DataTable({ "ordering": false });
+    getCustomerNote();
+    daterange();
+    $("#message").hide();
+    if ($("#State").val()) {
+        var ddlLgas = $("#Region");
+        var region = localStorage.getItem('region');
+        //$("#Region option[value='" + region + "']").attr('selected', true);
+        getRegion($("#State").val(), ddlLgas);
+    }
+    $("#State").click(function () {
+        var selectedItem = $(this).val();
+        var ddlLgas = $("#Region");
+        localStorage.removeItem("region");
+        getRegion(selectedItem, ddlLgas);
+
+    });
+    $("#Region").change(function () {
+        status2 = true;
+        $('#datatables-4').DataTable().clear().draw();
+        state_name = $("#State").val();
+        loc_gov_name = $("#Region").val();
+        par_name = $("#Minis").val();
+        disco_name = $("#Disco").val();
+        limstate = 0;
+
+
+        filterByRegion();
+    });
+
+    $("#Minis").change(function () {
+        status5 = true;
+        $('#datatables-4').DataTable().clear().draw();
+        state_name = $("#State").val();
+        loc_gov_name = $("#Region").val();
+        par_name = $("#Minis").val();
+        disco_name = $("#Disco").val();
+        limparent = 0;
+        //console.log(limparent);
+        filterByMinistry();
+    });
+
+    $("#Disco").change(function () {
+        status4 = true;
+        $('#datatables-4').DataTable().clear().draw();
+        state_name = $("#State").val();
+        loc_gov_name = $("#Region").val();
+        par_name = $("#Minis").val();
+        disco_name = $("#Disco").val();
+        limdisco = 0;
+        console.log(limdisco);
+        filterByDisco();
+    });
+
+    $("#reloadenergy").click(function () {
+        //alert("cool");
+        $("#customerform")[0].reset();
+        status = true;
+        val = 0;
+        getCustomerNote();
+        //reloadPage();
+    })
+
+    //resetButton.onclick = reloadPage;
+
+});

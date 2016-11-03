@@ -1,0 +1,62 @@
+body{
+    overflow-x:hidden;
+    background:url('../img/bg.jpg') center no-repeat;
+    background-size: cover;
+}
+.style-custom{
+    color:#fff;
+    /*background:#024A7B;*/
+    background:#1A3F29;
+}
+.card-head header{
+    line-height:2.5em;
+}
+.card-head .logo{
+    /*width:100px;*/
+    height:80px;
+    padding:10px 10px 10px 10px;
+}
+.nav-tabs{
+    border-bottom:none;
+}
+.card-head.nav-tabs > li > a, .card-head > .nav-tabs > li > a{
+    padding-top:20px;
+    padding-bottom:4px;
+    font-size:1.2em;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+    border-bottom: 4px solid #f79f1a;
+    color: #f79f1a;
+}
+.nav > li > a:hover, .nav > li > a:focus{
+    background: none;
+    color:#f79f1a;
+    opacity:1;
+}
+.nav > li > a:hover{
+    border:none;
+}
+.checkbox-styled:not(ie8).checkbox-custom-style input:checked ~ span:before, .radio-styled:not(ie8).checkbox-custom-style input:checked ~ span:before, .checkbox-styled:not(ie8).radio-custom-style input:checked ~ span:before, .radio-styled:not(ie8).radio-custom-style input:checked ~ span:before{
+    border-color: #024A7B;
+}
+.inline-block{
+    display:inline-block !important;
+}
+#loginForm, #resetForm{
+    padding:60px 0;
+}
+#loginForm .form-control, #resetForm .form-control{
+    padding-left:40px;
+}
+#loginForm .form-group i, #resetForm .form-group i{
+    position:absolute;
+    left:5px;
+    bottom:0;
+    font-size:1.5em;
+    padding-bottom:10px;
+    color:#296642;
+}
+.btn:hover, .btn:focus, .btn.focus{
+    background:#296642;
+    color:#fff;
+}
