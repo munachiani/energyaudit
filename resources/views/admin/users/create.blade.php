@@ -15,7 +15,7 @@
                             <header>
                                 Create User
                                 <small class="pull-right">
-                                    <a href="{{url('Users/Index')}}">
+                                    <a href="/Users/Index">
                                         <i class="fa fa-angle-double-left"></i>&nbsp; Back to Users
                                     </a>
                                 </small>
@@ -25,7 +25,7 @@
                             <form action="/Users/Create" class="" method="post" role="form">                        <div class="row">
                                     <div class="col-md-12">
 
-                                        <input name="__RequestVerificationToken" type="hidden" value="gsLwHnp9lLzHquRsqbHM9-q8pZ2tUyMMaLlourjFmXDm7eo74tqige0ZOpaBHeWrqR_aAfgMoUVVXVcpDn7YQxcQR9MhdEdMZTw8RsFH2FljM9M--busNdnPaDu9ZzcIAtTQeXFJirpFCMtVZVsWJg2" />
+                                        <input name="__RequestVerificationToken" type="hidden" value="szSv6QGVzSOnjtngTICqFgrTCQDYUWazBb2i8qbcFv_mQRPMZqEGpu9eOsegybIxsnx9p6nZ6E6MxD1kOF-P_xaCYjS1dhY4PXRpeaWErZ27Abgh_MLFUkLLfiwrmVdgoB8tIDo2IBOHFFpzI00bAQ2" />
                                         <div>
 
 
@@ -209,7 +209,7 @@
                 <div class="footer">
                     <div class="container-fluid">
                         <div class="row">
-                            <img src="{{url('Content/img/FedRepNig.png')}}" class="footer-logo" />
+                            <img src="/Content/img/FedRepNig.png" class="footer-logo" />
                             <br/>
                             <p class="col-md-12">
                                         <span>
@@ -222,5 +222,74 @@
             </div>
         </div>
     </section>
+
+@stop
+@section('footerScript')
+    <script>
+        $(function () {
+            $("#State").change(function () {
+                var selectedItem = $(this).val();
+                var ddlLgas = $("#Region");
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: "/Users/GetRegionbyStateId",
+                    dataType: "json",
+                    data: { "id": selectedItem },
+                    success: function (data) {
+                        ddlLgas.html('');
+                        if (data.length > 0) {
+                            ddlLgas.append($('<option></option>').val(null).html("----"));
+                            $.each(data, function (id, option) {
+                                ddlLgas.append($('<option></option>').val(option.Value).html(option.Text));
+                            });
+                            $("#Region").removeAttr("disabled");
+                        } else {
+                            ddlLgas.append($('<option></option>').val('-1').html("N/A"));
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve Local Governments.');
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            if ($("#role").val()) {
+                rolechange($("#role").val())
+            }
+            $("#role").change(function () {
+                var role = $(this).val();
+                rolechange(role);
+            });
+        });
+
+        function rolechange(role) {
+            if (role == "Disco") {
+                $("#disc").removeAttr("hidden");
+                $("#disco").attr("required", true);
+                $("#reg").attr("hidden", true);
+                $("#State").removeProp("required");
+                $("#Region").val('');
+                $("#Region").removeProp("required");
+            }
+            else if (role != "General Supervisor" && role != "Super Admin" && role != "") {
+                $("#reg").removeAttr("hidden");
+                $("#State").attr("required", true);
+                $("#Region").attr("required", true);
+                $("#disco").removeProp("required");
+                $("#disc").attr("hidden", true);
+            }
+            else {
+                $("#reg").attr("hidden", true);
+                $("#disc").attr("hidden", true);
+                $("#disco").removeProp("required");
+                $("#State").removeProp("required");
+                $("#Region").val('');
+                $("#Region").removeProp("required");
+            }
+        }
+    </script>
 
 @stop
