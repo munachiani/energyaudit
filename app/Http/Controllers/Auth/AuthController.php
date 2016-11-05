@@ -49,10 +49,51 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'UserName' => 'required|email|unique:users',
+            'password' => 'required|max:14|min:6',
+            'passwordConfirm' => 'required|same:password|max:14|min:6',
+            'FirstName' => 'required|string|max:15',
+            'LastName' => 'required|string|max:15',
+            'MiddleName' => 'required|string|max:15',
+            'Gender' => 'required|string|max:1',
+            'Address' => 'required|string',
+            'PhoneNumber' => 'required|string|unique:users',
+            'PhoneNumberConfirm' => 'required|string|same:PhoneNumber',
+            'Email' => 'required|string|unique:users',
+            'EmailConfirm' => 'required|string|same:Email',
         ]);
+    }
+
+    /**
+     * Handle an authentication attempt.
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function auth(Request $request)
+    {
+        $userData = array(
+            'UserName' => $request->UserName,
+            'password' => $request->password
+        );
+
+        //search for the user first
+        $user = User::where('UserName', '=', $request->UserName)->first();
+        if ($user != null) {
+            if ($user->EmailConfirmed == 0||$user->PhoneNumberConfirmed == 0) {
+                return redirect()->intended('auth/verify/' . $user->id);
+            } else if ($user->IsActive == 0) {
+                return redirect()->intended()
+                    ->withErrors(["loginError" => "Your Account is deactivated. Please contact admin for details/Reactivation"]);
+            } else if ($user->TwoFactorEnabled == 1) {
+                return Auth::attempt($userData) ? redirect()->intended() : redirect()->intended()
+                    ->withErrors(["loginError" => "Unable to login"]);
+            } else {
+                return redirect()->intended()
+                    ->withErrors(["loginError" => "An Unknown account!"]);
+            }
+        }
+        return redirect()->intended()
+            ->withErrors(["loginError" => "Such account does not exist"]);
     }
 
     /**
@@ -69,4 +110,19 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+    /**
+     * Used to logout a user
+     *
+     * */
+    public function logout()
+    {
+        $user = auth()->user();
+        $user->status = 0;
+        $user->save();
+
+        Auth::logout();
+        return redirect()->intended();
+    }
+
 }

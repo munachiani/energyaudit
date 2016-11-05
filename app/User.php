@@ -12,8 +12,30 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'LastName',
+        'FirstName',
+        'MiddleName',
+        'UserName',
+        'Gender',
+        'Address',
+        'PhoneNumber',
+        'Email',
+        'EmailConfirmed',
+        'password',
+        'PhoneNumberConfirmed',
+        'TwoFactorEnabled',
+        'LockoutEndDateUtc',
+        'LockoutEnabled',
+        'AccessFailedCount',
+        'IsActive',
+        'created_by',
+        'Latitude',
+        'Longitude',
+        'ImageInfo',
+        'disco_id',
     ];
+
+    public  static $AccessFailedCountLimit=3;
 
     /**
      * The attributes that should be hidden for arrays.
@@ -23,4 +45,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function isActive(){
+        return $this->IsActive?true:false;
+    }
+    public function lockoutEnabled(){
+        return $this->LockoutEnabled?true:false;
+    }
+
+
 }
