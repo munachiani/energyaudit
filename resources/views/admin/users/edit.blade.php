@@ -153,7 +153,7 @@
 
                                     <div class="form-group col-md-12">
                                         <div class="col-md-offset-2 col-md-10">
-                                            <a class="btn btn-raised btn-sm ink-reaction btn-default" href="/Users/ManageRole?userid=8d1b5d88-aaa6-438a-b5d7-3112e2385bc1">Manage User Roles</a>
+                                            <a class="btn btn-raised btn-sm ink-reaction btn-default" href="{{url('Users/ManageRole')}}">Manage User Roles</a>
                                         </div>
                                     </div>
 

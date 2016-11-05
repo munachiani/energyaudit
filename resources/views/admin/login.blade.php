@@ -46,18 +46,24 @@
                     </ul>
                 </div>
                 <div class="card-body tab-content">
+                    @if($errors->has('loginError'))
+                        <div class="alert alert-callout alert-danger">
+                            {{$errors->first('loginError')}}
+                        </div>
+                        @endif
                     <div class="tab-pane active" id="login">
                         <div class="row">
                             <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
                                 <section id="loginForm">
-                                    <form action="" class="" id="loginuser" method="post" role="form"><input name="__RequestVerificationToken" type="hidden" value="sblkIP6O0i4906NxCFmNe8pf4Vi-r6jDKXLZPjDDBgFuBJcxbRQto18UXBdbuTbzXvk8hJYHjWpTkYLd6VlgymC7aAw9oqYsZJVHvJEuIqE1")>
+                                    <form action="{{url('auth')}}" class="" id="loginuser" method="post" role="form"><input name="__RequestVerificationToken" type="hidden" value="sblkIP6O0i4906NxCFmNe8pf4Vi-r6jDKXLZPjDDBgFuBJcxbRQto18UXBdbuTbzXvk8hJYHjWpTkYLd6VlgymC7aAw9oqYsZJVHvJEuIqE1")>
+                                        <input name="_token" type="hidden" value="{{csrf_token()}}"/>
                                         <div id="err" class=""></div>
                                         <div class="row form-group">
                                             <div class="form-group col-md-12">
 
                                                 <div style="position:relative">
                                                     <i class="fa fa-user"></i>
-                                                    <input class="form-control" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="username" name="Email" placeholder="Email" type="text" value="")>
+                                                    <input class="form-control" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="username" name="UserName" placeholder="Email" type="text" value="")>
                                                 </div>
                                                 <span class="field-validation-valid text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>
                                             </div>
@@ -67,7 +73,7 @@
 
                                                 <div class="form-group" style="position:relative">
                                                     <i class="fa fa-key"></i>
-                                                    <input class="form-control" data-val="true" data-val-required="The Password field is required." id="password" name="Password" placeholder="Password" type="password")>
+                                                    <input class="form-control" data-val="true" data-val-required="The Password field is required." id="password" name="password" placeholder="Password" type="password")>
                                                 </div>
                                                 <p class="pull-right" data-toggle="tabs" style="margin:0;">
                                                     Forgot Password?
@@ -89,7 +95,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12 form-group">
-                                                <button type="submit" class="btn btn-raised ink-reaction style-custom">Log in</button><span id="logloader" ><img src="userimages/loader.gif"></span>
+                                                <button type="submit" onclick="$('#logloader').css('display','')" class="btn btn-raised ink-reaction style-custom">Log in</button><span id="logloader" style="display: none;" ><img src="userimages/loader.gif"></span>
                                             </div>
                                         </div>
                                     </form>                    </section>
@@ -150,7 +156,7 @@
 {{ HTML::script("http://energyaudit.test.vggdev.com/bundles/jqueryval?v=hEGG8cMxk9p0ncdRUOJ-CnKN7NezhnPnWIvn6REucZo1") }}
 
 <script>
-    console.log(location.origin);
+  /*  console.log(location.origin);
     $(document).ready(function () {
         var my_form = $("#loginuser");
         document.getElementById("err").setAttribute("class", "hidden");
@@ -179,12 +185,12 @@
                             window.location.href = location.origin + "/Dashboard/SaveUserTrail"
                         },
                         error: function () {
-                            window.location.href = "{{url('dashboard')}}";
+                            window.location.href = "{{url('/')}}";
                             //window.location.href = location.protocol + "//" + location.hostname + ":2233/Account/Login";
-                           /* $("#logloader").hide();
+                           /!* $("#logloader").hide();
                             document.getElementById("err").removeAttribute("class", 'hidden');
                             document.getElementById("err").setAttribute("class", "alert alert-callout alert-danger alert-dismissable");
-                            $("#err").html("Invalid Username/Password").show();*/
+                            $("#err").html("Invalid Username/Password").show();*!/
                         }
                     }).done(function (data) {
 
@@ -203,7 +209,7 @@
 
         });
     });
-
+*/
 
 </script>
 

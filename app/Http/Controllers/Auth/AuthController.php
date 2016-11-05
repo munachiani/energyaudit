@@ -2,11 +2,21 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\AuditAction;
+use App\Region;
+use App\Role;
 use App\User;
-use Validator;
+use App\UserDisco;
+use App\UserRegion;
+use App\UserRole;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -43,7 +53,7 @@ class AuthController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -78,28 +88,31 @@ class AuthController extends Controller
 
         //search for the user first
         $user = User::where('UserName', '=', $request->UserName)->first();
+        //dd($user);
         if ($user != null) {
-            if ($user->EmailConfirmed == 0||$user->PhoneNumberConfirmed == 0) {
-                return redirect()->intended('auth/verify/' . $user->id);
+            if ($user->EmailConfirmed == 0) {
+                return redirect()->back()
+                    ->withErrors(["loginError" => 'Your Account has not been confirmed. Please check your inbox/spam messages ' . $user->Email . ' to find confirmation link ']);
             } else if ($user->IsActive == 0) {
-                return redirect()->intended()
+                return redirect()->back()
                     ->withErrors(["loginError" => "Your Account is deactivated. Please contact admin for details/Reactivation"]);
-            } else if ($user->TwoFactorEnabled == 1) {
-                return Auth::attempt($userData) ? redirect()->intended() : redirect()->intended()
+            } /*else if ($user->TwoFactorEnabled == 1) {
+                return Auth::attempt($userData) ? redirect()->back() : redirect()->back()
                     ->withErrors(["loginError" => "Unable to login"]);
-            } else {
-                return redirect()->intended()
-                    ->withErrors(["loginError" => "An Unknown account!"]);
+            }*/
+            else {
+                return Auth::attempt($userData) ? redirect('dashboard') : redirect()->back()
+                    ->withErrors(["loginError" => "Username/Password Invalid"]);
             }
         }
-        return redirect()->intended()
+        return redirect()->back()
             ->withErrors(["loginError" => "Such account does not exist"]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return User
      */
     protected function create(array $data)
@@ -118,11 +131,99 @@ class AuthController extends Controller
     public function logout()
     {
         $user = auth()->user();
-        $user->status = 0;
-        $user->save();
+        $auditTrail=$this->auditTrail($user,AuditAction::$LOGOUT);
+        /*$user->status = 0;
+        $user->save();*/
 
         Auth::logout();
-        return redirect()->intended();
+        return redirect('/');
     }
+
+    public function createUsers(Request $request)
+    {
+        $rules = [
+            'LastName' => 'required',
+            'FirstName' => 'required',
+            'MiddleName' => 'required',
+            'Gender' => 'required',
+            'PhoneNumber' => 'required',
+            'Email' => 'required|string|unique:users',
+            'Address' => 'required',
+            'UserRole' => 'required',
+            'password' => 'required|max:14|min:6',
+            'confirmPassword' => 'required|same:password|max:14|min:6',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator);
+        } else {
+
+            $LastName = $request['LastName'];
+            $FirstName = $request['FirstName'];
+            $MiddleName = $request['MiddleName'];
+            $Gender = $request['Gender'];
+            $address = $request['Address'];
+            $PhoneNumber = $request['PhoneNumber'];
+            $Email = $request['Email'];
+            $UserRole = $request['UserRole'];
+            $password = $request['password'];
+
+            $user = new User();
+            $user->LastName = $LastName;
+            $user->FirstName = $FirstName;
+            $user->MiddleName = $MiddleName;
+            $user->Gender = $Gender;
+            $user->Email = $Email;
+            $user->PhoneNumber = $PhoneNumber;
+            $user->Address = $address;
+            $user->UserName = $Email;
+            $user->IsActive = 1;
+            $user->password = bcrypt($password);
+
+            $user->save();
+
+            $user_role = new UserRole();
+            $user_role->userId = $user->id;
+            $user_role->roleId = Role::byName($UserRole)->id;
+            $user_role->save();
+
+
+            switch ($UserRole) {
+                case Role::$DISCO:
+
+                    $disco = new UserDisco();
+
+                    $disco->user_id = $user->id;
+                    $disco->disco_id = $request['disco_id'];
+
+                    $disco->save();
+
+                    break;
+                case Role::$FIELD_AGENT:
+                case Role::$REGIONAL_ADMIN:
+                case Role::$REGIONAL_SUPERVISOR:
+
+                    $region = new UserRegion();
+
+                    $region->user_id = $user->id;
+                    $region->region_id = $request['Region'];
+
+                    $region->save();
+
+                    break;
+
+            }
+
+            session()->flash('flash_message', 'User created succesfully.');
+            return redirect()->back();
+
+
+        }
+
+    }
+
 
 }

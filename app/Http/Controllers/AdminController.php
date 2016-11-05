@@ -10,12 +10,15 @@ use Illuminate\Support\Facades\Input;
 
 class AdminController extends Controller
 {
-    //
-
-    public function showLogin()
+    public function __construct()
     {
-        return view('admin.login');
+          /*  $user=auth()->user();
+            if(is_null($user))
+                return redirect('/')
+                    ->withErrors(['loginError'=>'Please login to access the dashboard']);*/
+        $this->middleware('auth');
     }
+
 
     public function dashboard()
     {
@@ -78,17 +81,9 @@ class AdminController extends Controller
     {
         return view('admin.users.password');
     }
-
-    public function getRegions()
-    {
-        $state_id = Input::get('id');
-        $regions = Region::inState($state_id);
-
-        $option = array();
-        foreach ($regions as $region) {
-            $option[] = ['Value' => $region->id, 'Text' => $region->region_name];
-        }
-        return json_encode($option, $state_id);
+    public  function ManageRole(){
+        return view('admin.users.manageRole');
     }
+
 
 }

@@ -18,7 +18,7 @@ class AuditActionSeeder extends Seeder
             [3,'Create User','Created User {UserName} with role: {Role}'],
             [4,'Update User','Edited User {UserName}'],
             [5,'Activate User','Activated User {UserName}'],
-            [6,'Deactivate','Deactivated User {UserName}'],
+            [6,'Deactivate User','Deactivated User {UserName}'],
             [7,'Assign Region','Assigned {UserName} to region {Region}'],
             [8,'Assign Role','Added {UserName} to role: {Role}'],
             [9,'Delete User Region','Removed {UserName} from region: {Region}'],

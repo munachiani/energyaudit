@@ -18,7 +18,8 @@
 /* route for project log viewer*/
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 /* route for login*/
-Route::get('/','AdminController@showLogin');
+Route::get('/','BaseController@showLogin');
+Route::get('login','BaseController@showLogin');
 /* route for dashboard*/
 Route::get('dashboard','AdminController@dashboard');
 /* route to view users*/
@@ -28,11 +29,14 @@ Route::get('Users/Edit','AdminController@editUsers');
 /* route to activate/deactivate user*/
 Route::get('Users/Activate','AdminController@activateUsers');
 /* route to create user*/
+Route::post('auth/create','Auth\AuthController@createUsers');
 Route::get('Users/Create','AdminController@createUsers');
-Route::post('Users/Create','AdminController@saveUsers');
+
+Route::post('auth','Auth\AuthController@auth');
+Route::get('logout','Auth\AuthController@logout');
 
 /* retrieve regions of a state*/
-Route::get('Users/GetRegionByStateId','AdminController@getRegions');
+Route::get('Users/GetRegionByStateId','BaseController@getRegions');
 
 /* route to create user*/
 Route::get('ReportInfo/Energy','AdminController@reportInfo');
@@ -46,4 +50,5 @@ Route::get('Map/Index','AdminController@map');
 Route::get('Manage/ChangePassword','AdminController@changePassword');
 /* route to auditTrial*/
 Route::get('AuditTrail/Index','AdminController@audit');
+Route::get('Users/ManageRole','AdminController@ManageRole');
 
