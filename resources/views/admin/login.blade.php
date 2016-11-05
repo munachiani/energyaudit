@@ -95,7 +95,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12 form-group">
-                                                <button type="submit" class="btn btn-raised ink-reaction style-custom">Log in</button><span id="logloader" ><img src="userimages/loader.gif"></span>
+                                                <button type="submit" onclick="$('#logloader').css('display','')" class="btn btn-raised ink-reaction style-custom">Log in</button><span id="logloader" style="display: none;" ><img src="userimages/loader.gif"></span>
                                             </div>
                                         </div>
                                     </form>                    </section>

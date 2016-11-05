@@ -53,5 +53,31 @@ class User extends Authenticatable
         return $this->LockoutEnabled?true:false;
     }
 
+    public function getFullNameAttribute()
+    {
+        return $this->LastName . ' ' . $this->FirstName;
+    }
+
+    public function userRegion(){
+        return $this->hasMany('\App\UserRegion','user_id');
+    }
+
+    public function userRole(){
+        return $this->hasMany('\App\UserRole','userId');
+    }
+
+    public function ScopeLatestRole(){
+        return $this->userRole()->latest('id')->first();
+    }
+
+    public function role(){
+//        return $this->ScopeLatestRole()
+    }
+
+    public function region(){
+        return $this->hasManyThrough('\App\Region','\App\UserRegion','user_id','id');
+    }
+
+
 
 }

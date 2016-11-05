@@ -16,4 +16,12 @@ class UserRegion extends Model
         return $query->where('region_name', '=', $name)->first();
 
     }
+
+    public function user(){
+        return $this->belongsTo('\App\User','user_id');
+    }
+
+    public function region(){
+        return $this->belongsTo('\App\Region','region_id');
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\AuditAction;
 use App\Region;
 use App\Role;
 use App\User;
@@ -87,7 +88,7 @@ class AuthController extends Controller
 
         //search for the user first
         $user = User::where('UserName', '=', $request->UserName)->first();
-        dd($user);
+        //dd($user);
         if ($user != null) {
             if ($user->EmailConfirmed == 0) {
                 return redirect()->back()
@@ -130,11 +131,12 @@ class AuthController extends Controller
     public function logout()
     {
         $user = auth()->user();
-        $user->status = 0;
-        $user->save();
+        $auditTrail=$this->auditTrail($user,AuditAction::$LOGOUT);
+        /*$user->status = 0;
+        $user->save();*/
 
         Auth::logout();
-        return redirect()->intended();
+        return redirect('/');
     }
 
     public function createUsers(Request $request)
