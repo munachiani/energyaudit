@@ -28,8 +28,10 @@ Route::get('Users/Edit','AdminController@editUsers');
 /* route to activate/deactivate user*/
 Route::get('Users/Activate','AdminController@activateUsers');
 /* route to create user*/
+Route::post('auth/create','Auth\AuthController@createUsers');
 Route::get('Users/Create','AdminController@createUsers');
-Route::post('Users/Create','AdminController@saveUsers');
+
+Route::post('auth','Auth\AuthController@auth');
 
 /* retrieve regions of a state*/
 Route::get('Users/GetRegionByStateId','AdminController@getRegions');

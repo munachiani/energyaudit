@@ -10,4 +10,10 @@ class UserRegion extends Model
         'user_id',
         'region_id',
     ];
+
+    public function ScopeByName($query, $name){
+
+        return $query->where('region_name', '=', $name)->first();
+
+    }
 }
