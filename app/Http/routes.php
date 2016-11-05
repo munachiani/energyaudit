@@ -41,4 +41,5 @@ Route::get('Map/Index','AdminController@map');
 Route::get('Manage/ChangePassword','AdminController@changePassword');
 /* route to auditTrial*/
 Route::get('AuditTrail/Index','AdminController@audit');
+Route::get('Users/ManageRole','AdminController@ManageRole');
 

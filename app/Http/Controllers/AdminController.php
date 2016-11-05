@@ -53,5 +53,8 @@ class AdminController extends Controller
     public function changePassword(){
         return view('admin.users.password');
     }
+    public  function ManageRole(){
+        return view('admin.users.manageRole');
+    }
 
 }
