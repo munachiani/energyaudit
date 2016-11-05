@@ -29,6 +29,11 @@ Route::get('Users/Edit','AdminController@editUsers');
 Route::get('Users/Activate','AdminController@activateUsers');
 /* route to create user*/
 Route::get('Users/Create','AdminController@createUsers');
+Route::post('Users/Create','AdminController@saveUsers');
+
+/* retrieve regions of a state*/
+Route::get('Users/GetRegionByStateId','AdminController@getRegions');
+
 /* route to create user*/
 Route::get('ReportInfo/Energy','AdminController@reportInfo');
 /* route to customer data*/

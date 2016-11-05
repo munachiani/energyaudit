@@ -11,4 +11,8 @@ class Region extends Model
         'region_key',
         'state_id',
     ];
+
+    public function ScopeInState($query,$id){
+        return $query->where('state_id','=',$id)->get();
+    }
 }
