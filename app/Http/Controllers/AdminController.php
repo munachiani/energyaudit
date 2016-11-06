@@ -126,6 +126,7 @@ class AdminController extends Controller
     public function ChangeAvatar(Request $request)
     {
 
+
         $rules = [
             'ImageInfo' => 'required|mimes:jpeg,jpg,png'
         ];
@@ -161,8 +162,7 @@ class AdminController extends Controller
             }
 
             $user->save();
-
-            $this->auditTrail($user, AuditAction::$UPDATE_USER, array('{UserName}'), array($user->UserName));
+            $this->auditTrail($user, AuditAction::$UPDATE_USER, ['{UserName}'], [$user->UserName]);
             session()->flash('flash_message', 'Avatar Updated.');
             return redirect()->back();
         }

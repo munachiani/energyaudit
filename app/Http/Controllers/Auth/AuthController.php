@@ -106,7 +106,7 @@ class AuthController extends Controller
             }*/
             else {
                 if (Auth::attempt($userData)) {
-//                    $this->auditTrail($user,AuditAction::$LOGIN);
+                    $this->auditTrail($user,AuditAction::$LOGIN);
                     $user->LockoutEnabled=0;
                     $user->AccessFailedCount=0;
 
@@ -150,7 +150,7 @@ class AuthController extends Controller
     public function logout()
     {
         $user = auth()->user();
-//        $auditTrail = $this->auditTrail($user, AuditAction::$LOGOUT);
+        $auditTrail = $this->auditTrail($user, AuditAction::$LOGOUT);
         Auth::logout();
         return redirect('/');
     }

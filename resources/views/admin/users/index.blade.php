@@ -4,10 +4,6 @@
         <div class="section-body">
 
 
-
-
-
-
             <div class="card">
                 <div class="card-head card-head-sm style-custom">
                     <header>
@@ -20,7 +16,6 @@
                     </header>
                 </div>
                 <div class="card-body">
-
 
 
                     <div class="row">
@@ -43,39 +38,50 @@
                                     <tbody>
                                     @foreach(\App\User::latest('id')->get() as $user)
                                         <?php
-                                                $userRoles = [];
-                                        foreach($user->userRole as $item){
-                                            $userRoles[]= $item->role->name;
-                                            $userRoleIDs[]= $item->role->id;
+                                        $userRoles = [];
+                                        $userRegions = [];
+                                        $userStates = [];
+                                        foreach ($user->userRole as $item) {
+                                            $userRoles[] = $item->role->name;
+                                            $userRoleIDs[] = $item->role->id;
+                                        }
+                                        foreach ($user->region as $item) {
+                                            $userRegions[] = $item->region_name;
+                                            $userStates[] = $item->state->name;
                                         }
 
-                                        $userRoles = implode(',',$userRoles);
+
+                                        $userRoles = implode(', ', $userRoles);
+                                        $userRegions = implode(', ', $userRegions);
+                                        $userStates = implode(', ', $userStates);
                                         ?>
-                                    <tr>
+                                        <tr>
 
-                                        <td>{{$user->getFullNameAttribute()}}</td>
-                                        <td>{{$user->Email}}</td>
-                                        <td>{{$user->PhoneNumber}}</td>
-                                        <td>
-                                            {{$userRoles}}
-                                        </td>
-                                        <td>
-                                            {{$user->isActive()?'Active':'Deactivated'}}
-                                        </td>
-                                        <td>
-                                            Not yet assigned
-                                        </td>
-                                        <td>
-                                            Not yet assigned
-                                        </td>
+                                            <td>{{$user->getFullNameAttribute()}}</td>
+                                            <td>{{$user->Email}}</td>
+                                            <td>{{$user->PhoneNumber}}</td>
+                                            <td>
+                                                {{$userRoles}}
+                                            </td>
+                                            <td>
+                                                {{$user->isActive()?'Active':'Deactivated'}}
+                                            </td>
+                                            <td>
+                                                {{!empty($userRegions)?$userRegions:'Not Yet Assigned'}}
+                                            </td>
+                                            <td>
+                                                {{!empty($userStates)?$userStates:'Not Yet Assigned'}}
+                                            </td>
 
-                                        <td>
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="{{url('Users/Edit/'.$user->id)}}">Edit</a> &nbsp;|&nbsp;
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="{{url('Users/Activate')}}">Deactivate</a>
+                                            <td>
+                                                <a class="btn btn-xs btn-raised ink-reaction btn-default"
+                                                   href="{{url('Users/Edit/'.$user->id)}}">Edit</a> &nbsp;|&nbsp;
+                                                <a class="btn btn-xs btn-raised ink-reaction btn-default"
+                                                   href="{{url('Users/Activate')}}">Deactivate</a>
 
-                                        </td>
-                                    </tr>
-                                        @endforeach
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
 
                                     </tbody>
@@ -93,8 +99,9 @@
                 <div class="footer">
                     <div class="container-fluid">
                         <div class="row">
-                            <img src="{{url('Content/img/FedRepNig.png')}}" class="footer-logo" />
+                            <img src="{{url('Content/img/FedRepNig.png')}}" class="footer-logo"/>
                             <br/>
+
                             <p class="col-md-12">
                                         <span>
                                             &copy; Copyright 2016 - Advisory Power Team. All rights reserved.
