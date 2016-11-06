@@ -17,6 +17,7 @@ class Controller extends BaseController
 
     public function auditTrail($user, $actionId,$find='',$replace='')
     {
+
         $audAction=AuditAction::find($actionId);
         $audTrail=new AuditTrail();
         $audTrail->actionId=$actionId;
@@ -32,11 +33,13 @@ class Controller extends BaseController
         }
 
         $audTrail->details=$details;
+
         $audTrail->userRole=Role::find($user->latestRole()->roleId)->name;
 
-        if(!is_null($user->userRegion))
-            $audTrail->stateId=$user->region[0]['state_id'];
-
+        if(!empty($user->region))
+            foreach ($user->region as $item) {
+                $audTrail->stateId=$item->state_id;
+            }
         return $audTrail->save();
 
     }
