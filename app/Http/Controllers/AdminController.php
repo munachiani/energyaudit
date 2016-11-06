@@ -11,6 +11,7 @@ use App\UserRole;
 use Illuminate\Http\Request;
 use App\AuditAction;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Excel;
@@ -105,9 +106,54 @@ class AdminController extends Controller
         return view('admin.audit');
     }
 
-    public function changePassword()
+    public function changePassword($id)
+
     {
-        return view('admin.users.password');
+        $user = User::find($id);
+
+        return view('admin.users.password')
+            ->with(compact('user'));
+    }
+
+    public function updatePassword(Request $request)
+    {
+
+        $rules = [
+            'OldPassword' => 'required',
+            'NewPassword' => 'required',
+            'ConfirmPassword' => 'required|same:NewPassword'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->passes()) {
+
+            $user = User::find($request['id']);
+            $oldPassword = $request['OldPassword'];
+
+
+            $newPassword = $request['NewPassword'];
+
+            $userData = [
+                'UserName' => $user->UserName,
+                'password' => $oldPassword
+            ];
+            if (Auth::attempt($userData)) {
+
+                $user->password = bcrypt($newPassword);
+                $user->save();
+                $this->auditTrail($user, AuditAction::$UPDATE_USER, ['{UserName}'], [$user->UserName]);
+                session()->flash('updateSuccess', 'Password Updated Successfully');
+                return redirect()->back();
+            } else {
+                return redirect()->back()
+                    ->withErrors(['updateError' => 'Invalid Old Password']);
+            }
+         }else {
+
+            return redirect()->back()
+                ->withErrors($validator);
+        }
     }
 
     public function ManageRole($id)
@@ -310,15 +356,15 @@ class AdminController extends Controller
 
         $user->save();
 
-        $user->isActive()?$this->auditTrail($user, AuditAction::$DEACTIVATE_USER, ['{UserName}'], [$user->UserName]):
-            $this->auditTrail($user, AuditAction::$ACTIVATE_USER, ['{UserName}'], [$user->UserName]);
-        ;
+        $user->isActive() ? $this->auditTrail($user, AuditAction::$DEACTIVATE_USER, ['{UserName}'], [$user->UserName]) :
+            $this->auditTrail($user, AuditAction::$ACTIVATE_USER, ['{UserName}'], [$user->UserName]);;
 
 
-        return redirect('admin/users/activate/'.$user->id);
+        return redirect('admin/users/activate/' . $user->id);
     }
 
-    public function checkStatus($id){
+    public function checkStatus($id)
+    {
         $user = User::find($id);
         return view('admin.users.activate')
             ->with(compact('user'));
