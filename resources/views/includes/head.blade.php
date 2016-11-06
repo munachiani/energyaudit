@@ -1,6 +1,6 @@
 <head>
-    <title>Dashboard - Energy Audit Portal</title>
-    @yield('pageTitle')
+    <title>@yield('pageTitle') - Energy Audit Portal </title>
+
 
     <!-- BEGIN META -->
     <meta charset="utf-8">

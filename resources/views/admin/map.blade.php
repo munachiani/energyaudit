@@ -18,10 +18,10 @@
             </div>
             <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDnwVXdPAfWb3f2OwfsimrxuLIPhHtYZcc">
             </script>
-            <script src="{{url('Scripts/maplabel.js')}}"></script>
+            {{ HTML::script('Scripts/maplabel.js')}}
 
-            <div id="user_id" class="hidden">ca0bc69c-6df6-43ea-b2f5-b4ae3b01855b</div>
-            <script src="{{url('Scripts/app.js')}}"></script>
+            <div id="user_id" class="hidden">{{auth()->user()->id}}</div>
+            {{ HTML::script('Scripts/app.js')}}
         </div><!--end .section-body -->
         <div class="row">
             <div class="col-md-12">

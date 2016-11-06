@@ -151,15 +151,13 @@ class AuthController extends Controller
     {
         $user = auth()->user();
         $auditTrail = $this->auditTrail($user, AuditAction::$LOGOUT);
-        /*$user->status = 0;
-        $user->save();*/
-
         Auth::logout();
         return redirect('/');
     }
 
     public function createUsers(Request $request)
     {
+        dd('I am here');
         $rules = [
             'LastName' => 'required',
             'FirstName' => 'required',

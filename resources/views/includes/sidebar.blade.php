@@ -61,6 +61,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{url('ReportInfo/UploadSheet')}}" class="">
+                    <div class="gui-icon"><i class="fa fa-upload"></i></div>
+                    <span class="title"> Upload Report</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{url('AuditTrail/Index')}}" class="">
                     <div class="gui-icon"><i class="fa fa-paper-plane"></i></div>
                     <span class="title"> View Audit Trail</span>

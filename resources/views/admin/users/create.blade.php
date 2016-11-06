@@ -11,7 +11,7 @@
                             <header>
                                 Create User
                                 <small class="pull-right">
-                                    <a href="/Users/Index">
+                                    <a href="{{url('Users/Index')}}">
                                         <i class="fa fa-angle-double-left"></i>&nbsp; Back to Users
                                     </a>
                                 </small>
@@ -23,7 +23,7 @@
                                     {{ session('flash_message') }}
                                 </div>
                             @endif
-                            <form action="{{url('auth/create')}}" class="" method="post" role="form">
+                            <form action="{{url('auth/createUser')}}" class="" method="post" role="form">
                                 <div class="row">
                                     <div class="col-md-12">
 
@@ -274,7 +274,7 @@
                                 <div class="row">
                                     <div class="col-md-4 form-group">
                                         <input type="submit" class="btn btn-sm btn-raised ink-reaction btn-default"
-                                               value="Register" id="bttn"/>
+                                               value="Register" id="btn"/>
                                     </div>
                                 </div>
                             </form>
