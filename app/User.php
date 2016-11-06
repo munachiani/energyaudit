@@ -34,6 +34,7 @@ class User extends Authenticatable
         'ImageInfo',
         'disco_id',
     ];
+    public static $failedAttemptCount=5;
 
     public  static $AccessFailedCountLimit=3;
 
