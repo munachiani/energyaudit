@@ -1,4 +1,7 @@
-<!-- BEGIN HEADER-->
+<?php
+$user = auth()->user();
+?>
+        <!-- BEGIN HEADER-->
 <header id="header">
     <div class="headerbar">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -24,12 +27,12 @@
                     <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle ink-reaction" data-toggle="dropdown">
 
-                            <img src="{{url('Content/img/default.png')}}" alt="" />
+                            <img src="{{url('userimages/'.$user->ImageInfo)}}" alt="" />
 
 
 
                                 <span class="profile-info">
-                                    Victor (Super Admin)
+                                    {{$user->FirstName}} ({{$user->latestRole()->role->name}})
                                 </span>
 
 
@@ -37,7 +40,7 @@
                         </a>
                         <ul class="dropdown-menu animation-dock">
                             <li class="divider"></li>
-                            <li><a href="{{url('Users/Edit')}}"><i class="fa fa-fw fa-user"></i> Profile</a></li>
+                            <li><a href="{{url('Users/Edit/'.$user->id)}}"><i class="fa fa-fw fa-user"></i> Profile</a></li>
                             <li><a href="{{url('Manage/ChangePassword')}}"><i class="fa fa-fw fa-unlock-alt"></i> Change Password</a></li>
                             <li><a href="{{url('logout')}}"><i class="fa fa-fw fa-power-off text-danger"></i> Log off</a></li>
                         </ul><!--end .dropdown-menu -->

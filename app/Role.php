@@ -21,4 +21,7 @@ class Role extends Model
                return $query->where('name', '=', $name)->first();
 
     }
+    public function userRole(){
+        return $this->hasMany('\App\UserRole','roleId');
+    }
 }

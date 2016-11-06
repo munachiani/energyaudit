@@ -21,33 +21,45 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <?php
+                        $url = 'userimages/';
+                        $picDefault = 'default.png';
+                            $userImage = empty($user->ImageInfo)?$picDefault:$user->ImageInfo;
+                        ?>
 
-                        <img id="avatar" src="{{url('userimages/default.png')}}" height="15%" width="15%" />
+
+                        <img id="avatar" src="{{url($url.$userImage)}}" height="15%" width="15%" />
 
 
-                        <h4>Kayode Yode Kay (Inactive)</h4>
+                        <h4>{{$user->getFullNameAttribute()}} ({{$user->isActive()?'Active':'Deactivated'}})</h4>
 
                         <hr />
                         <div class="row">
+                            @if (Session::has('flash_message'))
+                                <div class="alert alert-callout alert-success">
+                                    {{ session('flash_message') }}
+                                </div>
+                            @endif
                             <div class="col-md-12">
-                                <form action="/Users/ChangeAvatar" , method="post" enctype="multipart/form-data" id="pixform">
-                                    <input id="Id" name="Id" type="hidden" value="ca0bc69c-6df6-43ea-b2f5-b4ae3b01855b" />
-                                    <input id="ImageInfo" name="ImageInfo" type="hidden" value="" />
-                                    <input name="__RequestVerificationToken" type="hidden" value="1E16-rOFcZ2rAJeEmtr7CsRpllJjGISsd59FKjVZhW874EMFyDNAUlUOKvqfzhTg46_ViAdnTdGe4Qr188Mxwy57Rd4qr1kH2ft8hl61vehB8qqeFK7SjnQhoA_Zjwb4vk6DB2Drhl4YSwQnUkIWSQ2" />
+                                <form action={{url('Users/ChangeAvatar')}} method="post" enctype="multipart/form-data" id="pixform">
+                                    <input name="_token" type="hidden" value="{{csrf_token()}}"/>
+                                    <input id="id" name="id" type="hidden" value="{{$user->id}}" />
                                     <div class="row">
                                         <div class="col-md-4 col-sm-6 form-group">
                                             <label for="file">Upload Image: (200 by 200, max. file size: 100KB, must be .jpg, .jpeg or .png)</label>
                                             <div id="msg" class="alert alert-danger hidden">Picture size is greater than 100kb. Please select another picture</div>
-                                            <input type="file" name="file" accept=".jpg, .jpeg, .png" id="file" class="form-control" required />
+                                            <input type="file" name="ImageInfo"  class="form-control" required />
                                         </div>
+                                        @if ($errors->has('ImageInfo')) <p class="help-block" style="color:red">{{ $errors->first('ImageInfo') }}</p> @endif
+
                                     </div>
 
 
 
                                     <div class="row">
                                         <div class="col-md-4 col-sm-6 form-group">
-                                            <input type="submit" value="Change Avatar" class="submit btn btn-raised ink-reaction btn-default" id="upload" />
-                                            <img id="loading-image" src="/Content/img/default.gif" alt="Loading..." hidden />
+                                            <input type="submit" onclick="$('#logloader').css('display','')" value="Change Avatar" class="submit btn btn-raised ink-reaction btn-default" id="upload" />
+                                            <img id="logloader"  style="display: none;" src="{{url('userimages/loader.gif')}}" alt="Loading..."  />
                                         </div>
                                     </div>
 
@@ -60,8 +72,9 @@
 
 
                     <div class="row">
-                        <form action="/Users/Edit/8d1b5d88-aaa6-438a-b5d7-3112e2385bc1" method="post" role="form"><input name="__RequestVerificationToken" type="hidden" value="9-QZiP8FaaVawvf7JqY7gAlkXcJ1zh5UcwSSfzux17pKFAjEye6IcOIundXSq9mS7nez2FVTvJYG1dscdtgmOze1k28z67j3QC2MpDq8OTPtVLiwCf5Z21ZLDE4B5o7BBZRHocnbk8rzkxNA4zcw4g2" />                <div class="col-md-7">
+                        <form action='{{url('Users/Edit/'.$user->id)}}'  method="post" role="form">               <div class="col-md-7">
                                 <div class="">
+                                    <input name="_token" type="hidden" value="{{csrf_token()}}"/>
 
                                     <input id="ImageInfo" name="ImageInfo" type="hidden" value="default.png" />
 
@@ -79,7 +92,7 @@
                                             <span class="require">*</span>
                                         </div>
                                         <div class="col-md-10">
-                                            <input class="form-control text-box single-line" data-val="true" data-val-regex="Last Name should contain only alphabets." data-val-regex-pattern="^[a-zA-Z]+$" data-val-required="The Last Name field is required." id="LastName" name="LastName" required="required" type="text" value="Kayode" />
+                                            <input class="form-control text-box single-line" data-val="true" data-val-regex="Last Name should contain only alphabets." data-val-regex-pattern="^[a-zA-Z]+$" data-val-required="The Last Name field is required." id="LastName" name="LastName" required="required" type="text" value="{{$user->LastName}}" />
                                             <span class="field-validation-valid text-danger" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
@@ -90,7 +103,7 @@
                                             <span class="require">*</span>
                                         </div>
                                         <div class="col-md-10">
-                                            <input class="form-control text-box single-line" data-val="true" data-val-regex="First Name should contain only alphabets." data-val-regex-pattern="^[a-zA-Z]+$" data-val-required="The First Name field is required." id="FirstName" name="FirstName" required="required" type="text" value="Yode" />
+                                            <input class="form-control text-box single-line" data-val="true" data-val-regex="First Name should contain only alphabets." data-val-regex-pattern="^[a-zA-Z]+$" data-val-required="The First Name field is required." id="FirstName" name="FirstName" required="required" type="text" value="{{$user->FirstName}}" />
                                             <span class="field-validation-valid text-danger" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
@@ -101,7 +114,7 @@
                                             <span class="require">*</span>
                                         </div>
                                         <div class="col-md-10">
-                                            <input class="form-control text-box single-line" data-val="true" data-val-regex="Middle Name should contain only alphabets." data-val-regex-pattern="^[a-zA-Z]+$" id="MiddleName" name="MiddleName" required="required" type="text" value="Kay" />
+                                            <input class="form-control text-box single-line" data-val="true" data-val-regex="Middle Name should contain only alphabets." data-val-regex-pattern="^[a-zA-Z]+$" id="MiddleName" name="MiddleName" required="required" type="text" value="{{$user->MiddleName}}" />
                                             <span class="field-validation-valid text-danger" data-valmsg-for="MiddleName" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
@@ -112,7 +125,7 @@
                                             <span class="require">*</span>
                                         </div>
                                         <div class="col-md-10">
-                                            <input class="form-control text-box single-line" id="Email" name="Email" readonly="" required="required" type="email" value="korttech@gmail.com" />
+                                            <input class="form-control text-box single-line" id="Email" name="Email" readonly="" required="required" type="email" value="{{$user->Email}}" />
 
                                             <span class="field-validation-valid text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>
                                         </div>
@@ -123,7 +136,7 @@
                                     <div class="form-group col-md-12">
                                         <label class="control-label col-md-2" for="Address">Address</label>
                                         <div class="col-md-10">
-                                <textarea class="form-control" cols="20" id="Address" name="Address" rows="2">
+                                <textarea class="form-control" cols="20" id="Address" name="Address" rows="2">{{$user->Address}}
 </textarea>
                                             <span class="field-validation-valid text-danger" data-valmsg-for="Address" data-valmsg-replace="true"></span>
                                         </div>
@@ -135,7 +148,7 @@
                                             <span class="require">*</span>
                                         </div>
                                         <div class="col-md-10">
-                                            <input class="form-control text-box single-line" data-val="true" data-val-length="Phone number is less than 11 characters" data-val-length-max="20" data-val-length-min="11" data-val-regex="Invalid Phone Number." data-val-regex-pattern="^\s*\+?\s*([0-9][\s-]*){2,}$" data-val-required="The Phone Number field is required." id="PhoneNumber" name="PhoneNumber" required="required" type="text" value="09090909090" />
+                                            <input class="form-control text-box single-line" data-val="true" data-val-length="Phone number is less than 11 characters" data-val-length-max="20" data-val-length-min="11" data-val-regex="Invalid Phone Number." data-val-regex-pattern="^\s*\+?\s*([0-9][\s-]*){2,}$" data-val-required="The Phone Number field is required." id="PhoneNumber" name="PhoneNumber" required="required" type="text" value="{{$user->PhoneNumber}}" />
                                             <span class="field-validation-valid text-danger" data-valmsg-for="PhoneNumber" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
@@ -145,8 +158,16 @@
                                             <label class="control-label" for="UserRoles">Role</label>
                                             <span class="require">*</span>
                                         </div>
+                                        <?php
+                                        foreach($user->userRole as $item){
+                                            $userRoles[]= $item->role->name;
+                                            $userRoleIDs[]= $item->role->id;
+                                            }
+
+                                            $userRoles = implode(',',$userRoles);
+                                            ?>
                                         <div class="col-md-10">
-                                            <input class="form-control text-box single-line" id="UserRoles" name="UserRoles" readonly="" required="required" type="text" value="Field Agent" />
+                                            <input class="form-control text-box single-line" id="UserRoles" name="UserRoles" readonly="" required="required" type="text" value="{{$userRoles}}" />
                                             <span class="field-validation-valid text-danger" data-valmsg-for="UserRoles" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
@@ -163,10 +184,8 @@
                                             <span class="require">*</span>
                                         </div>
                                         <div class="col-md-10 required">
-                                            <select class="form-control" data-val="true" data-val-required="The Gender field is required." id="gender" name="Gender" required="required" selected="Male"><option value="">Select</option>
-                                                <option selected="selected" value="Male">Male</option>
-                                                <option value="Female">Female</option>
-                                            </select>
+                                            <input class="form-control text-box single-line" id="UserRoles" name="UserRoles" readonly="" required="required" type="text" value="{{$user->Gender}}" />
+
                                             <span class="field-validation-valid text-danger" data-valmsg-for="Gender" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
@@ -178,7 +197,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>                            <div class="col-md-offset-1 col-md-4">
+                        </form>
+                        @if($userRoleIDs == \App\Role::$FIELD_AGENT || $userRoleIDs ==\App\Role::$REGIONAL_ADMIN || $userRoleIDs == \App\Role::$REGIONAL_SUPERVISOR)
+                        <div class="col-md-offset-1 col-md-4">
                             <form action="/Users/AssignRegion" method="post"><input name="__RequestVerificationToken" type="hidden" value="Zed11ZQ6NAlHoDHSMBWe2Nhq7NHdYhrSvUOMQrq1Fe9642godSMh6IfV7WnhQOGUY4QXHUbJQIZvhoyxE-xvml93bZYYRuiEpKwgFm6Yjx-1iHmRpvpfUr0SDk_q2DfhauhSws1lqmP0ik6FQzFGtA2" />                        <div class="">
                                     <input id="Id" name="Id" type="hidden" value="8d1b5d88-aaa6-438a-b5d7-3112e2385bc1" />
                                     <input data-val="true" data-val-regex="First Name should contain only alphabets." data-val-regex-pattern="^[a-zA-Z]+$" data-val-required="The First Name field is required." id="FirstName" name="FirstName" type="hidden" value="Yode" />
@@ -308,6 +329,7 @@
                                 </div>
                             </form>
                         </div>
+                            @endif
                     </div>
                 </div>
             </div>
