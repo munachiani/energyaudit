@@ -25,7 +25,7 @@ Route::get('dashboard','AdminController@dashboard');
 /* route to view users*/
 Route::get('Users/Index','AdminController@viewUsers');
 /* route to view edit user*/
-Route::get('Users/Edit','AdminController@editUsers');
+Route::get('Users/Edit/{id}','AdminController@editUsers');
 /* route to activate/deactivate user*/
 Route::get('Users/Activate','AdminController@activateUsers');
 /* route to create user*/
@@ -51,4 +51,5 @@ Route::get('Manage/ChangePassword','AdminController@changePassword');
 /* route to auditTrial*/
 Route::get('AuditTrail/Index','AdminController@audit');
 Route::get('Users/ManageRole','AdminController@ManageRole');
+Route::post('Users/ChangeAvatar','AdminController@ChangeAvatar');
 

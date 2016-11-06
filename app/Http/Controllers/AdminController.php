@@ -3,19 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Region;
+use App\User;
 use Illuminate\Http\Request;
-
+use App\AuditAction;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
     public function __construct()
     {
-          /*  $user=auth()->user();
-            if(is_null($user))
-                return redirect('/')
-                    ->withErrors(['loginError'=>'Please login to access the dashboard']);*/
+        /*  $user=auth()->user();
+          if(is_null($user))
+              return redirect('/')
+                  ->withErrors(['loginError'=>'Please login to access the dashboard']);*/
         $this->middleware('auth');
     }
 
@@ -30,9 +32,11 @@ class AdminController extends Controller
         return view('admin.users.index');
     }
 
-    public function editUsers()
+    public function editUsers($id)
     {
-        return view('admin.users.edit');
+        $user = User::find($id);
+        return view('admin.users.edit')
+            ->with(compact('user'));
     }
 
     public function activateUsers()
@@ -81,8 +85,58 @@ class AdminController extends Controller
     {
         return view('admin.users.password');
     }
-    public  function ManageRole(){
+
+    public function ManageRole()
+    {
         return view('admin.users.manageRole');
+    }
+
+    /**
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function ChangeAvatar(Request $request)
+    {
+
+        $rules = [
+            'ImageInfo' => 'required|mimes:jpeg,jpg,png'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator);
+        } else {
+
+            $user = User::find($request['id']);
+//            $user = User::find($request['id']);
+
+
+            $userName = $user->getFullNameAttribute();
+
+            $file = $request->file('ImageInfo');
+
+
+            if ($file->isFile()) {
+                $destinationPath = public_path('userimages/');
+                $extension = $file->getClientOriginalExtension();
+                $name = explode(' ', $userName);
+                $name = implode('', $name);
+
+                $filename = $name . '.' . $extension;
+
+                if ($file->move($destinationPath, $filename)) {
+                    $user->ImageInfo = $filename;
+
+                }
+            }
+
+            $user->save();
+            session()->flash('flash_message', 'Avatar Updated.');
+            return redirect()->back();
+        }
+
     }
 
 
