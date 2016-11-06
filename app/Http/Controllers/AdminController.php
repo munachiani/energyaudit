@@ -302,5 +302,27 @@ class AdminController extends Controller
         }
     }
 
+    public function changeStatus($status, $id)
+    {
+        $user = User::find($id);
+//dd($status);
+        $user->isActive = !$status;
+
+        $user->save();
+
+        $user->isActive()?$this->auditTrail($user, AuditAction::$DEACTIVATE_USER, ['{UserName}'], [$user->UserName]):
+            $this->auditTrail($user, AuditAction::$ACTIVATE_USER, ['{UserName}'], [$user->UserName]);
+        ;
+
+
+        return redirect('admin/users/activate/'.$user->id);
+    }
+
+    public function checkStatus($id){
+        $user = User::find($id);
+        return view('admin.users.activate')
+            ->with(compact('user'));
+    }
+
 
 }

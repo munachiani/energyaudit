@@ -47,7 +47,7 @@ window['MapLabel'] = MapLabel;
 
 
 /** @inheritDoc */
-MapLabel.prototype.changed = function(prop) {
+MapLabel.prototype.changed = function (prop) {
     switch (prop) {
         case 'fontFamily':
         case 'fontSize':
@@ -68,7 +68,7 @@ MapLabel.prototype.changed = function(prop) {
  * Draws the label to the canvas 2d context.
  * @private
  */
-MapLabel.prototype.drawCanvas_ = function() {
+MapLabel.prototype.drawCanvas_ = function () {
     var canvas = this.canvas_;
     if (!canvas) return;
 
@@ -104,7 +104,7 @@ MapLabel.prototype.drawCanvas_ = function() {
 /**
  * @inheritDoc
  */
-MapLabel.prototype.onAdd = function() {
+MapLabel.prototype.onAdd = function () {
     var canvas = this.canvas_ = document.createElement('canvas');
     var style = canvas.style;
     style.position = 'absolute';
@@ -133,7 +133,7 @@ MapLabel.prototype['onAdd'] = MapLabel.prototype.onAdd;
  * @param {number} textWidth  the width of the text, in pixels.
  * @return {number} the margin-left, in pixels.
  */
-MapLabel.prototype.getMarginLeft_ = function(textWidth) {
+MapLabel.prototype.getMarginLeft_ = function (textWidth) {
     switch (this.get('align')) {
         case 'left':
             return 0;
@@ -146,7 +146,7 @@ MapLabel.prototype.getMarginLeft_ = function(textWidth) {
 /**
  * @inheritDoc
  */
-MapLabel.prototype.draw = function() {
+MapLabel.prototype.draw = function () {
     var projection = this.getProjection();
 
     if (!projection) {
@@ -179,7 +179,7 @@ MapLabel.prototype['draw'] = MapLabel.prototype.draw;
  * @private
  * @return {string} blank string if visible, 'hidden' if invisible.
  */
-MapLabel.prototype.getVisible_ = function() {
+MapLabel.prototype.getVisible_ = function () {
     var minZoom = /** @type number */(this.get('minZoom'));
     var maxZoom = /** @type number */(this.get('maxZoom'));
 
@@ -202,7 +202,7 @@ MapLabel.prototype.getVisible_ = function() {
 /**
  * @inheritDoc
  */
-MapLabel.prototype.onRemove = function() {
+MapLabel.prototype.onRemove = function () {
     var canvas = this.canvas_;
     if (canvas && canvas.parentNode) {
         canvas.parentNode.removeChild(canvas);

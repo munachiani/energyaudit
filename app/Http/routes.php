@@ -59,6 +59,8 @@ Route::post('ReportInfo/UploadSheet','AdminController@saveMDAEnergyAuditData');
 Route::get('Users/ManageRole','AdminController@ManageRole');
 
 Route::post('Users/ChangeAvatar','AdminController@ChangeAvatar');
+Route::get('Users/Activate/{status}/{id}','AdminController@changeStatus');
+Route::get('admin/users/activate/{id}','AdminController@checkStatus');
 
 Route::post('Users/Profile/Edit/{id}','AdminController@updateProfile');
 
