@@ -295,7 +295,7 @@
 
                             <p class="col-md-12">
                                         <span>
-                                            &copy; Copyright 2016 - Advisory Power Team. All rights reserved.
+                                            &copy; Copyright {{date('Y')}} - Advisory Power Team. All rights reserved.
                                         </span>
                             </p>
                         </div>

@@ -93,16 +93,35 @@ class AuthController extends Controller
             if ($user->EmailConfirmed == 0) {
                 return redirect()->back()
                     ->withErrors(["loginError" => 'Your Account has not been confirmed. Please check your inbox/spam messages ' . $user->Email . ' to find confirmation link ']);
-            } else if ($user->IsActive == 0) {
+            } elseif ($user->IsActive == 0) {
                 return redirect()->back()
                     ->withErrors(["loginError" => "Your Account is deactivated. Please contact admin for details/Reactivation"]);
-            } /*else if ($user->TwoFactorEnabled == 1) {
+            }elseif ($user->LockoutEnabled == 1) {
+                return redirect()->back()
+                    ->withErrors(["loginError" => "You have been locked out due to many failed login attempts. Please contact admin for details/Reactivation"]);
+            }
+            /*else if ($user->TwoFactorEnabled == 1) {
                 return Auth::attempt($userData) ? redirect()->back() : redirect()->back()
                     ->withErrors(["loginError" => "Unable to login"]);
             }*/
             else {
-                return Auth::attempt($userData) ? redirect('dashboard') : redirect()->back()
-                    ->withErrors(["loginError" => "Username/Password Invalid"]);
+                if (Auth::attempt($userData)) {
+                    $this->auditTrail($user,AuditAction::$LOGIN);
+                    $user->LockoutEnabled=0;
+                    $user->AccessFailedCount=0;
+
+                    return redirect('dashboard');
+
+                } else {
+                    $user->AccessFailedCount=$user->AccessFailedCount +1;
+                    if($user->AccessFailedCount >= User::$AccessFailedCountLimit){
+                        $user->LockoutEnabled=1;
+                    }
+                    $user->save();
+
+                    return redirect()->back()
+                        ->withErrors(["loginError" => "Username/Password Invalid"]);
+                };
             }
         }
         return redirect()->back()
@@ -131,7 +150,7 @@ class AuthController extends Controller
     public function logout()
     {
         $user = auth()->user();
-        $auditTrail=$this->auditTrail($user,AuditAction::$LOGOUT);
+        $auditTrail = $this->auditTrail($user, AuditAction::$LOGOUT);
         /*$user->status = 0;
         $user->save();*/
 

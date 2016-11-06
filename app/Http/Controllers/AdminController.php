@@ -133,6 +133,7 @@ class AdminController extends Controller
             }
 
             $user->save();
+            $this->auditTrail($user,AuditAction::$UPDATE_USER,array('{UserName}'),array($user->UserName));
             session()->flash('flash_message', 'Avatar Updated.');
             return redirect()->back();
         }
