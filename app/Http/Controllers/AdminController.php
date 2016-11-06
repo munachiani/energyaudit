@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Region;
+use App\Role;
 use App\User;
+use App\UserDisco;
+use App\UserRegion;
+use App\UserRole;
 use Illuminate\Http\Request;
 use App\AuditAction;
 use App\Http\Requests;

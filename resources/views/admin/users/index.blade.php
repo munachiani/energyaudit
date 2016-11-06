@@ -43,6 +43,7 @@
                                     <tbody>
                                     @foreach(\App\User::latest('id')->get() as $user)
                                         <?php
+                                                $userRoles = [];
                                         foreach($user->userRole as $item){
                                             $userRoles[]= $item->role->name;
                                             $userRoleIDs[]= $item->role->id;
@@ -69,7 +70,7 @@
                                         </td>
 
                                         <td>
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="{{url('Users/Edit')}}">Edit</a> &nbsp;|&nbsp;
+                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="{{url('Users/Edit/'.$user->id)}}">Edit</a> &nbsp;|&nbsp;
                                             <a class="btn btn-xs btn-raised ink-reaction btn-default" href="{{url('Users/Activate')}}">Deactivate</a>
 
                                         </td>
