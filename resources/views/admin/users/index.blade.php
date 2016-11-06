@@ -41,16 +41,25 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @foreach(\App\User::latest('id')->get() as $user)
+                                        <?php
+                                        foreach($user->userRole as $item){
+                                            $userRoles[]= $item->role->name;
+                                            $userRoleIDs[]= $item->role->id;
+                                        }
+
+                                        $userRoles = implode(',',$userRoles);
+                                        ?>
                                     <tr>
 
-                                        <td>Adeola Garba Wole</td>
-                                        <td>garba@yahoo.com</td>
-                                        <td>08034654797</td>
+                                        <td>{{$user->getFullNameAttribute()}}</td>
+                                        <td>{{$user->Email}}</td>
+                                        <td>{{$user->PhoneNumber}}</td>
                                         <td>
-                                            Disco
+                                            {{$userRoles}}
                                         </td>
                                         <td>
-                                            Active
+                                            {{$user->isActive()?'Active':'Deactivated'}}
                                         </td>
                                         <td>
                                             Not yet assigned
@@ -65,150 +74,8 @@
 
                                         </td>
                                     </tr>
-                                    <tr>
+                                        @endforeach
 
-                                        <td>Aloz Aloz Aloz</td>
-                                        <td>aloznew@gmail.com</td>
-                                        <td>080876767676</td>
-                                        <td>
-                                            General Supervisor
-                                        </td>
-                                        <td>
-                                            Active
-                                        </td>
-                                        <td>
-                                            Not yet assigned
-                                        </td>
-                                        <td>
-                                            Not yet assigned
-                                        </td>
-
-                                        <td>
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="/Users/Edit/fba023e5-05ca-46c6-a079-aabb783ab80a">Edit</a> &nbsp;|&nbsp;
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="/Users/Deactivate/fba023e5-05ca-46c6-a079-aabb783ab80a">Deactivate</a>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-
-                                        <td>Fasae Taiwo Damilola</td>
-                                        <td>taiwofasae@yahoo.co.uk</td>
-                                        <td>07038012196</td>
-                                        <td>
-                                            Field Agent
-                                        </td>
-                                        <td>
-                                            Active
-                                        </td>
-                                        <td>
-                                            Ikole
-                                        </td>
-                                        <td>
-                                            Ekiti
-                                        </td>
-
-                                        <td>
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="/Users/Edit/7f18b898-7b5f-4a1d-878f-36bf03b7550c">Edit</a> &nbsp;|&nbsp;
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="/Users/Deactivate/7f18b898-7b5f-4a1d-878f-36bf03b7550c">Deactivate</a>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-
-                                        <td>Kayode Yode Kay</td>
-                                        <td>korttech@gmail.com</td>
-                                        <td>09090909090</td>
-                                        <td>
-                                            Field Agent
-                                        </td>
-                                        <td>
-                                            Inactive
-                                        </td>
-                                        <td>
-                                            Ikeja, Lagos-Island, Lagos-Mainland, Surulere
-                                        </td>
-                                        <td>
-                                            Lagos, Lagos, Lagos, Lagos
-                                        </td>
-
-                                        <td>
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="{{url('Users/Edit')}}">Edit</a> &nbsp;|&nbsp;
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="">Activate</a>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-
-                                        <td>Temitope Taiwo Damilola</td>
-                                        <td>taiwofasae@mailinator.com</td>
-                                        <td>07038012196</td>
-                                        <td>
-                                            Field Agent
-                                        </td>
-                                        <td>
-                                            Inactive
-                                        </td>
-                                        <td>
-                                            Ikeja
-                                        </td>
-                                        <td>
-                                            Lagos
-                                        </td>
-
-                                        <td>
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="/Users/Edit/43a142dc-4996-41e9-9562-30aa6f68977a">Edit</a> &nbsp;|&nbsp;
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="/Users/Activate/43a142dc-4996-41e9-9562-30aa6f68977a">Activate</a>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-
-                                        <td>Yusuf Ali Ade</td>
-                                        <td>yusuf@gmail.com</td>
-                                        <td>08098989898</td>
-                                        <td>
-                                            Disco
-                                        </td>
-                                        <td>
-                                            Active
-                                        </td>
-                                        <td>
-                                            Not yet assigned
-                                        </td>
-                                        <td>
-                                            Not yet assigned
-                                        </td>
-
-                                        <td>
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="/Users/Edit/9ffb4144-9e19-4e38-909d-de59134e4af8">Edit</a> &nbsp;|&nbsp;
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="/Users/Deactivate/9ffb4144-9e19-4e38-909d-de59134e4af8">Deactivate</a>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-
-                                        <td>Yusuf Yusuf Yusuf</td>
-                                        <td>yusufn@gmail.com</td>
-                                        <td>08078787878</td>
-                                        <td>
-                                            Disco
-                                        </td>
-                                        <td>
-                                            Active
-                                        </td>
-                                        <td>
-                                            Not yet assigned
-                                        </td>
-                                        <td>
-                                            Not yet assigned
-                                        </td>
-
-                                        <td>
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="/Users/Edit/c753259b-7be5-4023-860a-152ec0dc3e5c">Edit</a> &nbsp;|&nbsp;
-                                            <a class="btn btn-xs btn-raised ink-reaction btn-default" href="/Users/Deactivate/c753259b-7be5-4023-860a-152ec0dc3e5c">Deactivate</a>
-
-                                        </td>
-                                    </tr>
 
                                     </tbody>
                                 </table>
