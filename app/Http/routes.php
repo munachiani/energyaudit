@@ -50,6 +50,8 @@ Route::get('Map/Index','AdminController@map');
 Route::get('Manage/ChangePassword','AdminController@changePassword');
 /* route to auditTrial*/
 Route::get('AuditTrail/Index','AdminController@audit');
-Route::get('Users/ManageRole','AdminController@ManageRole');
+Route::get('Users/ManageRole/{id}','AdminController@ManageRole');
 Route::post('Users/ChangeAvatar','AdminController@ChangeAvatar');
+
+Route::post('Users/Profile/Edit/{id}','AdminController@updateProfile');
 

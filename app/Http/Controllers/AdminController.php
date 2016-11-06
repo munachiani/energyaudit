@@ -86,9 +86,13 @@ class AdminController extends Controller
         return view('admin.users.password');
     }
 
-    public function ManageRole()
+    public function ManageRole($id)
     {
-        return view('admin.users.manageRole');
+//        dd($id);
+
+        $user = User::find($id);
+        return view('admin.users.manageRole')
+            ->with(compact('user'));
     }
 
     /**
@@ -133,11 +137,58 @@ class AdminController extends Controller
             }
 
             $user->save();
-            $this->auditTrail($user,AuditAction::$UPDATE_USER,array('{UserName}'),array($user->UserName));
+            if (!empty(AuditAction::$UPDATE_USER)) {
+                $this->auditTrail($user, AuditAction::$UPDATE_USER, array('{UserName}'), array($user->UserName));
+            }
             session()->flash('flash_message', 'Avatar Updated.');
             return redirect()->back();
         }
 
+    }
+
+    public function updateProfile(Request $request, $id)
+    {
+
+        $rules = [
+            'FirstName' => 'required',
+            'LastName' => 'required',
+            'MiddleName' => 'required',
+//            'Email' => 'required|unique:users',
+            'Address' => 'required',
+            'PhoneNumber' => 'required',
+            'UserRoles' => 'required',
+            'Gender' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator);
+        } else {
+
+            $firstName = $request['FirstName'];
+            $lastName = $request['LastName'];
+            $middleName = $request['MiddleName'];
+            $email = $request['Email'];
+            $address = $request['Address'];
+            $PhoneNumber = $request['PhoneNumber'];
+
+            $user = User::find($id);
+
+            $user->FirstName = $firstName;
+            $user->LastName = $lastName;
+            $user->MiddleName = $middleName;
+            $user->email = $email;
+            $user->Address = $address;
+            $user->PhoneNumber = $PhoneNumber;
+
+            session()->flash('flashMessage', 'User Updated');
+
+            $user->save();
+            return redirect()->back();
+
+        }
     }
 
 

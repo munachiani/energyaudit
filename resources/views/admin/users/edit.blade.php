@@ -72,19 +72,17 @@
 
 
                     <div class="row">
-                        <form action='{{url('Users/Edit/'.$user->id)}}'  method="post" role="form">               <div class="col-md-7">
+                        @if (Session::has('flashMessage'))
+                            <div class="alert alert-callout alert-success">
+                                {{ session('flashMessage') }}
+                            </div>
+                        @endif
+                        <form action='{{url('Users/Profile/Edit/'.$user->id)}}'  method="post" role="form">
+                            <div class="col-md-7">
                                 <div class="">
                                     <input name="_token" type="hidden" value="{{csrf_token()}}"/>
 
-                                    <input id="ImageInfo" name="ImageInfo" type="hidden" value="default.png" />
 
-                                    <input id="Id" name="Id" type="hidden" value="8d1b5d88-aaa6-438a-b5d7-3112e2385bc1" />
-
-                                    <input data-val="true" data-val-regex="Enter a valid Email Address" data-val-regex-pattern="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$" data-val-required="The Email field is required." id="Email" name="Email" type="hidden" value="korttech@gmail.com" />
-
-                                    <input data-val="true" data-val-required="The Status field is required." id="status" name="status" type="hidden" value="False" />
-
-                                    <input id="UserRoles" name="UserRoles" type="hidden" value="Field Agent" />
 
                                     <div class="form-group col-md-12 required">
                                         <div class="col-md-2">
@@ -94,6 +92,9 @@
                                         <div class="col-md-10">
                                             <input class="form-control text-box single-line" data-val="true" data-val-regex="Last Name should contain only alphabets." data-val-regex-pattern="^[a-zA-Z]+$" data-val-required="The Last Name field is required." id="LastName" name="LastName" required="required" type="text" value="{{$user->LastName}}" />
                                             <span class="field-validation-valid text-danger" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+                                            @if ($errors->has('LastName')) <p class="help-block"
+                                                                              style="color:red">{{ $errors->first('LastName') }}</p> @endif
+
                                         </div>
                                     </div>
 
@@ -105,6 +106,9 @@
                                         <div class="col-md-10">
                                             <input class="form-control text-box single-line" data-val="true" data-val-regex="First Name should contain only alphabets." data-val-regex-pattern="^[a-zA-Z]+$" data-val-required="The First Name field is required." id="FirstName" name="FirstName" required="required" type="text" value="{{$user->FirstName}}" />
                                             <span class="field-validation-valid text-danger" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
+                                            @if ($errors->has('FirstName')) <p class="help-block"
+                                                                              style="color:red">{{ $errors->first('FirstName') }}</p> @endif
+
                                         </div>
                                     </div>
 
@@ -116,6 +120,9 @@
                                         <div class="col-md-10">
                                             <input class="form-control text-box single-line" data-val="true" data-val-regex="Middle Name should contain only alphabets." data-val-regex-pattern="^[a-zA-Z]+$" id="MiddleName" name="MiddleName" required="required" type="text" value="{{$user->MiddleName}}" />
                                             <span class="field-validation-valid text-danger" data-valmsg-for="MiddleName" data-valmsg-replace="true"></span>
+                                            @if ($errors->has('MiddleName')) <p class="help-block"
+                                                                              style="color:red">{{ $errors->first('MiddleName') }}</p> @endif
+
                                         </div>
                                     </div>
 
@@ -128,6 +135,9 @@
                                             <input class="form-control text-box single-line" id="Email" name="Email" readonly="" required="required" type="email" value="{{$user->Email}}" />
 
                                             <span class="field-validation-valid text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                                            @if ($errors->has('Email')) <p class="help-block"
+                                                                              style="color:red">{{ $errors->first('Email') }}</p> @endif
+
                                         </div>
                                     </div>
 
@@ -139,6 +149,9 @@
                                 <textarea class="form-control" cols="20" id="Address" name="Address" rows="2">{{$user->Address}}
 </textarea>
                                             <span class="field-validation-valid text-danger" data-valmsg-for="Address" data-valmsg-replace="true"></span>
+                                            @if ($errors->has('Address')) <p class="help-block"
+                                                                              style="color:red">{{ $errors->first('Address') }}</p> @endif
+
                                         </div>
                                     </div>
 
@@ -150,6 +163,9 @@
                                         <div class="col-md-10">
                                             <input class="form-control text-box single-line" data-val="true" data-val-length="Phone number is less than 11 characters" data-val-length-max="20" data-val-length-min="11" data-val-regex="Invalid Phone Number." data-val-regex-pattern="^\s*\+?\s*([0-9][\s-]*){2,}$" data-val-required="The Phone Number field is required." id="PhoneNumber" name="PhoneNumber" required="required" type="text" value="{{$user->PhoneNumber}}" />
                                             <span class="field-validation-valid text-danger" data-valmsg-for="PhoneNumber" data-valmsg-replace="true"></span>
+                                            @if ($errors->has('PhoneNumber')) <p class="help-block"
+                                                                              style="color:red">{{ $errors->first('PhoneNumber') }}</p> @endif
+
                                         </div>
                                     </div>
 
@@ -174,7 +190,7 @@
 
                                     <div class="form-group col-md-12">
                                         <div class="col-md-offset-2 col-md-10">
-                                            <a class="btn btn-raised btn-sm ink-reaction btn-default" href="{{url('Users/ManageRole')}}">Manage User Roles</a>
+                                            <a class="btn btn-raised btn-sm ink-reaction btn-default" href="{{url('Users/ManageRole/'.$user->id)}}">Manage User Roles</a>
                                         </div>
                                     </div>
 
@@ -184,7 +200,7 @@
                                             <span class="require">*</span>
                                         </div>
                                         <div class="col-md-10 required">
-                                            <input class="form-control text-box single-line" id="UserRoles" name="UserRoles" readonly="" required="required" type="text" value="{{$user->Gender}}" />
+                                            <input class="form-control text-box single-line" id="UserRoles" name="Gender" readonly="" required="required" type="text" value="{{$user->Gender}}" />
 
                                             <span class="field-validation-valid text-danger" data-valmsg-for="Gender" data-valmsg-replace="true"></span>
                                         </div>

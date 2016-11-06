@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Region;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Input;
 
 class BaseController extends Controller
 {
