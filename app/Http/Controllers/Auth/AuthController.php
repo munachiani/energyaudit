@@ -106,7 +106,7 @@ class AuthController extends Controller
             }*/
             else {
                 if (Auth::attempt($userData)) {
-//                    $this->auditTrail($user,AuditAction::$LOGIN);
+                    $this->auditTrail($user,AuditAction::$LOGIN);
                     $user->LockoutEnabled=0;
                     $user->AccessFailedCount=0;
 
@@ -150,16 +150,14 @@ class AuthController extends Controller
     public function logout()
     {
         $user = auth()->user();
-//        $auditTrail = $this->auditTrail($user, AuditAction::$LOGOUT);
-        /*$user->status = 0;
-        $user->save();*/
-
+        $auditTrail = $this->auditTrail($user, AuditAction::$LOGOUT);
         Auth::logout();
         return redirect('/');
     }
 
     public function createUsers(Request $request)
     {
+        dd('I am here');
         $rules = [
             'LastName' => 'required',
             'FirstName' => 'required',
@@ -236,7 +234,7 @@ class AuthController extends Controller
 
             }
 
-            session()->flash('flash_message', 'User created successfully.');
+            session()->flash('flash_message', 'User created succesfully.');
             return redirect()->back();
 
 

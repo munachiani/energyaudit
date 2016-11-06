@@ -29,7 +29,8 @@ Route::get('Users/Edit/{id}','AdminController@editUsers');
 /* route to activate/deactivate user*/
 Route::get('Users/Activate','AdminController@activateUsers');
 /* route to create user*/
-Route::post('auth/create','Auth\AuthController@createUsers');
+//Route::post('auth/createUser','Auth\AuthController@createUsers');
+Route::post('auth/createUser','AdminController@createUser');
 Route::get('Users/Create','AdminController@createUsers');
 
 Route::post('auth','Auth\AuthController@auth');
@@ -50,7 +51,13 @@ Route::get('Map/Index','AdminController@map');
 Route::get('Manage/ChangePassword','AdminController@changePassword');
 /* route to auditTrial*/
 Route::get('AuditTrail/Index','AdminController@audit');
+
 Route::get('Users/ManageRole/{id}','AdminController@ManageRole');
+
+Route::get('ReportInfo/UploadSheet','AdminController@uploadMDAEnergyAuditData');
+Route::post('ReportInfo/UploadSheet','AdminController@saveMDAEnergyAuditData');
+Route::get('Users/ManageRole','AdminController@ManageRole');
+
 Route::post('Users/ChangeAvatar','AdminController@ChangeAvatar');
 
 Route::post('Users/Profile/Edit/{id}','AdminController@updateProfile');

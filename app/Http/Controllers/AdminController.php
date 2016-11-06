@@ -9,6 +9,7 @@ use App\AuditAction;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -49,12 +50,31 @@ class AdminController extends Controller
         return view('admin.users.create');
     }
 
-    public function saveUsers()
+    public function uploadMDAEnergyAuditData()
     {
-        $data = Input::all();
-        dd($data);
-
+        return view('admin.upload');
     }
+
+    public function saveMDAEnergyAuditData(Request $request)
+    {
+
+        $file = $request->file('file');
+        if ($file->isFile()) {
+            $destinationPath = public_path('tempUploads/');
+            $extension = $file->getClientOriginalExtension();
+            if ($extension != 'xls' && $extension != 'xlsx')
+                return redirect()->back()->withErrors(['uploadError' => 'Invalid File Format']);
+
+            $filename = 'mda_' . '.' . $extension;
+
+            if ($file->move($destinationPath, $filename)) {
+                session()->flash('flash_message', 'Data Uploaded.');
+                return redirect()->back();
+
+            }
+        }
+    }
+
 
     public function reportInfo()
     {
@@ -137,14 +157,14 @@ class AdminController extends Controller
             }
 
             $user->save();
-            if (!empty(AuditAction::$UPDATE_USER)) {
-                $this->auditTrail($user, AuditAction::$UPDATE_USER, array('{UserName}'), array($user->UserName));
-            }
+
+            $this->auditTrail($user, AuditAction::$UPDATE_USER, array('{UserName}'), array($user->UserName));
             session()->flash('flash_message', 'Avatar Updated.');
             return redirect()->back();
         }
 
     }
+
 
     public function updateProfile(Request $request, $id)
     {
@@ -167,6 +187,7 @@ class AdminController extends Controller
                 ->withErrors($validator);
         } else {
 
+
             $firstName = $request['FirstName'];
             $lastName = $request['LastName'];
             $middleName = $request['MiddleName'];
@@ -187,6 +208,92 @@ class AdminController extends Controller
 
             $user->save();
             return redirect()->back();
+
+        }
+    }
+
+
+    public function createUser(Request $request)
+    {
+        $rules = [
+            'LastName' => 'required',
+            'FirstName' => 'required',
+            'MiddleName' => 'required',
+            'Gender' => 'required',
+            'PhoneNumber' => 'required',
+            'Email' => 'required|string|unique:users',
+            'Address' => 'required',
+            'UserRole' => 'required',
+            'password' => 'required|max:14|min:6',
+            'confirmPassword' => 'required|same:password|max:14|min:6',
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator);
+        } else {
+            $LastName = $request['LastName'];
+            $FirstName = $request['FirstName'];
+            $MiddleName = $request['MiddleName'];
+            $Gender = $request['Gender'];
+            $address = $request['Address'];
+            $PhoneNumber = $request['PhoneNumber'];
+            $Email = $request['Email'];
+            $UserRole = $request['UserRole'];
+            $password = $request['password'];
+
+            $user = new User();
+            $user->LastName = $LastName;
+            $user->FirstName = $FirstName;
+            $user->MiddleName = $MiddleName;
+            $user->Gender = $Gender;
+            $user->Email = $Email;
+            $user->PhoneNumber = $PhoneNumber;
+            $user->Address = $address;
+            $user->UserName = $Email;
+            $user->IsActive = 1;
+            $user->password = bcrypt($password);
+
+            $user->save();
+
+            $user_role = new UserRole();
+            $user_role->userId = $user->id;
+            $user_role->roleId = Role::byName($UserRole)->id;
+            $user_role->save();
+
+
+            switch ($UserRole) {
+                case Role::$DISCO:
+
+                    $disco = new UserDisco();
+
+                    $disco->user_id = $user->id;
+                    $disco->disco_id = $request['disco_id'];
+
+                    $disco->save();
+
+                    break;
+                case Role::$FIELD_AGENT:
+                case Role::$REGIONAL_ADMIN:
+                case Role::$REGIONAL_SUPERVISOR:
+
+                    $region = new UserRegion();
+
+                    $region->user_id = $user->id;
+                    $region->region_id = $request['Region'];
+
+                    $region->save();
+
+                    break;
+
+            }
+
+            session()->flash('flash_message', 'User created succesfully.');
+            return redirect()->back();
+
 
         }
     }
