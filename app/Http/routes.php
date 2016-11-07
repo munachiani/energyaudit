@@ -38,6 +38,18 @@ Route::get('logout','Auth\AuthController@logout');
 
 /* retrieve regions of a state*/
 Route::get('Users/GetRegionByStateId','BaseController@getRegions');
+Route::get('ReportInfo/GetRegionbyStateId','BaseController@getRegions');
+
+
+Route::get('ReportInfo/GetEnergyAudit','BaseController@getEnergyAudit');
+Route::get('ReportInfo/Exporttoexcel','BaseController@exportEnergyAudit');
+
+Route::get('ReportInfo/getCustomerNote','BaseController@getCustomerNote');
+Route::get('CustomerData/ExportCustomerNote','BaseController@exportCustomerNote');
+
+Route::get('ReportInfo/getCustomerBill','BaseController@getCustomerBill');
+Route::get('CustomerData/ExportCustomerBill','BaseController@exportCustomerBill');
+Route::get('Customer/DeleteCustomerBill/{id}','BaseController@deleteCustomerBill');
 
 /* route to create user*/
 Route::get('ReportInfo/Energy','AdminController@reportInfo');
@@ -48,17 +60,35 @@ Route::get('Customer/CustomerBilling','AdminController@customerBilling');
 /* route to map*/
 Route::get('Map/Index','AdminController@map');
 /* route to change password*/
-Route::get('Manage/ChangePassword','AdminController@changePassword');
+Route::get('Manage/ChangePassword/{id}','AdminController@changePassword');
 /* route to auditTrial*/
 Route::get('AuditTrail/Index','AdminController@audit');
 
 Route::get('Users/ManageRole/{id}','AdminController@ManageRole');
+Route::post('Users/ManageRole','AdminController@addRole');
+
+Route::post('Users/AssignRegion','AdminController@addRegion');
+
+
+Route::get('ManageRole/Delete/{id}','AdminController@deleteRole');
+Route::get('ManageRegion/Delete/{id}','AdminController@deleteRegion');
 
 Route::get('ReportInfo/UploadSheet','AdminController@uploadMDAEnergyAuditData');
 Route::post('ReportInfo/UploadSheet','AdminController@saveMDAEnergyAuditData');
+
+Route::get('Customer/UploadCustomerNote','AdminController@uploadMDACustomerNote');
+Route::post('Customer/UploadCustomerNote','AdminController@saveMDACustomerNote');
+
+Route::get('Customer/UploadCustomerBill','AdminController@uploadMDACustomerBill');
+Route::post('Customer/UploadCustomerBill','AdminController@saveMDACustomerBill');
+
+
 Route::get('Users/ManageRole','AdminController@ManageRole');
 
 Route::post('Users/ChangeAvatar','AdminController@ChangeAvatar');
+Route::get('Users/Activate/{status}/{id}','AdminController@changeStatus');
+Route::get('admin/users/activate/{id}','AdminController@checkStatus');
 
-Route::post('Users/Profile/Edit/{id}','AdminController@updateProfile');
+Route::get('Users/Profile/Edit/{id}','AdminController@updateProfile');
+Route::post('User/UpdatePassword','AdminController@updatePassword');
 

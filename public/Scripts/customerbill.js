@@ -21,54 +21,52 @@ var par_name = "";
 var keypage = true;
 var dataexcel = [];
 var table = "";
-var user_role = document.getElementById('user_role').innerHTML;
-function getCustomerNote() {
-    var tokenz = localStorage.getItem("access_token");
+//var user_role = document.getElementById('user_role').innerHTML;
 
-    var access_token = "bearer " + tokenz;
-    var user_id = document.getElementById('user_id').innerHTML;
-    //alert(access_token);
+function getCustomerBill() {
+    url = $("#getCustomerBill").val();
     $.ajax({
         type: 'GET',
-        url: location.origin + '/api/customersbills?user_id=' + user_id + '&lim=' + val,
+        url: url,
         dataType: 'json',
-        headers: {
-            Authorization: access_token
-        },
         beforeSend: function () {
-
+            $("#message").show();
+            $('#datatables-5').DataTable().clear().draw();
         },
         success: function (data) {
-            //console.log(data);
-
-
+            $("#message").hide();
+            console.log(data);
             if (data.length == 0) {
                 status = false;
-
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                dataexcel = dataexcel.concat(data);
-
-                for (var x = 0; x < data.length; x++) {
-                    table.row.add([user_role == "Disco" ? "" : "<a class='btn btn-danger' data-value='" + data[x].customer_bill_id + "' href='/Customer/DeleteCustomerBill/" + data[x].customer_bill_id + "'>Delete</a>", data[x].mda_name, data[x].disco_name, data[x].disco_acct_number, data[x].acct_month,
-                        data[x].invoice_number, data[x].monthly_energy_consumptn, data[x].actual_estimated_billing, data[x].meter_reading,
-                        data[x].tariff_rate, data[x].fixed_charge, data[x].invoice_amt
+                 for (var x = 0; x < data.length; x++) {
+                    table.row.add(["<a class='btn btn-danger' data-value='" +
+                    data[x].customer_bill_id +
+                    "' onclick='delBill(" +  data[x].customer_bill_id +")'>Delete</a>",
+                        data[x].mda_name,
+                        data[x].disco_name,
+                        data[x].disco_acct_number,
+                        data[x].acct_month,
+                        data[x].invoice_number,
+                        data[x].monthly_energy_consumptn,
+                        data[x].actual_estimated_billing,
+                        data[x].meter_reading,
+                        data[x].tariff_rate,
+                        data[x].fixed_charge,
+                        data[x].invoice_amt
                     ]).draw();
                 }
 
-                val += 80;
             }
         },
-        error: function () {
-
+        error: function (data) {
+            console.log(data)
         }
     }).done(function () {
 
         if (status === true) {
-            getCustomerNote();
-        } else {
-            console.log(dataexcel);
-            dataToExcel();
+           // getEneryAudit();
         }
 
     });
@@ -81,7 +79,7 @@ function daterange() {
         //console.log("cool");
         limdate = 0;
         status1 = true;
-        $('#datatables-5').DataTable().clear().draw();
+        $('#datatables-4').DataTable().clear().draw();
         start_date = $("#datepick").val();
         end_date = $("#datepick2").val();
 
@@ -92,6 +90,7 @@ function daterange() {
         } else if (start_date > 0 && start_date > end_date) {
             $(".validatemessage").html('<div class="alert alert-dismissible alert-danger" id="erroralert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Oops!, Specify Correct Date Range </div>');
         } else {
+            $(".validatemessage").html('');
             filterByDate();
             //$("form").submit();
         }
@@ -101,7 +100,7 @@ function daterange() {
         e.returnValue = false;
         limdate = 0;
         status1 = true;
-        //$('#datatables-3').DataTable().clear().draw();
+        $('#datatables-3').DataTable().clear().draw();
         var startdate = $("#datepick").val();
         var enddate = $("#datepick2").val();
         start_date = startdate;
@@ -114,67 +113,117 @@ function daterange() {
         } else if (enddate > 0 && startdate > enddate) {
             $(".validatemessage").html('<div class="alert alert-dismissible alert-danger" id="erroralert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Oops!, Specify Correct Date Range </div>');
         } else {
+            $(".validatemessage").html('');
             //if(keypage)
-            //  filterByDate(startdate, enddate);
+            //filterByDate(startdate, enddate);
             //$("form").submit();
+            filterByDate()
         }
     });
+
+    //daterange();
 }
 
 function filterByDate() {
-    var tokenz = localStorage.getItem("access_token");
-
-    var access_token = "bearer " + tokenz;
-    //console.log(startdate);
-    //console.log(enddate);
+    url = $("#getCustomerBill").val();
     $.ajax({
         type: 'GET',
-        url: location.origin + '/api/customerbillinfo?start_date=' + start_date + "&end_date=" + end_date + "&lim=" + limdate,
+        url: url,
+        data: {start_date: start_date, end_date: end_date},
         dataType: 'json',
-        headers: {
-            Authorization: access_token
-        },
         beforeSend: function () {
-
+            $("#message").show();
+            $('#datatables-5').DataTable().clear().draw();
         },
         success: function (data) {
-            //console.log(data);
-            //var table = $('#datatables-5').DataTable({ "ordering": false });
-            //console.log(location.origin + '/api/customernoteinfo?start_date=' + start_date + "&end_date=" + end_date + "&lim=" + limdate);
+            $("#message").hide();
+            console.log(data);
             if (data.length == 0) {
-                status1 = false;
+                status = false;
             }
-            else if ((data !== undefined || data.length != 0) && status1) {
-                //console.log(data);
-                dataexcel = dataexcel.concat(data);
-
+            else if ((data !== undefined || data.length != 0) && status) {
                 for (var x = 0; x < data.length; x++) {
-                    table.row.add([user_role == "Disco" ? "" : "<a class='btn btn-danger' data-value='" + data[x].customer_bill_id + "' href='/Customer/DeleteCustomerBill/" + data[x].customer_bill_id + "'>Delete</a>", data[x].mda_name, data[x].disco_name, data[x].disco_acct_number, data[x].acct_month,
-                        data[x].invoice_number, data[x].monthly_energy_consumptn, data[x].actual_estimated_billing, data[x].meter_reading,
-                        data[x].tariff_rate, data[x].fixed_charge, data[x].invoice_amt
+                    table.row.add(["<a class='btn btn-danger' data-value='" +
+                    data[x].customer_bill_id +
+                    "' onclick='delBill(" +  data[x].customer_bill_id +")'>Delete</a>",
+                        data[x].mda_name,
+                        data[x].disco_name,
+                        data[x].disco_acct_number,
+                        data[x].acct_month,
+                        data[x].invoice_number,
+                        data[x].monthly_energy_consumptn,
+                        data[x].actual_estimated_billing,
+                        data[x].meter_reading,
+                        data[x].tariff_rate,
+                        data[x].fixed_charge,
+                        data[x].invoice_amt
                     ]).draw();
-                    //alldata.push(dataa[x]);
                 }
-                console.log(data);
-                limdate += 150;
 
             }
-
         },
-        error: function () {
-
+        error: function (data) {
+            console.log(data)
         }
     }).done(function () {
-        if (status1 === true) {
-            filterByDate();
-        } else {
-            dataToExcel();
+
+        if (status === true) {
+            //getEneryAudit();
         }
-        keypage = false;
+
     });
 }
 
+function filterByDisco() {
+    url = $("#getCustomerBill").val();
+    $.ajax({
+        type: 'GET',
+        url: url,
+        data: {disco_name: disco_name},
+        dataType: 'json',
+        beforeSend: function () {
+            $("#message").show();
+            $('#datatables-5').DataTable().clear().draw();
+        },
+        success: function (data) {
+            $("#message").hide();
+            console.log(data);
+            if (data.length == 0) {
+                status = false;
+            }
+            else if ((data !== undefined || data.length != 0) && status) {
+                for (var x = 0; x < data.length; x++) {
+                    table.row.add(["<a class='btn btn-danger' data-value='" +
+                    data[x].customer_bill_id +
+                    "' onclick='delBill(" +  data[x].customer_bill_id +")'>Delete</a>",
+                        data[x].mda_name,
+                        data[x].disco_name,
+                        data[x].disco_acct_number,
+                        data[x].acct_month,
+                        data[x].invoice_number,
+                        data[x].monthly_energy_consumptn,
+                        data[x].actual_estimated_billing,
+                        data[x].meter_reading,
+                        data[x].tariff_rate,
+                        data[x].fixed_charge,
+                        data[x].invoice_amt
+                    ]).draw();
+                }
 
+
+            }
+        },
+        error: function (data) {
+            console.log(data)
+        }
+    }).done(function () {
+
+        if (status === true) {
+            //getEneryAudit();
+        }
+
+    });
+}
 
 function getRegion(selectedItem, ddlLgas) {
     var region = localStorage.getItem('region');
@@ -322,7 +371,33 @@ function filterByMinistry() {
     });
 }
 
+function delBill(id){
+    url = $("#deleteCustomerBill").val();
+    url = url + "/" + id;
+    $.ajax({
+        type: 'GET',
+        url: url,
+        dataType: 'json',
+        beforeSend: function () {
+            $("#message").show();
+        },
+        success: function () {
+            $("#message").hide();
+            getCustomerBill();
+        },
+        error: function (data) {
+            console.log(data);
+            $("#message").hide();
+            getCustomerBill();
+        }
+    }).done(function () {
 
+        if (status === true) {
+            // getEneryAudit();
+        }
+
+    });
+}
 
 function reloadPage() {
     window.location.reload();
@@ -419,7 +494,7 @@ function dataToExcel() {
 
 $(document).ready(function () {
     table = $('#datatables-5').DataTable({ "ordering": false });
-    getCustomerNote();
+    getCustomerBill();
     daterange();
     $("#message").hide();
     if ($("#State").val()) {
@@ -458,12 +533,25 @@ $(document).ready(function () {
         filterByMinistry();
     });
 
-    $("#reloadenergy").click(function () {
+    $("#Disco").change(function () {
+        status4 = true;
+        $('#datatables-4').DataTable().clear().draw();
+        state_name = $("#State").val();
+        loc_gov_name = $("#Region").val();
+        par_name = $("#Minis").val();
+        disco_name = $("#Disco").val();
+        limdisco = 0;
+        console.log(limdisco);
+        filterByDisco();
+    });
+
+
+    $("#reloadBill").click(function () {
         //alert("cool");
         $("#customerform")[0].reset();
         status = true;
         val = 0;
-        getCustomerNote();
+        getCustomerBill();
         //reloadPage();
     })
 

@@ -41,7 +41,7 @@ $user = auth()->user();
                         <ul class="dropdown-menu animation-dock">
                             <li class="divider"></li>
                             <li><a href="{{url('Users/Edit/'.$user->id)}}"><i class="fa fa-fw fa-user"></i> Profile</a></li>
-                            <li><a href="{{url('Manage/ChangePassword')}}"><i class="fa fa-fw fa-unlock-alt"></i> Change Password</a></li>
+                            <li><a href="{{url('Manage/ChangePassword/'.$user->id)}}"><i class="fa fa-fw fa-unlock-alt"></i> Change Password</a></li>
                             <li><a href="{{url('logout')}}"><i class="fa fa-fw fa-power-off text-danger"></i> Log off</a></li>
                         </ul><!--end .dropdown-menu -->
                     </li>

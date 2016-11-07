@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class CustomerNote extends Model
 {
@@ -36,4 +37,28 @@ class CustomerNote extends Model
         'village',
         'status',
     ];
+
+    public static function dateRange($start,$end){
+        $eg = DB::table('customer_notes')->whereBetween('updated_at', array($start, $end))->get();
+        return $eg === null ? '' : $eg;
+    }
+
+    public static function regionRange($state,$lga){
+        $eg = DB::table('customer_notes')
+            ->whereRaw('state_id=? OR lga_id=?', array($state,$lga))
+            ->get();
+        return $eg === null ? '' : $eg;
+    }
+    public static function discoFilter($disco){
+        $eg = DB::table('customer_notes')
+            ->whereRaw('disco_id=?', array($disco))
+            ->get();
+        return $eg === null ? '' : $eg;
+    }
+    public static function ministryFilter($ministryFilter){
+        $eg = DB::table('customer_notes')
+            ->whereRaw('parent_fed_min_id=?', array($ministryFilter))
+            ->get();
+        return $eg === null ? '' : $eg;
+    }
 }

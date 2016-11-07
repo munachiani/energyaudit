@@ -20,7 +20,7 @@
         </div>
         <!-- BEGIN MAIN MENU -->
         <ul id="main-menu" class="gui-controls">
-            <li >
+            <li>
                 <a href="{{url('dashboard')}}" class="active">
                     <div class="gui-icon"><i class="fa fa-dashboard"></i></div>
                     <span class="title">Dashboard</span>
@@ -36,12 +36,36 @@
                     <li><a href="{{url('Users/Create')}}" class=""><span class="title">Add User</span></a></li>
                 </ul>
             </li><!--end /menu-li -->
-            <li>
-                <a href="{{url('ReportInfo/Energy')}}" class="">
+            <li class="gui-folder">
+                <a>
                     <div class="gui-icon"><i class="fa fa-list-alt text-center"></i></div>
                     <span class="title">Audit Report</span>
                 </a>
+                <ul>
+                    <li>
+                        <a href="{{url('ReportInfo/Energy')}}" class="">
+                            <span class="title">View Audit Report</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{url('ReportInfo/UploadSheet')}}" class="">
+                            <span class="title"> Upload Audit Report</span>
+                        </a>
+                    </li>
+
+                </ul>
             </li>
+            <li class="gui-folder">
+                <a>
+                    <div class="gui-icon"><i class="fa fa-users"></i></div>
+                    <span class="title">Upload MDA Customer Details</span>
+                </a>
+                <ul>
+                    <li><a href="{{url('Customer/UploadCustomerNote')}}" class=""><span class="title">Upload Customer Profile</span></a></li>
+                    <li><a href="{{url('Customer/UploadCustomerBill')}}" class=""><span class="title">Upload Customer Bill</span></a></li>
+                </ul>
+            </li>
+
             <li class="gui-folder">
                 <a>
                     <div class="gui-icon"><i class="fa fa-bar-chart"></i></div>
@@ -58,12 +82,6 @@
                 <a href="{{url('Map/Index')}}" class="">
                     <div class="gui-icon"><i class="fa fa-map-marker text-center"></i></div>
                     <span class="title">Map</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{url('ReportInfo/UploadSheet')}}" class="">
-                    <div class="gui-icon"><i class="fa fa-upload"></i></div>
-                    <span class="title"> Upload Report</span>
                 </a>
             </li>
             <li>
