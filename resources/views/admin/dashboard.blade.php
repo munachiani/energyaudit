@@ -48,19 +48,31 @@ foreach ($disco as $item) {
 $discoNames = implode(",", $discoNames);
 $discoAmount = implode(',', $discoAmount);
 
+
 $ministryAmount = [];
+$ministry = [];
 $ministryAmountTotal = 0;
-foreach ($mdasCapturedDistinct as $mdasDistinct) {
-    $ministryAmountTotal += $mdasDistinct->invoice_amt;
+foreach ($mdaCapturedDistinct as $mdasDistinct) {
+    $ministry[] = $mdasDistinct;
+    $totalCountM = \App\CustomerBill::where('mda_name', '=',$mdasDistinct)->get();
+    $totalM = 0;
+
+    foreach($totalCountM as $tm ){
+        $totalM += $tm->invoice_amt;
+    }
+
+    $ministryAmount[] = $totalM;
 }
-$ministryAmount[] = $ministryAmountTotal;
-        dd($ministryAmount);
+$ministry = implode(", ", $ministry);
+$ministryAmount = implode(",", $ministryAmount);
+
 ?>
 @section('contents')
     <section>
         <div class="section-body">
 
             ﻿﻿<input type="hidden" id="discoData" value="{{$discoData}}">
+            ﻿﻿<input type="hidden" id="ministry" value="{{$ministry}}">
             ﻿﻿<input type="hidden" id="discoCount" value="{{$discoCount}}">
             <input id="startdate" name="startdate" type="hidden" value="11/03/2016"/><input id="enddate" name="enddate"
                                                                                             type="hidden"
@@ -330,6 +342,8 @@ $ministryAmount[] = $ministryAmountTotal;
 
     </script>
     <script type="text/javascript">
+        datHorMinistry = $("#ministry").val();
+        horMinistry = datHorMinistry.split(',');
         $(function () {
             $('#container2').highcharts({
                 chart: {
@@ -342,7 +356,7 @@ $ministryAmount[] = $ministryAmountTotal;
                 },
 
                 xAxis: {
-                    categories: ['Ministr of Interior', 'Ministr of Solid Minerals', 'Minister of Women Affiars', 'Minister of Youth and Sports', 'Minister of Agriculture']
+                    categories: horMinistry
                 },
 
                 yAxis: {
@@ -350,12 +364,17 @@ $ministryAmount[] = $ministryAmountTotal;
                     min: 0,
                     title: {
                         text: 'Debt Owed'
+                    },
+                    labels: {
+                        formatter: function () {
+                            return '₦' + this.axis.defaultLabelFormatter.call(this);
+                        }
                     }
                 },
 
                 tooltip: {
                     headerFormat: '<b>{point.key}</b><br>',
-                    pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}'
+                    pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: ₦{point.y}'
                 },
 
                 plotOptions: {
@@ -367,10 +386,7 @@ $ministryAmount[] = $ministryAmountTotal;
 
                 series: [{
                     name: 'Total Dept owed by Ministries',
-                    data: [{y: 5, color: '#2a532a'}, {y: 3, color: '#2a532a'}, {y: 7, color: '#2a532a'}, {
-                        y: 9,
-                        color: '#2a532a'
-                    }, {y: 15, color: '#2a532a'}],
+                    data: [{{$ministryAmount}}],
                     color: '#2a532a'
 
                 }]
