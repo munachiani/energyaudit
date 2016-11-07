@@ -1,6 +1,6 @@
     @extends('layout.master')
     @section('pageTitle')
-        Upload Excel Sheet
+        Upload MDA Customer Profile
         @stop
     @section('contents')
         <section>
@@ -11,7 +11,7 @@
                 <div class="card">
                     <div class="card-head card-head-sm style-custom">
                         <header>
-                            Upload excel sheet (MDA ENERGY AUDIT REPORT)
+                            Upload excel sheet (Upload MDA Customer Profile)
                             <small class="pull-right">
                                 <a href="{{url('dashboard')}}">
                                     <i class="fa fa-angle-double-left"></i>&nbsp; Back to Dashboard
@@ -33,7 +33,7 @@
                                     </div>
                                 @endif
 
-                            <form action="{{url('ReportInfo/UploadSheet')}}" method="post" enctype="multipart/form-data">
+                            <form action="{{url('Customer/UploadCustomerNote')}}" method="post" enctype="multipart/form-data">
                                 <input name="_token" type="hidden" value="{{csrf_token()}}"/>
                                 <div class="row">
                                     <div class="col-md-4 col-sm-6 form-group">
@@ -51,7 +51,7 @@
                                     </div>
                                 </div>
                             </form>
-                            <span class="alert alert-info">Please note that the excel sheet to be uploaded should be in the same format as the approved template. <a href="{{url('userimages/MDAEnergyAuditSample.xlsx')}}" class="btn btn-danger">Click here</a> to download a template of the approved format</span>
+                            <span class="alert alert-info">Please note that the excel sheet to be uploaded should be in the same format as the approved template. <a href="{{url('userimages/MDA_Debt_Sample.xlsx')}}" class="btn btn-danger">Click here</a> to download a template of the approved format</span>
                         </div>
                     </div>
                 </div>

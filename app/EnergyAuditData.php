@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class EnergyAuditData extends Model
 {
@@ -32,4 +33,28 @@ class EnergyAuditData extends Model
         'image_path',
         'mda_level',
     ];
+
+    public static function dateRange($start,$end){
+        $eg = DB::table('energy_audit_datas')->whereBetween('updated_at', array($start, $end))->get();
+        return $eg === null ? '' : $eg;
+    }
+
+    public static function regionRange($state,$lga){
+        $eg = DB::table('energy_audit_datas')
+           ->whereRaw('state_id=? OR local_gov_id=?', array($state,$lga))
+            ->get();
+        return $eg === null ? '' : $eg;
+    }
+    public static function discoFilter($disco){
+        $eg = DB::table('energy_audit_datas')
+           ->whereRaw('disco_id=?', array($disco))
+            ->get();
+        return $eg === null ? '' : $eg;
+    }
+    public static function ministryFilter($ministryFilter){
+        $eg = DB::table('energy_audit_datas')
+           ->whereRaw('parent_fed_min_id=?', array($ministryFilter))
+            ->get();
+        return $eg === null ? '' : $eg;
+    }
 }

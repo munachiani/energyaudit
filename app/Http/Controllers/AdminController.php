@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomerBill;
+use App\CustomerNote;
+use App\EnergyAuditData;
 use App\Region;
 use App\Role;
 use App\User;
@@ -14,7 +17,7 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Excel;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -60,6 +63,15 @@ class AdminController extends Controller
         return view('admin.upload');
     }
 
+    public function uploadMDACustomerNote()
+    {
+        return view('admin.uploadMdaCustomerNote');
+    }
+ public function uploadMDACustomerBill()
+    {
+        return view('admin.uploadMdaCustomerBill');
+    }
+
     public function saveMDAEnergyAuditData(Request $request)
     {
 
@@ -68,14 +80,187 @@ class AdminController extends Controller
             $destinationPath = public_path('tempUploads/');
             $extension = $file->getClientOriginalExtension();
             if ($extension != 'xls' && $extension != 'xlsx')
-                return redirect()->back()->withErrors(['uploadError' => 'Invalid File Format']);
+                return redirect()->back()->withErrors(['uploadError' => 'Invalid File Format! Accepted File formats are [.xls and .xlsx Only. Please download sample below]']);
 
-            $filename = 'mda_' . '.' . $extension;
+            /*$filename = 'mda_' . '.' . $extension;
 
             if ($file->move($destinationPath, $filename)) {
                 session()->flash('flash_message', 'Data Uploaded.');
                 return redirect()->back();
 
+            }*/
+            else {
+                try {
+                    Excel::selectSheetsByIndex(0)->load($file, function ($reader) {
+
+                        $cc = 0;
+                        foreach ($reader->toArray() as $row) {
+                            if ($cc++ <= 0)
+                                continue;
+                            else {
+                                //dd($row);
+                                $key = array_keys($row);
+
+                                $energyAudit = new EnergyAuditData();
+                                $energyAudit->state_id = $row[$key[1]];
+                                $energyAudit->local_gov_id = $row[$key[2]];
+                                $energyAudit->disco_id = $row[$key[3]];
+                                $energyAudit->address = $row[$key[4]];
+                                $energyAudit->mda_name = $row[$key[5]];
+                                $energyAudit->parent_fed_min_id = $row[$key[6]];
+                                $energyAudit->avg_electricity_bill_per_month = $row[$key[7]];
+                                $energyAudit->num_of_generators = $row[$key[8]];
+                                $energyAudit->generator_running = $row[$key[9]];
+                                $energyAudit->num_of_years_at_location = $row[$key[10]];
+                                $energyAudit->contact_of_mda_head = $row[$key[11]];
+                                $energyAudit->telephone = $row[$key[12]];
+
+                                $energyAudit->save();
+//                                dd($energyAudit);//->save();
+                            }
+                        }
+
+//                        }
+                    });
+                    session()->flash('flash_message', 'Report uploaded successfully.');
+                    return redirect()->back();
+                } catch (\Exception $e) {
+                    return redirect()->back()->withErrors(['uploadError' => $e->getMessage()]);
+                }
+            }
+        }
+    }
+
+    public function saveMDACustomerNote(Request $request)
+    {
+
+        $file = $request->file('file');
+        if ($file->isFile()) {
+            $destinationPath = public_path('tempUploads/');
+            $extension = $file->getClientOriginalExtension();
+            if ($extension != 'xls' && $extension != 'xlsx')
+                return redirect()->back()->withErrors(['uploadError' => 'Invalid File Format! Accepted File formats are [.xls and .xlsx Only. Please download sample below]']);
+
+            /*$filename = 'mda_' . '.' . $extension;
+
+            if ($file->move($destinationPath, $filename)) {
+                session()->flash('flash_message', 'Data Uploaded.');
+                return redirect()->back();
+
+            }*/
+            else {
+                try {
+                    Excel::selectSheetsByIndex(1)->load($file, function ($reader) {
+                        $sheet = $reader->getExcel()->getSheet(1);
+                        $highestRow = $sheet->getHighestRow();
+                        $cc = 4;
+                        foreach ($reader->toArray() as $row) {
+                            if ($cc++ < 7)
+                                continue;
+                            else {
+
+                                //dd($row);
+                                $key = array_keys($row);
+
+                                $siteLoc = explode('/', $row[$key[6]]);
+
+                                $energyMdaNote = new CustomerNote();
+                                $energyMdaNote->mda_name = $row[$key[1]];
+                                $energyMdaNote->government_level = $row[$key[2]];
+                                $energyMdaNote->parent_fed_min_id = $row[$key[3]];
+                                $energyMdaNote->sector_id = $row[$key[4]];
+                                $energyMdaNote->site_address = $row[$key[5]];
+                                $energyMdaNote->site_latitude = $siteLoc[0];
+                                $energyMdaNote->site_longitude = $siteLoc[1];
+                                $energyMdaNote->closet_landmark = $row[$key[7]];
+                                $energyMdaNote->village = $row[$key[8]];
+                                $energyMdaNote->town = $row[$key[9]];
+                                $energyMdaNote->city = $row[$key[10]];
+                                $energyMdaNote->state_id = $row[$key[11]];
+                                $energyMdaNote->lga_id = $row[$key[12]];
+                                $energyMdaNote->disco_id = $row[$key[13]];
+                                $energyMdaNote->business_unit = $row[$key[14]];
+                                $energyMdaNote->disco_acct_number = $row[$key[15]];
+                                $energyMdaNote->customer_type = $row[$key[16]];
+                                $energyMdaNote->customer_class = $row[$key[17]];
+                                $energyMdaNote->meter_installed = $row[$key[18]];
+                                $energyMdaNote->meter_no = $row[$key[19]];
+                                $energyMdaNote->meter_type = $row[$key[20]];
+                                $energyMdaNote->meter_brand = $row[$key[21]];
+                                $energyMdaNote->meter_model = $row[$key[22]];
+
+                                $energyMdaNote->save();
+//                                dd($energyMdaNote);//->save();
+                            }
+
+                        }
+                    });
+                    session()->flash('flash_message', 'Report uploaded successfully.');
+                    return redirect()->back();
+                } catch (\Exception $e) {
+                    return redirect()->back()->withErrors(['uploadError' => $e->getMessage()]);
+                }
+            }
+        }
+    }
+    public function saveMDACustomerBill(Request $request)
+    {
+
+        $file = $request->file('file');
+        if ($file->isFile()) {
+            $destinationPath = public_path('tempUploads/');
+            $extension = $file->getClientOriginalExtension();
+            if ($extension != 'xls' && $extension != 'xlsx')
+                return redirect()->back()->withErrors(['uploadError' => 'Invalid File Format! Accepted File formats are [.xls and .xlsx Only. Please download sample below]']);
+
+            /*$filename = 'mda_' . '.' . $extension;
+
+            if ($file->move($destinationPath, $filename)) {
+                session()->flash('flash_message', 'Data Uploaded.');
+                return redirect()->back();
+
+            }*/
+            else {
+                try {
+                    Excel::selectSheetsByIndex(2)->load($file, function ($reader) {
+                        $sheet = $reader->getExcel()->getSheet(2);
+                        $highestRow = $sheet->getHighestRow();
+                        $cc = 1;
+                        foreach ($reader->toArray() as $row) {
+                            if ($cc++ < 1)
+                                continue;
+                            else {
+
+//                                dd($row);
+                                $key = array_keys($row);
+
+                                $siteLoc = explode('/', $row[$key[6]]);
+
+                                $energyMdaBill = new CustomerBill();
+                                $energyMdaBill->mda_name = $row[$key[1]];
+                                $energyMdaBill->disco = $row[$key[2]];
+                                $energyMdaBill->disco_account_number = $row[$key[3]];
+                                $energyMdaBill->invoice_date = $row[$key[4]]->format('Y-m-d');
+                                $energyMdaBill->account_month = $row[$key[5]];
+                                $energyMdaBill->invoice_number = $row[$key[6]];
+                                $energyMdaBill->monthly_energy_consumption = $row[$key[7]];
+                                $energyMdaBill->meter_reading = $row[$key[8]];
+                                $energyMdaBill->actual_estimated_billing = $row[$key[9]];
+                                $energyMdaBill->tariff_rate = $row[$key[10]];
+                                $energyMdaBill->fixed_charge = $row[$key[11]];
+                                $energyMdaBill->invoice_amt = $row[$key[12]];
+
+                                $energyMdaBill->save();
+//                                dd($energyMdaBill);//->save();
+                            }
+
+                        }
+                    });
+                    session()->flash('flash_message', 'Report uploaded successfully.');
+                    return redirect()->back();
+                } catch (\Exception $e) {
+                    return redirect()->back()->withErrors(['uploadError' => $e->getMessage()]);
+                }
             }
         }
     }
@@ -149,7 +334,7 @@ class AdminController extends Controller
                 return redirect()->back()
                     ->withErrors(['updateError' => 'Invalid Old Password']);
             }
-         }else {
+        } else {
 
             return redirect()->back()
                 ->withErrors($validator);

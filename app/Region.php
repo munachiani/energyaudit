@@ -23,4 +23,10 @@ class Region extends Model
     public function state(){
         return $this->belongsTo('\App\State','state_id');
     }
+
+    public function ScopeByName($query, $name){
+
+        return $query->where('region_name', '=', $name)->first();
+
+    }
 }

@@ -14,21 +14,21 @@ class CreateEnergyAuditDatasTable extends Migration
     {
         Schema::create('energy_audit_datas', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('state_id');
-            $table->integer('local_gov_id');
-            $table->integer('disco_id');
-            $table->integer('mda_name');
+            $table->string('state_id');
+            $table->string('local_gov_id');
+            $table->string('disco_id');
+            $table->string('mda_name');
             $table->integer('sector_id');
             $table->integer('ministry_id');
             $table->integer('dept_id');
             $table->integer('agency_id');
-            $table->integer('parent_fed_min_id');
+            $table->string('parent_fed_min_id');
             $table->string('auditor_id');
-            $table->integer('avg_electricity_bill_per_month');
+            $table->double('avg_electricity_bill_per_month');
             $table->integer('num_of_generators');
-            $table->string('generator_running');
+            $table->integer('generator_running');
             $table->string('address');
-            $table->string('num_of_years_at_location');
+            $table->integer('num_of_years_at_location');
             $table->string('contact_of_mda_head');
             $table->string('telephone');
             $table->string('identifier');
