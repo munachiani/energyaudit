@@ -65,6 +65,13 @@ Route::get('Manage/ChangePassword/{id}','AdminController@changePassword');
 Route::get('AuditTrail/Index','AdminController@audit');
 
 Route::get('Users/ManageRole/{id}','AdminController@ManageRole');
+Route::post('Users/ManageRole','AdminController@addRole');
+
+Route::post('Users/AssignRegion','AdminController@addRegion');
+
+
+Route::get('ManageRole/Delete/{id}','AdminController@deleteRole');
+Route::get('ManageRegion/Delete/{id}','AdminController@deleteRegion');
 
 Route::get('ReportInfo/UploadSheet','AdminController@uploadMDAEnergyAuditData');
 Route::post('ReportInfo/UploadSheet','AdminController@saveMDAEnergyAuditData');

@@ -34,5 +34,15 @@ class CustomerBill extends Model
             ->get();
         return $eg === null ? '' : $eg;
     }
+    public static function distinctBill(){
+        $array = [];
+        $eg = DB::table('customer_bills')->distinct()->get();
+        foreach($eg as $item){
+            if(!in_array($item->mda_name,$array)){
+                $array[]=$item->mda_name;
+            }
+        }
+        return $array;
+    }
 
 }

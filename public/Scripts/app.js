@@ -1,6 +1,11 @@
 /**
  * Created by Kasali.Razaq & Mbakwe.Caleb on 3/10/2016.
  */
+$(document).ready(function () {
+    var checkValue = document.getElementById("stateImage");
+
+    //alert('check');
+});
 var App = {
     CONSTANTS: {
         map: null,
@@ -4508,7 +4513,7 @@ var App = {
                     "<p>Generator Running Hrs/Month: <b>" + data[i].generator_running + "</b></p>" +
                     "<p>Avg. Electricity Bill Per Month : <b>" + data[i].avg_electricity_bill_per_month + "</b></p>" +
                     "<p>Telephone : <b>" + data[i].telephone + "</b></p>" +
-                    "<p>Image : <img src='" + location.origin + "userimages/" + data[i].image_path + "' alt='Building Image' width='100px' height='100px'></p>" +
+                    "<p>Image : <img src='" + location.origin + checkValue.value + "' alt='Building Image' width='100px' height='100px'></p>" +
                     "</div></div></div>";
 
                 position = {
@@ -4659,8 +4664,11 @@ var App = {
 
 };
 
+
 $(document).ready(function () {
     App.init();
-});/**
+
+});
+/**
  * Created by hp on 11/3/2016.
  */
