@@ -546,12 +546,12 @@ $(document).ready(function () {
     });
 
 
-    $("#reloadenergy").click(function () {
+    $("#reloadBill").click(function () {
         //alert("cool");
         $("#customerform")[0].reset();
         status = true;
         val = 0;
-        getCustomerNote();
+        getCustomerBill();
         //reloadPage();
     })
 
