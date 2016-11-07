@@ -18,6 +18,7 @@
             </div>
             <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDnwVXdPAfWb3f2OwfsimrxuLIPhHtYZcc">
             </script>
+            <input type="hidden" id="stateImage" value="{{url('userimages/state2.png')}}">
             {{ HTML::script('Scripts/maplabel.js')}}
 
             <div id="user_id" class="hidden">{{auth()->user()->id}}</div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CustomerBill;
 use App\CustomerNote;
+use App\DistributionCompany;
 use App\EnergyAuditData;
 use App\Region;
 use App\Role;
@@ -33,7 +34,12 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        return view('admin.dashboard');
+        $mdasUploaded = CustomerBill::all()->count();
+        $mdasCaptured = CustomerBill::distinct('mda_name')->count('mda_name');
+        $customerNotes = CustomerNote::all();
+        $disco = DistributionCompany::all();
+        return view('admin.dashboard')
+            ->with(compact('mdasUploaded','mdasCaptured','customerNotes','disco'));
     }
 
     public function viewUsers()

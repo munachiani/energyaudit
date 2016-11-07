@@ -22,6 +22,14 @@
        }
    </style>
     @stop
+<?php
+        $discoData =[];
+        foreach($disco as $item){
+            $count = \App\CustomerNote::where('disco_id','LIKE','%'.$item->disco_name.'%')->count();
+            $discoData[]= [$item->disco_name,$count];
+        }
+        dd($discoData);
+?>
 @section('contents')
     <section>
         <div class="section-body">
@@ -65,10 +73,12 @@
                     <div class="card">
                         <div class="card-body no-padding">
                             <div class="info-box">
-                                <span class="info-box-icon"><i class="md md-credit-card"></i></span>
+                                <span class="info-box-icon"><i class="fa fa-credit-card"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">MDA-Premises Captured</span>
-                                    <span class="info-box-number"><span id="totalno">0</span></span>
+                                    {{--<span class="info-box-number"><span id="totalno">0</span></span>--}}
+                                    <span class="counter info-box-number" data-counter="counterup" data-value="{{$mdasCaptured}}">0</span>
+
                                 </div>
                             </div>
                         </div>
@@ -82,7 +92,9 @@
                                 <span class="info-box-icon"><i class="fa fa-institution"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">MDAs-Uploaded</span>
-                                    <span class="info-box-number" id="numberOfMembers">0</span>
+                                    {{--<span class="info-box-number" id="numberOfMembers">{{$mdasUploaded}}</span>--}}
+                                    <span class="counter info-box-number" data-counter="counterup" data-value="{{$mdasUploaded}}">0</span>
+
                                 </div>
                             </div>
                         </div>
@@ -155,6 +167,10 @@
 @section('footerScript')
 
     <script type="text/javascript">
+
+        $('.counter').counterUp();
+
+
         $(function () {
             $('#container1').highcharts({
                 chart: {
