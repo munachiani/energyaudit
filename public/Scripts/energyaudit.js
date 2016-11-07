@@ -27,9 +27,10 @@ function getEneryAudit() {
         url: url,
         dataType: 'json',
         beforeSend: function () {
-
+            $("#message").show();
         },
         success: function (data) {
+            $("#message").hide();
             console.log(data);
             if (data.length == 0) {
                 status = false;
