@@ -36,10 +36,12 @@ class AdminController extends Controller
     {
         $mdasUploaded = CustomerBill::all()->count();
         $mdasCaptured = CustomerBill::distinct('mda_name')->count('mda_name');
+        $mdasCapturedDistinct = CustomerBill::distinct('mda_name')->latest('mda_name')->get();
+        dd($mdasCapturedDistinct);
         $customerNotes = CustomerNote::all();
         $disco = DistributionCompany::all();
         return view('admin.dashboard')
-            ->with(compact('mdasUploaded','mdasCaptured','customerNotes','disco'));
+            ->with(compact('mdasUploaded','mdasCaptured','customerNotes','disco','mdasCapturedDistinct'));
     }
 
     public function viewUsers()
