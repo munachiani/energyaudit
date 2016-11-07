@@ -79,6 +79,10 @@ class User extends Authenticatable
         return $this->hasManyThrough('\App\Region','\App\UserRegion','user_id','id');
     }
 
+    public function ScopeNotMe(){
+        return $this->where('id','<>',auth()->user()->id)->get();
+}
+
 
 
 }

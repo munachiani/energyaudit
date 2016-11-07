@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AuditTrail;
 use App\CustomerBill;
 use App\CustomerNote;
 use App\DistributionCompany;
@@ -41,7 +42,7 @@ class AdminController extends Controller
         $customerNotes = CustomerNote::all();
         $disco = DistributionCompany::all();
         return view('admin.dashboard')
-            ->with(compact('mdasUploaded','mdasCaptured','customerNotes','disco','mdaCapturedDistinct'));
+            ->with(compact('mdasUploaded', 'mdasCaptured', 'customerNotes', 'disco', 'mdaCapturedDistinct'));
     }
 
     public function viewUsers()
@@ -75,7 +76,8 @@ class AdminController extends Controller
     {
         return view('admin.uploadMdaCustomerNote');
     }
- public function uploadMDACustomerBill()
+
+    public function uploadMDACustomerBill()
     {
         return view('admin.uploadMdaCustomerBill');
     }
@@ -211,6 +213,7 @@ class AdminController extends Controller
             }
         }
     }
+
     public function saveMDACustomerBill(Request $request)
     {
 
@@ -273,6 +276,70 @@ class AdminController extends Controller
         }
     }
 
+    public function addRole(Request $request)
+    {
+        $id = $request['id'];
+        $role = $request['role'];
+        $actor = auth()->user();
+
+        $userRole = new UserRole();
+        $userRole->fill(['userId' => $id, 'roleId' => $role]);
+        $userRole->save();
+
+        $this->auditTrail($actor, AuditAction::$ASSIGN_ROLE, ['{UserName}', '{Role}'], [$actor->UserName, Role::find($role)->name]);
+        session()->flash('flash_message', 'Role Assigned Successfully');
+        return redirect()->back();
+
+
+    }
+
+    public function addRegion(Request $request)
+    {
+        $id = $request['id'];
+        $state = $request['State'];
+        $region = $request['Region'];
+
+        $regn = Region::find($region);
+        $actor = auth()->user();
+
+        $userRegion = new UserRegion();
+        $userRegion->fill(['user_id' => $id, 'region_id' => $region]);
+        $userRegion->save();
+
+        $this->auditTrail($actor, AuditAction::$ASSIGN_REGION, ['{UserName}', '{Region}'], [$actor->UserName, $regn->region_name]);
+        session()->flash('flash_message', 'Region Assigned Successfully');
+        return redirect()->back();
+
+
+    }
+
+    public function deleteRole($id)
+    {
+        $role = UserRole::find($id);
+
+        $role->delete();
+        $actor = auth()->user();
+
+        $this->auditTrail($actor, AuditAction::$REMOVE_USER_ROLE, ['{UserName}', '{Role}'], [$actor->UserName, $role->name]);
+        session()->flash('flash_message', 'Successful!');
+        return redirect()->back();
+
+
+    }
+
+    public function deleteRegion($id)
+    {
+        $region = UserRegion::find($id);
+
+        $region->delete();
+        $actor = auth()->user();
+
+        $this->auditTrail($actor, AuditAction::$DELETE_USER_REGION, ['{UserName}', '{Region}'], [$actor->UserName, $region->region_name]);
+        session()->flash('flash_message', 'Successful!');
+        return redirect()->back();
+
+
+    }
 
     public function reportInfo()
     {
