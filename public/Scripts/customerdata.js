@@ -30,19 +30,48 @@ function getCustomerNote() {
         url: url,
         dataType: 'json',
         beforeSend: function () {
-
+            $("#message").show();
         },
         success: function (data) {
+            $("#message").hide();
             console.log(data);
             if (data.length == 0) {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
                 for (var x = 0; x < data.length; x++) {
-                    table.row.add(["<a class='btn btn-primary' data-value='" + data[x].customer_note_id + "' href='/Customer/ViewBill/" + data[x].customer_note_id + "'>View Bills</a>", user_role == "Disco"?"":"<a class='btn btn-danger' data-value='" + data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" + data[x].customer_note_id + "'>Delete</a>", data[x].mda_name, data[x].government_level, data[x].parent_fed_minis_name, data[x].sector_name, data[x].site_address, addr, data[x].closet_landmark, data[x].village, data[x].town, data[x].city, data[x].lga_name, data[x].state_name, data[x].disco_name,
+                    var addr = data[x].site_latitude + ", " + data[x].site_longitude;
+                    table.row.add(["<a class='btn btn-primary' data-value='" +
+                    data[x].customer_note_id + "' href='/Customer/ViewBill/" +
+                    data[x].customer_note_id + "'>View Bills</a>",
+                     "<a class='btn btn-danger' data-value='" +
+                    data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
+                    data[x].customer_note_id + "'>Delete</a>",
+                        /*user_role == "Disco"?"":"<a class='btn btn-danger' data-value='" +
+                    data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
+                    data[x].customer_note_id + "'>Delete</a>",*/
+                        data[x].mda_name,
+                        data[x].government_level,
+                        data[x].parent_fed_minis_name,
+                        data[x].sector_name,
+                        data[x].site_address,
+                        addr,
+                        data[x].closet_landmark,
+                        data[x].village,
+                        data[x].town,
+                        data[x].city,
+                        data[x].lga_name,
+                        data[x].state_name,
+                        data[x].disco_name,
                         data[x].business_unit,
-                        data[x].disco_acct_number, data[x].customer_type,
-                        data[x].customer_class, data[x].meter_installed ? "Yes" : "No", data[x].meter_no, data[x].meter_type, data[x].meter_brand, data[x].meter_model
+                        data[x].disco_acct_number,
+                        data[x].customer_type,
+                        data[x].customer_class,
+                        data[x].meter_installed ? "Yes" : "No",
+                        data[x].meter_no,
+                        data[x].meter_type,
+                        data[x].meter_brand,
+                        data[x].meter_model
                     ]).draw();
                 }
 
@@ -67,7 +96,7 @@ function daterange() {
         //console.log("cool");
         limdate = 0;
         status1 = true;
-        $('#datatables-4').DataTable().clear().draw();
+        $('#datatables-3').DataTable().clear().draw();
         start_date = $("#datepick").val();
         end_date = $("#datepick2").val();
 
@@ -78,6 +107,7 @@ function daterange() {
         } else if (start_date > 0 && start_date > end_date) {
             $(".validatemessage").html('<div class="alert alert-dismissible alert-danger" id="erroralert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Oops!, Specify Correct Date Range </div>');
         } else {
+            $(".validatemessage").html('');
             filterByDate();
             //$("form").submit();
         }
@@ -87,7 +117,7 @@ function daterange() {
         e.returnValue = false;
         limdate = 0;
         status1 = true;
-        //$('#datatables-3').DataTable().clear().draw();
+        $('#datatables-3').DataTable().clear().draw();
         var startdate = $("#datepick").val();
         var enddate = $("#datepick2").val();
         start_date = startdate;
@@ -100,11 +130,15 @@ function daterange() {
         } else if (enddate > 0 && startdate > enddate) {
             $(".validatemessage").html('<div class="alert alert-dismissible alert-danger" id="erroralert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Oops!, Specify Correct Date Range </div>');
         } else {
+            $(".validatemessage").html('');
             //if(keypage)
-            //  filterByDate(startdate, enddate);
+            //filterByDate(startdate, enddate);
             //$("form").submit();
+            filterByDate()
         }
     });
+
+    //daterange();
 }
 
 function filterByDate() {

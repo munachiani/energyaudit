@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomerNote;
 use App\DistributionCompany;
 use App\EnergyAudit;
 use App\EnergyAuditData;
@@ -87,6 +88,96 @@ class BaseController extends Controller
             $data['num_of_years_at_location'] = $item->num_of_years_at_location;
             $data['contact_of_mda_head'] = $item->contact_of_mda_head;
             $data['telephone'] = $item->telephone;
+
+            $dataList[] = $data;
+        }
+
+        return json_encode($dataList);
+
+    }
+
+    public function getCustomerNote(Request $request)
+    {
+        /**
+         * var addr = data[x].site_latitude + ", " + data[x].site_longitude;
+         * table.row.add(["<a class='btn btn-primary' data-value='" +
+         * data[x].customer_note_id + "' href='/Customer/ViewBill/" +
+         * data[x].customer_note_id + "'>View Bills</a>", user_role == "Disco"?"":"<a class='btn btn-danger' data-value='" +
+         * data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
+         * data[x].customer_note_id + "'>Delete</a>",
+         * data[x].mda_name,
+         * data[x].government_level,
+         * data[x].parent_fed_minis_name,
+         * data[x].sector_name,
+         * data[x].site_address,
+         * addr,
+         * data[x].closet_landmark,
+         * data[x].village,
+         * data[x].town,
+         * data[x].city,
+         * data[x].lga_name,
+         * data[x].state_name,
+         * data[x].disco_name,
+         * data[x].business_unit,
+         * data[x].disco_acct_number,
+         * data[x].customer_type,
+         * data[x].customer_class,
+         * data[x].meter_installed ? "Yes" : "No",
+         * data[x].meter_no,
+         * data[x].meter_type,
+         * data[x].meter_brand,
+         * data[x].meter_model
+         * ]
+         */
+        if (!is_null($request['start_date']) && !is_null($request['end_date'])) {
+            $start = Carbon::parse($request['start_date'])->format('Y-m-d H:i:s');
+            $end = Carbon::parse($request['end_date'])->format('Y-m-d H:i:s');
+            $customer = CustomerNote::dateRange($start, $end);
+
+            //dd($customer);
+        } elseif (!is_null($request['state_name']) && !is_null($request['local_gov_name'])) {
+            //$start = Carbon::parse($request['start_date'])->format('Y-m-d H:i:s');
+            //$end = Carbon::parse($request['end_date'])->format('Y-m-d H:i:s');
+            $state = State::find($request['state_name'])->name;
+            $lga = Region::find($request['local_gov_name'])->region_name;
+//            $customer = EnergyAuditData::regionRange($start, $end,$state,$lga);
+            $customer = CustomerNote::regionRange($state, $lga);
+
+        } elseif (!is_null($request['disco_name'])) {
+            $disco = $request['disco_name'];
+            $customer = CustomerNote::discoFilter($disco);
+        } elseif (!is_null($request['parent_fed_name'])) {
+            $parent_fed_name = $request['parent_fed_name'];
+            $customer = CustomerNote::ministryFilter($parent_fed_name);
+        } else
+            $customer = CustomerNote::latest('id')->get();
+
+        $dataList = array();
+        foreach ($customer as $i => $item) {
+            $data['site_latitude'] = $item->site_latitude;
+            $data['site_longitude'] = $item->site_longitude;
+            $data['customer_note_id'] = $item->id;
+            $data['mda_name'] = $item->mda_name;
+            $data['government_level'] = $item->government_level;
+            $data['parent_fed_minis_name'] = $item->parent_fed_min_id;
+            $data['sector_name'] = $item->sector_id;
+            $data['site_address'] = $item->site_address;
+            $data['closet_landmark'] = $item->closet_landmark;
+            $data['village'] = $item->village;
+            $data['town'] = $item->town;
+            $data['city'] = $item->city;
+            $data['lga_name'] = $item->lga_id;
+            $data['state_name'] = $item->state_id;
+            $data['disco_name'] = $item->disco_id;
+            $data['business_unit'] = $item->business_unit;
+            $data['disco_acct_number'] = $item->disco_acct_number;
+            $data['customer_type'] = $item->customer_type;
+            $data['customer_class'] = $item->customer_class;
+            $data['meter_installed'] = $item->meter_installed=='METERED';
+            $data['meter_no'] = $item->meter_no;
+            $data['meter_type'] = $item->meter_type;
+            $data['meter_brand'] = $item->meter_brand;
+            $data['meter_model'] = $item->meter_model;
 
             $dataList[] = $data;
         }
