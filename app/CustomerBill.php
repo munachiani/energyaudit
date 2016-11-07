@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class CustomerBill extends Model
 {
@@ -21,4 +22,17 @@ class CustomerBill extends Model
         'invoice_amt',
         'invoice_bill_attachment',
     ];
+
+    public static function dateRange($start,$end){
+        $eg = DB::table('customer_bills')->whereBetween('updated_at', array($start, $end))->get();
+        return $eg === null ? '' : $eg;
+    }
+
+    public static function discoFilter($disco){
+        $eg = DB::table('customer_bills')
+            ->whereRaw('disco=?', array($disco))
+            ->get();
+        return $eg === null ? '' : $eg;
+    }
+
 }
