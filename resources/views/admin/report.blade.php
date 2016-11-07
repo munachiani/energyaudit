@@ -57,7 +57,7 @@
                                     <div class="col-md-3 form-group">
                                         <label for="LGA">LGA</label>
                                         <span id="message" class="pull-right">
-                                            <img style="float:right" src="{{url('userimages/1.gif')}}">Loading.Please Wait...</span>
+                                            <img style="float:right" src="{{url('userimages/default.gif')}}">Loading.Please Wait...</span>
                                         <select class="form-control" id="Region" name="Region" disabled>
                                             <option value="">Select LGA</option>
                                         </select>

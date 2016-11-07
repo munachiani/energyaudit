@@ -12,7 +12,7 @@
                     <header>
                         Manage User Roles
                         <small class="pull-right">
-                            <a href="/Users/Index">
+                            <a href="{{url('Users/Index')}}">
                                 <i class="fa fa-angle-double-left"></i>&nbsp; Back to Users
                             </a>
                         </small>

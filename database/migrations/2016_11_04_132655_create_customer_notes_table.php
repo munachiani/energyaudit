@@ -22,18 +22,18 @@ class CreateCustomerNotesTable extends Migration
             $table->string('site_longitude');
             $table->string('closet_landmark');
             $table->string('city');
-            $table->integer('sector_id');
-            $table->integer('lga_id'); //REFERS TO Region
-            $table->integer('state_id');
-            $table->integer('parent_fed_min_id');
-            $table->integer('disco_id');
+            $table->string('sector_id');
+            $table->string('lga_id'); //REFERS TO Region
+            $table->string('state_id');
+            $table->string('parent_fed_min_id');
+            $table->string('disco_id');
             $table->integer('business_unit_id');
             $table->string('disco_acct_number');
             $table->integer('customer_type_id');
             $table->string('business_unit');
             $table->string('customer_type');
             $table->string('customer_class');
-            $table->tinyInteger('meter_installed');
+            $table->string('meter_installed');
             $table->string('meter_no');
             $table->string('meter_type');
             $table->string('meter_brand');

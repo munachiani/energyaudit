@@ -2,14 +2,9 @@
 @section('contents')
     <section>
         <div class="section-body">
-
-
-
-
-
-
-
-            <div class="card">
+            <input type="hidden" id="stateRegionUrl" value="{{url('ReportInfo/GetRegionbyStateId')}}">
+            <input type="hidden" id="getCustomerNote" value="{{url('ReportInfo/getCustomerNote')}}">
+       <div class="card">
                 <div class="card-head card-head-sm style-custom">
                     <header>MDA Customer Data</header>
                 </div>
@@ -40,48 +35,15 @@
                                     <div class="col-md-3 form-group">
                                         <label for="State">State</label>
                                         <select class="form-control" id="State" name="State"><option value="">Select State</option>
-                                            <option value="Abia">Abia</option>
-                                            <option value="Adamawa">Adamawa</option>
-                                            <option value="Akwa-Ibom">Akwa-Ibom</option>
-                                            <option value="Anambra">Anambra</option>
-                                            <option value="Bauchi">Bauchi</option>
-                                            <option value="Bayelsa">Bayelsa</option>
-                                            <option value="Benue">Benue</option>
-                                            <option value="Borno">Borno</option>
-                                            <option value="Cross River">Cross River</option>
-                                            <option value="Delta">Delta</option>
-                                            <option value="Ebonyi">Ebonyi</option>
-                                            <option value="Edo">Edo</option>
-                                            <option value="Ekiti">Ekiti</option>
-                                            <option value="Enugu">Enugu</option>
-                                            <option value="FCT">FCT</option>
-                                            <option value="Gombe">Gombe</option>
-                                            <option value="IMO">IMO</option>
-                                            <option value="Jigawa">Jigawa</option>
-                                            <option value="Kaduna">Kaduna</option>
-                                            <option value="Kano">Kano</option>
-                                            <option value="Katsina">Katsina</option>
-                                            <option value="Kebbi">Kebbi</option>
-                                            <option value="Kogi">Kogi</option>
-                                            <option value="Kwara">Kwara</option>
-                                            <option value="Lagos">Lagos</option>
-                                            <option value="Nasarawa">Nasarawa</option>
-                                            <option value="Niger">Niger</option>
-                                            <option value="Ogun">Ogun</option>
-                                            <option value="Ondo">Ondo</option>
-                                            <option value="Osun">Osun</option>
-                                            <option value="Oyo">Oyo</option>
-                                            <option value="Plateau">Plateau</option>
-                                            <option value="Rivers">Rivers</option>
-                                            <option value="Sokoto">Sokoto</option>
-                                            <option value="Taraba">Taraba</option>
-                                            <option value="Yobe">Yobe</option>
-                                            <option value="Zamfara">Zamfara</option>
+                                            @foreach(\App\State::all() as $state)
+                                                <option value="{{$state->id}}">{{$state->name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-3 form-group">
                                         <label for="LGA">LGA</label>
-                                        <span id="message" class="pull-right"><img style="float:right" src="{{url('userimages/1.gif')}}"></span>
+                                        <span id="message" class="pull-right">
+                                            <img style="float:right" src="{{url('userimages/default.gif')}}">Loading.Please Wait...</span>
                                         <select class="form-control" id="Region" name="Region"><option value="">Select LGA</option>
                                         </select>
                                     </div>
@@ -91,47 +53,21 @@
                                     <div class="col-md-3 form-group">
                                         <label for="Distribution_Company">Distribution Company</label>
                                         <select class="form-control" id="Disco" name="Disco"><option value="">Select Disco</option>
-                                            <option value="Abuja Distribution">Abuja Distribution</option>
-                                            <option value="Benin Distribution">Benin Distribution</option>
-                                            <option value="Eko Distribution">Eko Distribution</option>
-                                            <option value="Enugu Distribution">Enugu Distribution</option>
-                                            <option value="Ibadan Distribution">Ibadan Distribution</option>
-                                            <option value="Ikeja Distribution">Ikeja Distribution</option>
-                                            <option value="Jos Distribution">Jos Distribution</option>
-                                            <option value="Kaduna Distribution">Kaduna Distribution</option>
-                                            <option value="Kano Distribution">Kano Distribution</option>
-                                            <option value="Port Harcourt Distribution">Port Harcourt Distribution</option>
-                                            <option value="Yola Distribution">Yola Distribution</option>
+                                            @foreach(\App\DistributionCompany::all() as $item)
+                                                <option value="{{$item->disco_name}}">
+                                                    {{$item->disco_name}}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-3 form-group">
                                         <label for="Ministry">Ministry</label>
                                         <select class="form-control" id="Minis" name="Minis"><option value="">Select Ministry</option>
-                                            <option value="Minister for Youth and Sports">Minister for Youth and Sports</option>
-                                            <option value="Minister of Agriculture">Minister of Agriculture</option>
-                                            <option value="Minister of Budget &amp; National Planning">Minister of Budget &amp; National Planning</option>
-                                            <option value="Minister of Communication">Minister of Communication</option>
-                                            <option value="Minister of Defence">Minister of Defence</option>
-                                            <option value="Minister of Education">Minister of Education</option>
-                                            <option value="Minister of Environment">Minister of Environment</option>
-                                            <option value="Minister of Federal Capital Territory">Minister of Federal Capital Territory</option>
-                                            <option value="Minister of Finance">Minister of Finance</option>
-                                            <option value="Minister of Foreign Affairs">Minister of Foreign Affairs</option>
-                                            <option value="Minister of Health">Minister of Health</option>
-                                            <option value="Minister of Information">Minister of Information</option>
-                                            <option value="Minister of Interior">Minister of Interior</option>
-                                            <option value="Minister of Justice &amp; Attorney-General">Minister of Justice &amp; Attorney-General</option>
-                                            <option value="Minister of Labour &amp; Employment">Minister of Labour &amp; Employment</option>
-                                            <option value="Minister of Niger Delta">Minister of Niger Delta</option>
-                                            <option value="Minister of Petroleum">Minister of Petroleum</option>
-                                            <option value="Minister of Power, Works and Housing">Minister of Power, Works and Housing</option>
-                                            <option value="Minister of Science and Technology">Minister of Science and Technology</option>
-                                            <option value="Minister of Solid Minerals">Minister of Solid Minerals</option>
-                                            <option value="Minister of State, Aviation">Minister of State, Aviation</option>
-                                            <option value="Minister of Trade, Investment &amp; Industry">Minister of Trade, Investment &amp; Industry</option>
-                                            <option value="Minister of Transportation">Minister of Transportation</option>
-                                            <option value="Minister of Water Resources">Minister of Water Resources</option>
-                                            <option value="Minister of Women Affairs">Minister of Women Affairs</option>
+                                            @foreach(\App\ParentFederalMinistry::all() as $item)
+                                                <option value="{{$item->parent_fed_ministry_name}}">
+                                                    {{$item->parent_fed_ministry_name}}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-2 form-group">
@@ -139,7 +75,7 @@
 
                                         <div class="info-box-report">
                                             <span class="info-box-report-icon"><i class="fa fa-file-excel-o ink-reaction"></i></span>
-                                            <a href="" id="test">
+                                            <a href="{{url('CustomerData/Exporttoexcel')}}" id="test">
                                                 <div class="info-box-report-content">
                                         <span class="info-box-report-text">
                                             Export To Excel
@@ -211,9 +147,6 @@
                                 </table>
                             </div>
 
-
-                            <div id="user_id" class="hidden">ca0bc69c-6df6-43ea-b2f5-b4ae3b01855b</div>
-                            <div id="user_role" class="hidden">Super Admin</div>
                             <script src="{{url('Scripts/customerdata.js')}}"></script>
 
 

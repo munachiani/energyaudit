@@ -59,6 +59,14 @@ Route::get('Users/ManageRole/{id}','AdminController@ManageRole');
 
 Route::get('ReportInfo/UploadSheet','AdminController@uploadMDAEnergyAuditData');
 Route::post('ReportInfo/UploadSheet','AdminController@saveMDAEnergyAuditData');
+
+Route::get('Customer/UploadCustomerNote','AdminController@uploadMDACustomerNote');
+Route::post('Customer/UploadCustomerNote','AdminController@saveMDACustomerNote');
+
+Route::get('Customer/UploadCustomerBill','AdminController@uploadMDACustomerBill');
+Route::post('Customer/UploadCustomerBill','AdminController@saveMDACustomerBill');
+
+
 Route::get('Users/ManageRole','AdminController@ManageRole');
 
 Route::post('Users/ChangeAvatar','AdminController@ChangeAvatar');

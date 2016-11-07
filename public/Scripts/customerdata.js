@@ -21,36 +21,24 @@ var par_name = "";
 var keypage = true;
 var dataexcel = [];
 var table = "";
-var user_role = document.getElementById('user_role').innerHTML;
+//var user_role = document.getElementById('user_role').innerHTML;
+//var user_id = document.getElementById('user_id').innerHTML;
 function getCustomerNote() {
-    var tokenz = localStorage.getItem("access_token");
-
-    var access_token = "bearer " + tokenz;
-    var user_id = document.getElementById('user_id').innerHTML;
-    //alert(access_token);
+    url = $("#getCustomerNote").val();
     $.ajax({
         type: 'GET',
-        url: location.origin + '/api/customersnotes?user_id=' + user_id + '&lim=' + val,
+        url: url,
         dataType: 'json',
-        headers: {
-            Authorization: access_token
-        },
         beforeSend: function () {
 
         },
         success: function (data) {
-
-
+            console.log(data);
             if (data.length == 0) {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                dataexcel = dataexcel.concat(data);
-                console.log(dataexcel);
-                //dataToExcel();
-                //console.log(data);
                 for (var x = 0; x < data.length; x++) {
-                    var addr = data[x].site_latitude + ", " + data[x].site_longitude;
                     table.row.add(["<a class='btn btn-primary' data-value='" + data[x].customer_note_id + "' href='/Customer/ViewBill/" + data[x].customer_note_id + "'>View Bills</a>", user_role == "Disco"?"":"<a class='btn btn-danger' data-value='" + data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" + data[x].customer_note_id + "'>Delete</a>", data[x].mda_name, data[x].government_level, data[x].parent_fed_minis_name, data[x].sector_name, data[x].site_address, addr, data[x].closet_landmark, data[x].village, data[x].town, data[x].city, data[x].lga_name, data[x].state_name, data[x].disco_name,
                         data[x].business_unit,
                         data[x].disco_acct_number, data[x].customer_type,
@@ -58,18 +46,15 @@ function getCustomerNote() {
                     ]).draw();
                 }
 
-                val += 80;
             }
         },
-        error: function () {
-
+        error: function (data) {
+            console.log(data)
         }
     }).done(function () {
 
         if (status === true) {
-            getCustomerNote();
-        } else {
-            dataToExcel();
+            getEneryAudit();
         }
 
     });
@@ -178,20 +163,21 @@ function filterByDate() {
 }
 
 
-
 function getRegion(selectedItem, ddlLgas) {
     var region = localStorage.getItem('region');
     var procemessage = "<option value=''>Please wait...</option>";
     $("#Region").html(procemessage).show();
+    url = $("#stateRegionUrl").val();
     $.ajax({
         cache: false,
         type: "GET",
-        url: "/ReportInfo/GetRegionbyStateId",
+        url: url,
         dataType: "json",
-        data: { "id": selectedItem },
+        data: {"id": selectedItem},
         beforeSend: function () {
 
             $("#message").show();
+            //alert(url);
             //ddlLgas.val("Select LGA");
         },
         success: function (data) {
@@ -214,11 +200,10 @@ function getRegion(selectedItem, ddlLgas) {
 
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            //alert('Failed to retrieve Local Governments.');
+            //alert('Failed to retrieve Local Governments. ' + thrownError );
         }
     });
 };
-
 
 function filterByRegion() {
     var tokenz = localStorage.getItem("access_token");
