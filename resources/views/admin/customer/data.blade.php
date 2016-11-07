@@ -92,7 +92,7 @@
                                 </div>
                             </form>
                             <div class="table-responsive">
-                                <table id="datatables-1" class="table table-banded table-hover">
+                                <table id="datatables-4" class="table table-banded table-hover">
                                     <thead>
                                     <tr>
                                         <th></th>
