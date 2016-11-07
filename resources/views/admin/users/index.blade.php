@@ -77,7 +77,7 @@
                                                 <a class="btn btn-xs btn-raised ink-reaction btn-default"
                                                    href="{{url('Users/Edit/'.$user->id)}}">Edit</a> &nbsp;|&nbsp;
                                                 <a class="btn btn-xs btn-raised ink-reaction btn-default"
-                                                   href="{{url('Users/Activate')}}">Deactivate</a>
+                                                   href="{{url('Users/Activate/'.$user->IsActive.'/'.$user->id)}}">{{$user->isActive()?'Active':'Deactivated'}}</a>
 
                                             </td>
                                         </tr>

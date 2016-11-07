@@ -51,7 +51,7 @@ Route::get('Customer/CustomerBilling','AdminController@customerBilling');
 /* route to map*/
 Route::get('Map/Index','AdminController@map');
 /* route to change password*/
-Route::get('Manage/ChangePassword','AdminController@changePassword');
+Route::get('Manage/ChangePassword/{id}','AdminController@changePassword');
 /* route to auditTrial*/
 Route::get('AuditTrail/Index','AdminController@audit');
 
@@ -62,6 +62,9 @@ Route::post('ReportInfo/UploadSheet','AdminController@saveMDAEnergyAuditData');
 Route::get('Users/ManageRole','AdminController@ManageRole');
 
 Route::post('Users/ChangeAvatar','AdminController@ChangeAvatar');
+Route::get('Users/Activate/{status}/{id}','AdminController@changeStatus');
+Route::get('admin/users/activate/{id}','AdminController@checkStatus');
 
-Route::post('Users/Profile/Edit/{id}','AdminController@updateProfile');
+Route::get('Users/Profile/Edit/{id}','AdminController@updateProfile');
+Route::post('User/UpdatePassword','AdminController@updatePassword');
 

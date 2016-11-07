@@ -19,7 +19,7 @@
                 <div class="card-body">
                     <div class="row">
                         <h4>
-                            Temitope Damilola Taiwo has been activated and an email has been sent to the user as notification.
+                            {{$user->getFullNameAttribute()}} has been {{$user->isActive()?'Activated':'Deactivated'}} and an email has been sent to the user as notification.
                         </h4>
                     </div>
                 </div>

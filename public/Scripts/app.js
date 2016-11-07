@@ -10,8 +10,8 @@ var App = {
         url: location.protocol + "//" + location.hostname + ":8089" + "/api/business",
         auth_url: location.origin + "/token",
         //auth_url: location.protocol + "//" + location.hostname + ":8089" + "/token",
-        path: location.origin + "/userimages/phone-marke.gif",
-        pathstate: location.origin + "/userimages/state2.png",
+        path: location.origin + "userimages/phone-marke.gif",
+        pathstate: location.origin + "userimages/state2.png",
         //path: location.protocol + "//" + location.hostname + ":8089" + "/userimages/phone-marker.png",
         kml: "http://code.caleb.com.ng/vgg/mastercard/nga.kml",
         limit: 0,
@@ -4508,7 +4508,7 @@ var App = {
                     "<p>Generator Running Hrs/Month: <b>" + data[i].generator_running + "</b></p>" +
                     "<p>Avg. Electricity Bill Per Month : <b>" + data[i].avg_electricity_bill_per_month + "</b></p>" +
                     "<p>Telephone : <b>" + data[i].telephone + "</b></p>" +
-                    "<p>Image : <img src='" + location.origin + "/userimages/" + data[i].image_path + "' alt='Building Image' width='100px' height='100px'></p>" +
+                    "<p>Image : <img src='" + location.origin + "userimages/" + data[i].image_path + "' alt='Building Image' width='100px' height='100px'></p>" +
                     "</div></div></div>";
 
                 position = {
