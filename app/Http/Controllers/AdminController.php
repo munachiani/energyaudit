@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\EnergyAuditData;
 use App\Region;
 use App\Role;
 use App\User;
@@ -13,7 +14,7 @@ use App\AuditAction;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Excel;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -67,14 +68,48 @@ class AdminController extends Controller
             $destinationPath = public_path('tempUploads/');
             $extension = $file->getClientOriginalExtension();
             if ($extension != 'xls' && $extension != 'xlsx')
-                return redirect()->back()->withErrors(['uploadError' => 'Invalid File Format']);
+                return redirect()->back()->withErrors(['uploadError' => 'Invalid File Format! Accepted File formats are [.xls and .xlsx Only. Please download sample below]']);
 
-            $filename = 'mda_' . '.' . $extension;
+            /*$filename = 'mda_' . '.' . $extension;
 
             if ($file->move($destinationPath, $filename)) {
                 session()->flash('flash_message', 'Data Uploaded.');
                 return redirect()->back();
 
+            }*/
+            else
+            {
+                try {
+                    Excel::selectSheetsByIndex(0)->load($file, function ($reader) {
+
+                        $cc=0;
+                        foreach ($reader->toArray() as $row) {
+                            $key = array_keys($row);
+
+                                $energyAudit= new EnergyAuditData();
+                                $energyAudit->state_id=$row[$key[1]];
+                                $energyAudit->local_gov_id=$row[$key[2]];
+                                $energyAudit->disco_id=$row[$key[3]];
+                                $energyAudit->address=$row[$key[5]];
+                                $energyAudit->mda_name=$row[$key[6]];
+                                $energyAudit->parent_fed_min_id=$row[$key[7]];
+                                $energyAudit->avg_electricity_bill_per_month=$row[$key[8]];
+                                $energyAudit->num_of_generators=$row[$key[9]];
+                                $energyAudit->generator_running=$row[$key[10]];
+                                $energyAudit->num_of_years_at_location=$row[$key[11]];
+                                $energyAudit->contact_of_mda_head=$row[$key[12]];
+                                $energyAudit->telephone=$row[$key[13]];
+
+                                $energyAudit->save();
+//                                dd($energyAudit);//->save();
+
+                        }
+                    });
+                    session()->flash('flash_message', 'Report uploaded successfully.');
+                    return redirect()->back();
+                } catch (\Exception $e) {
+                    return redirect()->back()->withErrors(['uploadError' => $e->getMessage()]);
+                }
             }
         }
     }

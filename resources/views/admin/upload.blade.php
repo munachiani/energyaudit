@@ -27,7 +27,11 @@
                                     {{ session('flash_message') }}
                                 </div>
                             @endif
-
+                                @if ($errors->has('uploadError'))
+                                    <div class="alert alert-callout alert-error">
+                                        {{ $errors->first('uploadError') }}
+                                    </div>
+                                @endif
 
                             <form action="{{url('ReportInfo/UploadSheet')}}" method="post" enctype="multipart/form-data">
                                 <input name="_token" type="hidden" value="{{csrf_token()}}"/>
@@ -36,9 +40,7 @@
 
                                         <label for="file">Upload excel file: (must be .xls or .xlsx)</label>
                                         <input type="file" name="file" accept=".xls, .xlsx" id="file" class="form-control" required />
-                                        @if ($errors->has('uploadError'))
-                                            <p class="help-block" style="color:red">{{ $errors->first('uploadError') }}</p>
-                                        @endif
+
                                     </div>
 
                                 </div>

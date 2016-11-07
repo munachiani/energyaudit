@@ -38,6 +38,9 @@ Route::get('logout','Auth\AuthController@logout');
 
 /* retrieve regions of a state*/
 Route::get('Users/GetRegionByStateId','BaseController@getRegions');
+Route::get('ReportInfo/GetRegionbyStateId','BaseController@getRegions');
+Route::get('ReportInfo/GetEnergyAudit','BaseController@getEnergyAudit');
+Route::get('ReportInfo/Exporttoexcel','BaseController@exportEnergyAudit');
 
 /* route to create user*/
 Route::get('ReportInfo/Energy','AdminController@reportInfo');

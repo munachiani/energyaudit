@@ -12,4 +12,11 @@ class DistributionCompany extends Model
         'disco_info',
         'coverage_area',
     ];
+
+
+    public function ScopeByName($query, $name){
+
+        return $query->where('disco_name', '=', $name)->first();
+
+    }
 }

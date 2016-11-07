@@ -2,11 +2,10 @@
 @section('contents')
     <section>
         <div class="section-body">
+            <input type="hidden" id="stateRegionUrl" value="{{url('ReportInfo/GetRegionbyStateId')}}">
+            <input type="hidden" id="getEneryAuditUrl" value="{{url('ReportInfo/GetEnergyAudit')}}">
 
-
-
-
-            <script src="/Scripts/energyaudit.js"></script>
+            {{ HTML::script("Scripts/energyaudit.js") }}
             <div class="card">
                 <div class="card-head card-head-sm style-custom">
                     <header>Audit Report</header>
@@ -20,8 +19,6 @@
                                     <div class="col-md-12">
 
 
-
-
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -32,64 +29,37 @@
                                             <!--<input type="text" class="form-control" placeholder="Start Date" name="start">-->
                                             <label for="Start_Date">Start Date</label>
 
-                                            <input class="form-control" id="datepick" name="datepick" placeholder="11/3/2016" type="date" value="11/3/2016" />
+                                            <input class="form-control" id="datepick" name="datepick"
+                                                   placeholder="11/3/2016" type="date" value="11/3/2016"/>
                                         </div>
                                         <span class="input-group-addon">to</span>
+
                                         <div class="input-group-content">
                                             <!--<input type="text" class="form-control" placeholder="End Date" name="end">-->
                                             <label for="End_Date">End Date</label>
 
-                                            <input class="form-control" id="datepick2" name="datepick2" placeholder="11/3/2016" type="date" value="11/3/2016" />
+                                            <input class="form-control" id="datepick2" name="datepick2"
+                                                   placeholder="11/3/2016" type="date" value="11/3/2016"/>
                                         </div>
 
                                     </div>
 
                                     <div class="col-md-3 form-group">
                                         <label for="State">State</label>
-                                        <select class="form-control" id="State" name="State"><option value="">Select State</option>
-                                            <option value="Abia">Abia</option>
-                                            <option value="Adamawa">Adamawa</option>
-                                            <option value="Akwa-Ibom">Akwa-Ibom</option>
-                                            <option value="Anambra">Anambra</option>
-                                            <option value="Bauchi">Bauchi</option>
-                                            <option value="Bayelsa">Bayelsa</option>
-                                            <option value="Benue">Benue</option>
-                                            <option value="Borno">Borno</option>
-                                            <option value="Cross River">Cross River</option>
-                                            <option value="Delta">Delta</option>
-                                            <option value="Ebonyi">Ebonyi</option>
-                                            <option value="Edo">Edo</option>
-                                            <option value="Ekiti">Ekiti</option>
-                                            <option value="Enugu">Enugu</option>
-                                            <option value="FCT">FCT</option>
-                                            <option value="Gombe">Gombe</option>
-                                            <option value="IMO">IMO</option>
-                                            <option value="Jigawa">Jigawa</option>
-                                            <option value="Kaduna">Kaduna</option>
-                                            <option value="Kano">Kano</option>
-                                            <option value="Katsina">Katsina</option>
-                                            <option value="Kebbi">Kebbi</option>
-                                            <option value="Kogi">Kogi</option>
-                                            <option value="Kwara">Kwara</option>
-                                            <option value="Lagos">Lagos</option>
-                                            <option value="Nasarawa">Nasarawa</option>
-                                            <option value="Niger">Niger</option>
-                                            <option value="Ogun">Ogun</option>
-                                            <option value="Ondo">Ondo</option>
-                                            <option value="Osun">Osun</option>
-                                            <option value="Oyo">Oyo</option>
-                                            <option value="Plateau">Plateau</option>
-                                            <option value="Rivers">Rivers</option>
-                                            <option value="Sokoto">Sokoto</option>
-                                            <option value="Taraba">Taraba</option>
-                                            <option value="Yobe">Yobe</option>
-                                            <option value="Zamfara">Zamfara</option>
+                                        <select class="form-control" id="State" name="State">
+                                            <option value="">Select State</option>
+                                            @foreach(\App\State::all() as $state)
+                                                <option value="{{$state->id}}">{{$state->name}}</option>
+                                            @endforeach
+
                                         </select>
                                     </div>
                                     <div class="col-md-3 form-group">
                                         <label for="LGA">LGA</label>
-                                        <span id="message" class="pull-right"><img style="float:right" src="{{url('userimages/1.gif')}}"></span>
-                                        <select class="form-control" id="Region" name="Region"><option value="">Select LGA</option>
+                                        <span id="message" class="pull-right">
+                                            <img style="float:right" src="{{url('userimages/1.gif')}}">Loading.Please Wait...</span>
+                                        <select class="form-control" id="Region" name="Region" disabled>
+                                            <option value="">Select LGA</option>
                                         </select>
                                     </div>
 
@@ -98,56 +68,34 @@
 
                                     <div class="col-md-3 form-group">
                                         <label for="Distribution_Company">Distribution Company</label>
-                                        <select class="form-control" id="Disco" name="Disco"><option value="">Select Disco</option>
-                                            <option value="Abuja Distribution">Abuja Distribution</option>
-                                            <option value="Benin Distribution">Benin Distribution</option>
-                                            <option value="Eko Distribution">Eko Distribution</option>
-                                            <option value="Enugu Distribution">Enugu Distribution</option>
-                                            <option value="Ibadan Distribution">Ibadan Distribution</option>
-                                            <option value="Ikeja Distribution">Ikeja Distribution</option>
-                                            <option value="Jos Distribution">Jos Distribution</option>
-                                            <option value="Kaduna Distribution">Kaduna Distribution</option>
-                                            <option value="Kano Distribution">Kano Distribution</option>
-                                            <option value="Port Harcourt Distribution">Port Harcourt Distribution</option>
-                                            <option value="Yola Distribution">Yola Distribution</option>
+                                        <select class="form-control" id="Disco" name="Disco">
+                                            <option value="">Select Disco</option>
+                                            @foreach(\App\DistributionCompany::all() as $item)
+                                                <option value="{{$item->disco_name}}">
+                                                    {{$item->disco_name}}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-3 form-group">
                                         <label for="Ministry">Ministry</label>
-                                        <select class="form-control" id="Minis" name="Minis"><option value="">Select Ministry</option>
-                                            <option value="Minister for Youth and Sports">Minister for Youth and Sports</option>
-                                            <option value="Minister of Agriculture">Minister of Agriculture</option>
-                                            <option value="Minister of Budget &amp; National Planning">Minister of Budget &amp; National Planning</option>
-                                            <option value="Minister of Communication">Minister of Communication</option>
-                                            <option value="Minister of Defence">Minister of Defence</option>
-                                            <option value="Minister of Education">Minister of Education</option>
-                                            <option value="Minister of Environment">Minister of Environment</option>
-                                            <option value="Minister of Federal Capital Territory">Minister of Federal Capital Territory</option>
-                                            <option value="Minister of Finance">Minister of Finance</option>
-                                            <option value="Minister of Foreign Affairs">Minister of Foreign Affairs</option>
-                                            <option value="Minister of Health">Minister of Health</option>
-                                            <option value="Minister of Information">Minister of Information</option>
-                                            <option value="Minister of Interior">Minister of Interior</option>
-                                            <option value="Minister of Justice &amp; Attorney-General">Minister of Justice &amp; Attorney-General</option>
-                                            <option value="Minister of Labour &amp; Employment">Minister of Labour &amp; Employment</option>
-                                            <option value="Minister of Niger Delta">Minister of Niger Delta</option>
-                                            <option value="Minister of Petroleum">Minister of Petroleum</option>
-                                            <option value="Minister of Power, Works and Housing">Minister of Power, Works and Housing</option>
-                                            <option value="Minister of Science and Technology">Minister of Science and Technology</option>
-                                            <option value="Minister of Solid Minerals">Minister of Solid Minerals</option>
-                                            <option value="Minister of State, Aviation">Minister of State, Aviation</option>
-                                            <option value="Minister of Trade, Investment &amp; Industry">Minister of Trade, Investment &amp; Industry</option>
-                                            <option value="Minister of Transportation">Minister of Transportation</option>
-                                            <option value="Minister of Water Resources">Minister of Water Resources</option>
-                                            <option value="Minister of Women Affairs">Minister of Women Affairs</option>
+                                        <select class="form-control" id="Minis" name="Minis">
+                                            <option value="">Select Ministry</option>
+                                            @foreach(\App\ParentFederalMinistry::all() as $item)
+                                                <option value="{{$item->parent_fed_ministry_name}}">
+                                                    {{$item->parent_fed_ministry_name}}
+                                                </option>
+                                            @endforeach
+
                                         </select>
                                     </div>
                                     <div class="col-md-2 form-group">
                                         <label class="block">&nbsp;</label>
 
                                         <div class="info-box-report">
-                                            <span class="info-box-report-icon"><i class="fa fa-file-excel-o ink-reaction"></i></span>
-                                            <a href="/ReportInfo/Exporttoexcel">
+                                            <span class="info-box-report-icon"><i
+                                                        class="fa fa-file-excel-o ink-reaction"></i></span>
+                                            <a href="{{url('ReportInfo/Exporttoexcel')}}">
                                                 <div class="info-box-report-content">
                                         <span class="info-box-report-text">
                                             Export To Excel
@@ -159,12 +107,13 @@
                                     </div>
                                     <div class="col-md-3 form-group">
                                         <label class="block">&nbsp;</label>
+
                                         <p class="btn btn-primary-dark" id="reloadenergy">Clear Filter</p>
                                     </div>
                                 </div>
                             </form>
                             <div class="table-responsive">
-                                <table id="datatables-1" class="table table-banded table-hover">
+                                <table id="datatables-3" class="table table-banded table-hover">
                                     <thead>
                                     <tr>
                                         <th>State</th>
@@ -181,7 +130,6 @@
                                         <th>Parent Federal Ministry</th>
 
 
-
                                         <th>Avg Electricity Bill (P/M)</th>
 
                                         <th>No of Generators</th>
@@ -189,20 +137,12 @@
                                         <th>Generator Running Hrs/Month</th>
 
 
-
                                         <th>No of Years at Location</th>
 
                                         <th>Contact Details of MDA Head</th>
 
 
-
                                         <th>Telephone</th>
-
-
-
-
-
-
 
 
                                         <!--<th>Comment</th>-->
@@ -222,8 +162,9 @@
                                 <div class="footer">
                                     <div class="container-fluid">
                                         <div class="row">
-                                            <img src="{{url('Content/img/FedRepNig.png')}}" class="footer-logo" />
+                                            <img src="{{url('Content/img/FedRepNig.png')}}" class="footer-logo"/>
                                             <br/>
+
                                             <p class="col-md-12">
                                         <span>
                                             &copy; Copyright 2016 - Advisory Power Team. All rights reserved.
