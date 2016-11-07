@@ -75,7 +75,7 @@
 
                                         <div class="info-box-report">
                                             <span class="info-box-report-icon"><i class="fa fa-file-excel-o ink-reaction"></i></span>
-                                            <a href="{{url('CustomerData/Exporttoexcel')}}" id="test">
+                                            <a href="{{url('CustomerData/ExportCustomerNote')}}" id="test">
                                                 <div class="info-box-report-content">
                                         <span class="info-box-report-text">
                                             Export To Excel

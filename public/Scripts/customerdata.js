@@ -96,7 +96,7 @@ function daterange() {
         //console.log("cool");
         limdate = 0;
         status1 = true;
-        $('#datatables-3').DataTable().clear().draw();
+        $('#datatables-4').DataTable().clear().draw();
         start_date = $("#datepick").val();
         end_date = $("#datepick2").val();
 
@@ -142,57 +142,69 @@ function daterange() {
 }
 
 function filterByDate() {
-    var tokenz = localStorage.getItem("access_token");
-
-    var access_token = "bearer " + tokenz;
-    //console.log(startdate);
-    //console.log(enddate);
+    url = $("#getCustomerNote").val();
     $.ajax({
         type: 'GET',
-        url: location.origin + '/api/customernoteinfo?start_date=' + start_date + "&end_date=" + end_date + "&lim=" + limdate,
+        url: url,
+        data: {start_date: start_date, end_date: end_date},
         dataType: 'json',
-        headers: {
-            Authorization: access_token
-        },
         beforeSend: function () {
-
+            $("#message").show();
         },
         success: function (data) {
+            $("#message").hide();
             console.log(data);
-            //var table = $('#datatables-4').DataTable({ "ordering": false });
-            //console.log(location.origin + '/api/customernoteinfo?start_date=' + start_date + "&end_date=" + end_date + "&lim=" + limdate);
             if (data.length == 0) {
-                status1 = false;
+                status = false;
             }
-            else if ((data !== undefined || data.length != 0) && status1) {
-                //console.log(data);
-                dataexcel = dataexcel.concat(data);
-                //dataToExcel();
+            else if ((data !== undefined || data.length != 0) && status) {
                 for (var x = 0; x < data.length; x++) {
                     var addr = data[x].site_latitude + ", " + data[x].site_longitude;
-                    table.row.add(["<a class='btn btn-primary' data-value='" + data[x].customer_note_id + "' href='/Customer/ViewBill/" + data[x].customer_note_id + "'>View Bills</a>", user_role == "Disco" ? "" : "<a class='btn btn-danger' data-value='" + data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" + data[x].customer_note_id + "'>Delete</a>", data[x].mda_name, data[x].government_level, data[x].parent_fed_minis_name, data[x].sector_name, data[x].site_address, addr, data[x].closet_landmark, data[x].village, data[x].town, data[x].city, data[x].lga_name, data[x].state_name, data[x].disco_name,
+                    table.row.add(["<a class='btn btn-primary' data-value='" +
+                    data[x].customer_note_id + "' href='/Customer/ViewBill/" +
+                    data[x].customer_note_id + "'>View Bills</a>",
+                        "<a class='btn btn-danger' data-value='" +
+                        data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
+                        data[x].customer_note_id + "'>Delete</a>",
+                        /*user_role == "Disco"?"":"<a class='btn btn-danger' data-value='" +
+                         data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
+                         data[x].customer_note_id + "'>Delete</a>",*/
+                        data[x].mda_name,
+                        data[x].government_level,
+                        data[x].parent_fed_minis_name,
+                        data[x].sector_name,
+                        data[x].site_address,
+                        addr,
+                        data[x].closet_landmark,
+                        data[x].village,
+                        data[x].town,
+                        data[x].city,
+                        data[x].lga_name,
+                        data[x].state_name,
+                        data[x].disco_name,
                         data[x].business_unit,
-                        data[x].disco_acct_number, data[x].customer_type,
-                        data[x].customer_class, data[x].meter_installed ? "Yes" : "No", data[x].meter_no, data[x].meter_type, data[x].meter_brand, data[x].meter_model
+                        data[x].disco_acct_number,
+                        data[x].customer_type,
+                        data[x].customer_class,
+                        data[x].meter_installed ? "Yes" : "No",
+                        data[x].meter_no,
+                        data[x].meter_type,
+                        data[x].meter_brand,
+                        data[x].meter_model
                     ]).draw();
-                    //alldata.push(dataa[x]);
                 }
-                console.log(data);
-                limdate += 150;
 
             }
-
         },
-        error: function () {
-
+        error: function (data) {
+            console.log(data)
         }
     }).done(function () {
-        if (status1 === true) {
-            filterByDate();
-        } else {
-            dataToExcel();
+
+        if (status === true) {
+            //getEneryAudit();
         }
-        keypage = false;
+
     });
 }
 
@@ -240,163 +252,202 @@ function getRegion(selectedItem, ddlLgas) {
 };
 
 function filterByRegion() {
-    var tokenz = localStorage.getItem("access_token");
-
-    var access_token = "bearer " + tokenz;
-
+    url = $("#getCustomerNote").val();
     $.ajax({
-        type: "GET",
-        url: location.origin + "/api/customernoteinfo?state_name=" + state_name + "&local_gov_name=" + loc_gov_name + "&distribution_company_name=" + disco_name + "&parent_fed_name=" + par_name + "&lim=" + limstate,
+        type: 'GET',
+        url: url,
+        data: {state_name: state_name, local_gov_name: loc_gov_name},
         dataType: 'json',
-        headers: {
-            Authorization: access_token
-        },
         beforeSend: function () {
-
+            $("#message").show();
         },
         success: function (data) {
-            console.log(status2);
-            //var table = $('#datatables-4').DataTable({ "ordering": false });
-
+            $("#message").hide();
+            console.log(data);
             if (data.length == 0) {
-                status2 = false;
+                status = false;
             }
-            else if ((data !== undefined || data.length != 0) && status2) {
-                //console.log(data);
-                dataexcel = dataexcel.concat(data);
-                //dataToExcel();
+            else if ((data !== undefined || data.length != 0) && status) {
                 for (var x = 0; x < data.length; x++) {
                     var addr = data[x].site_latitude + ", " + data[x].site_longitude;
-                    table.row.add(["<a class='btn btn-primary' data-value='" + data[x].customer_note_id + "' href='/Customer/ViewBill/" + data[x].customer_note_id + "'>View Bills</a>", user_role == "Disco" ? "" : "<a class='btn btn-danger' data-value='" + data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" + data[x].customer_note_id + "'>Delete</a>", data[x].mda_name, data[x].government_level, data[x].parent_fed_minis_name, data[x].sector_name, data[x].site_address, addr, data[x].closet_landmark, data[x].village, data[x].town, data[x].city, data[x].lga_name, data[x].state_name, data[x].disco_name,
+                    table.row.add(["<a class='btn btn-primary' data-value='" +
+                    data[x].customer_note_id + "' href='/Customer/ViewBill/" +
+                    data[x].customer_note_id + "'>View Bills</a>",
+                        "<a class='btn btn-danger' data-value='" +
+                        data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
+                        data[x].customer_note_id + "'>Delete</a>",
+                        /*user_role == "Disco"?"":"<a class='btn btn-danger' data-value='" +
+                         data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
+                         data[x].customer_note_id + "'>Delete</a>",*/
+                        data[x].mda_name,
+                        data[x].government_level,
+                        data[x].parent_fed_minis_name,
+                        data[x].sector_name,
+                        data[x].site_address,
+                        addr,
+                        data[x].closet_landmark,
+                        data[x].village,
+                        data[x].town,
+                        data[x].city,
+                        data[x].lga_name,
+                        data[x].state_name,
+                        data[x].disco_name,
                         data[x].business_unit,
-                        data[x].disco_acct_number, data[x].customer_type,
-                        data[x].customer_class, data[x].meter_installed ? "Yes" : "No", data[x].meter_no, data[x].meter_type, data[x].meter_brand, data[x].meter_model
+                        data[x].disco_acct_number,
+                        data[x].customer_type,
+                        data[x].customer_class,
+                        data[x].meter_installed ? "Yes" : "No",
+                        data[x].meter_no,
+                        data[x].meter_type,
+                        data[x].meter_brand,
+                        data[x].meter_model
                     ]).draw();
-                    //alldata.push(dataa[x]);
                 }
-                //console.log(data);
-                limstate += 150;
 
             }
-
         },
-        error: function () {
-
+        error: function (data) {
+            console.log(data)
         }
     }).done(function () {
-        if (status2 === true) {
-            filterByRegion();
-        } else {
-            dataToExcel();
+
+        if (status === true) {
+            //getEneryAudit();
         }
 
     });
 }
 
 function filterByMinistry() {
-    var tokenz = localStorage.getItem("access_token");
-
-    var access_token = "bearer " + tokenz;
-    //console.log(limparent);
+    url = $("#getCustomerNote").val();
     $.ajax({
-        type: "GET",
-        url: location.origin + "/api/customernoteinfo?state_name=" + state_name + "&local_gov_name=" + loc_gov_name + "&distribution_company_name=" + disco_name + "&parent_fed_name=" + par_name + "&lim=" + limparent,
+        type: 'GET',
+        url: url,
+        data: {parent_fed_name: par_name},
         dataType: 'json',
-        headers: {
-            Authorization: access_token
-        },
         beforeSend: function () {
-
+            $("#message").show();
         },
         success: function (data) {
-            //console.log(data);
-            //var table = $('#datatables-4').DataTable({ "ordering": false });
-
+            $("#message").hide();
+            console.log(data);
             if (data.length == 0) {
-                status5 = false;
+                status = false;
             }
-            else if ((data !== undefined || data.length != 0) && status5) {
-                dataexcel = dataexcel.concat(data);
-                //dataToExcel();
+            else if ((data !== undefined || data.length != 0) && status) {
                 for (var x = 0; x < data.length; x++) {
                     var addr = data[x].site_latitude + ", " + data[x].site_longitude;
-                    table.row.add(["<a class='btn btn-primary' data-value='" + data[x].customer_note_id + "' href='/Customer/ViewBill/" + data[x].customer_note_id + "'>View Bills</a>", user_role == "Disco" ? "" : "<a class='btn btn-danger' data-value='" + data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" + data[x].customer_note_id + "'>Delete</a>", data[x].mda_name, data[x].government_level, data[x].parent_fed_minis_name, data[x].sector_name, data[x].site_address, addr, data[x].closet_landmark, data[x].village, data[x].town, data[x].city, data[x].lga_name, data[x].state_name, data[x].disco_name,
+                    table.row.add(["<a class='btn btn-primary' data-value='" +
+                    data[x].customer_note_id + "' href='/Customer/ViewBill/" +
+                    data[x].customer_note_id + "'>View Bills</a>",
+                        "<a class='btn btn-danger' data-value='" +
+                        data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
+                        data[x].customer_note_id + "'>Delete</a>",
+                        /*user_role == "Disco"?"":"<a class='btn btn-danger' data-value='" +
+                         data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
+                         data[x].customer_note_id + "'>Delete</a>",*/
+                        data[x].mda_name,
+                        data[x].government_level,
+                        data[x].parent_fed_minis_name,
+                        data[x].sector_name,
+                        data[x].site_address,
+                        addr,
+                        data[x].closet_landmark,
+                        data[x].village,
+                        data[x].town,
+                        data[x].city,
+                        data[x].lga_name,
+                        data[x].state_name,
+                        data[x].disco_name,
                         data[x].business_unit,
-                        data[x].disco_acct_number, data[x].customer_type,
-                        data[x].customer_class, data[x].meter_installed ? "Yes" : "No", data[x].meter_no, data[x].meter_type, data[x].meter_brand, data[x].meter_model
+                        data[x].disco_acct_number,
+                        data[x].customer_type,
+                        data[x].customer_class,
+                        data[x].meter_installed ? "Yes" : "No",
+                        data[x].meter_no,
+                        data[x].meter_type,
+                        data[x].meter_brand,
+                        data[x].meter_model
                     ]).draw();
-                    //alldata.push(dataa[x]);
                 }
-                //console.log(data);
-                limparent += 150;
 
             }
-
         },
-        error: function () {
-
+        error: function (data) {
+            console.log(data)
         }
     }).done(function () {
-        if (status5 === true) {
-            filterByMinistry();
-        } else {
-            dataToExcel();
-        }
 
+        if (status === true) {
+            //getEneryAudit();
+        }
 
     });
 }
 
 function filterByDisco() {
-    var tokenz = localStorage.getItem("access_token");
-
-    var access_token = "bearer " + tokenz;
-    //console.log(limparent);
+    url = $("#getCustomerNote").val();
     $.ajax({
-        type: "GET",
-        url: location.origin + "/api/customernoteinfo?state_name=" + state_name + "&local_gov_name=" + loc_gov_name + "&distribution_company_name=" + disco_name + "&parent_fed_name=" + par_name + "&lim=" + limdisco,
+        type: 'GET',
+        url: url,
+        data: {disco_name: disco_name},
         dataType: 'json',
-        headers: {
-            Authorization: access_token
-        },
         beforeSend: function () {
-
+            $("#message").show();
         },
         success: function (data) {
-            //console.log(data);
-            //var table = $('#datatables-4').DataTable({ "ordering": false });
-
+            $("#message").hide();
+            console.log(data);
             if (data.length == 0) {
-                status4 = false;
+                status = false;
             }
-            else if ((data !== undefined || data.length != 0) && status5) {
-                dataexcel = dataexcel.concat(data);
-                //dataToExcel();
+            else if ((data !== undefined || data.length != 0) && status) {
                 for (var x = 0; x < data.length; x++) {
                     var addr = data[x].site_latitude + ", " + data[x].site_longitude;
-                    table.row.add(["<a class='btn btn-primary' data-value='" + data[x].customer_note_id + "' href='/Customer/ViewBill/" + data[x].customer_note_id + "'>View Bills</a>", user_role == "Disco" ? "" : "<a class='btn btn-danger' data-value='" + data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" + data[x].customer_note_id + "'>Delete</a>", data[x].mda_name, data[x].government_level, data[x].parent_fed_minis_name, data[x].sector_name, data[x].site_address, addr, data[x].closet_landmark, data[x].village, data[x].town, data[x].city, data[x].lga_name, data[x].state_name, data[x].disco_name,
+                    table.row.add(["<a class='btn btn-primary' data-value='" +
+                    data[x].customer_note_id + "' href='/Customer/ViewBill/" +
+                    data[x].customer_note_id + "'>View Bills</a>",
+                        "<a class='btn btn-danger' data-value='" +
+                        data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
+                        data[x].customer_note_id + "'>Delete</a>",
+                        /*user_role == "Disco"?"":"<a class='btn btn-danger' data-value='" +
+                         data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
+                         data[x].customer_note_id + "'>Delete</a>",*/
+                        data[x].mda_name,
+                        data[x].government_level,
+                        data[x].parent_fed_minis_name,
+                        data[x].sector_name,
+                        data[x].site_address,
+                        addr,
+                        data[x].closet_landmark,
+                        data[x].village,
+                        data[x].town,
+                        data[x].city,
+                        data[x].lga_name,
+                        data[x].state_name,
+                        data[x].disco_name,
                         data[x].business_unit,
-                        data[x].disco_acct_number, data[x].customer_type,
-                        data[x].customer_class, data[x].meter_installed ? "Yes" : "No", data[x].meter_no, data[x].meter_type, data[x].meter_brand, data[x].meter_model
+                        data[x].disco_acct_number,
+                        data[x].customer_type,
+                        data[x].customer_class,
+                        data[x].meter_installed ? "Yes" : "No",
+                        data[x].meter_no,
+                        data[x].meter_type,
+                        data[x].meter_brand,
+                        data[x].meter_model
                     ]).draw();
-                    //alldata.push(dataa[x]);
                 }
-                //console.log(data);
-                limdisco += 150;
 
             }
-
         },
-        error: function () {
-
+        error: function (data) {
+            console.log(data)
         }
     }).done(function () {
-        if (status4 === true) {
-            filterByDisco();
-        } else {
-            dataToExcel();
-        }
 
+        if (status === true) {
+            //getEneryAudit();
+        }
 
     });
 }

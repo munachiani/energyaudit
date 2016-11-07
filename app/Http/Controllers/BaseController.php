@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomerBill;
 use App\CustomerNote;
 use App\DistributionCompany;
 use App\EnergyAudit;
@@ -173,7 +174,7 @@ class BaseController extends Controller
             $data['disco_acct_number'] = $item->disco_acct_number;
             $data['customer_type'] = $item->customer_type;
             $data['customer_class'] = $item->customer_class;
-            $data['meter_installed'] = $item->meter_installed=='METERED';
+            $data['meter_installed'] = $item->meter_installed == 'METERED';
             $data['meter_no'] = $item->meter_no;
             $data['meter_type'] = $item->meter_type;
             $data['meter_brand'] = $item->meter_brand;
@@ -186,6 +187,80 @@ class BaseController extends Controller
 
     }
 
+    public function getCustomerBill(Request $request)
+    {
+        /**
+         * table.row.add(["<a class='btn btn-danger' data-value='" +
+         * data[x].customer_bill_id +
+         * "' href='/Customer/DeleteCustomerBill/" +
+         * data[x].customer_bill_id +
+         * "'>Delete</a>",
+         * data[x].mda_name,
+         * data[x].disco_name,
+         * data[x].disco_acct_number,
+         * data[x].acct_month,
+         * data[x].invoice_number,
+         * data[x].monthly_energy_consumptn,
+         * data[x].actual_estimated_billing,
+         * data[x].meter_reading,
+         * data[x].tariff_rate,
+         * data[x].fixed_charge,
+         * data[x].invoice_amt
+         * ]
+         */
+        if (!is_null($request['start_date']) && !is_null($request['end_date'])) {
+            $start = Carbon::parse($request['start_date'])->format('Y-m-d H:i:s');
+            $end = Carbon::parse($request['end_date'])->format('Y-m-d H:i:s');
+            $bill = CustomerBill::dateRange($start, $end);
+
+            //dd($bill);
+        } elseif (!is_null($request['disco_name'])) {
+            $disco = $request['disco_name'];
+            $bill = CustomerBill::discoFilter($disco);
+        }
+        /*elseif (!is_null($request['state_name']) && !is_null($request['local_gov_name'])) {
+            //$start = Carbon::parse($request['start_date'])->format('Y-m-d H:i:s');
+            //$end = Carbon::parse($request['end_date'])->format('Y-m-d H:i:s');
+            $state = State::find($request['state_name'])->name;
+            $lga = Region::find($request['local_gov_name'])->region_name;
+//            $bill = EnergyAuditData::regionRange($start, $end,$state,$lga);
+            $bill = CustomerNote::regionRange($state, $lga);
+
+        } elseif (!is_null($request['parent_fed_name'])) {
+            $parent_fed_name = $request['parent_fed_name'];
+            $bill = CustomerNote::ministryFilter($parent_fed_name);
+        } */
+        else
+            $bill = CustomerBill::latest('id')->get();
+
+        $dataList = array();
+        foreach ($bill as $i => $item) {
+            $data['customer_bill_id'] = $item->id;
+            $data['mda_name'] = $item->mda_name;
+            $data['disco_name'] = $item->disco;
+            $data['disco_acct_number'] = $item->disco_account_number;
+            $data['acct_month'] = $item->account_month;
+            $data['invoice_number'] = $item->invoice_number;
+            $data['monthly_energy_consumptn'] = $item->monthly_energy_consumption;
+            $data['actual_estimated_billing'] = $item->actual_estimated_billing;
+            $data['meter_reading'] = $item->meter_reading;
+            $data['tariff_rate'] = $item->tariff_rate;
+            $data['fixed_charge'] = $item->fixed_charge;
+            $data['invoice_amt'] = $item->invoice_amt;
+
+            $dataList[] = $data;
+        }
+
+        return json_encode($dataList);
+
+    }
+    public function deleteCustomerBill($id)
+    {
+
+        return CustomerBill::find($id)->delete();
+
+    }
+
     public function exportEnergyAudit()
     {
         Excel::create('MDA_EnergyAudit', function ($excel) {
@@ -195,9 +270,9 @@ class BaseController extends Controller
                 // first row styling and writing content
                 $sheet->mergeCells('A1:M1');
                 $sheet->setAllBorders('thin');
-                $sheet->freezeFirstRow();
+//                $sheet->freezeFirstRow();
                 // Auto filter for entire sheet
-                $sheet->setAutoFilter();
+//                $sheet->setAutoFilter();
                 $sheet->row(1, function ($row) {
                     $row->setFontFamily('Calibri');
                     $row->setFontSize(20);
@@ -257,6 +332,90 @@ class BaseController extends Controller
             });
 
         })->export('xls');
+    }
+
+    public function exportCustomerNote()
+    {
+        Excel::create('MDA_CustomerData', function ($excel) {
+
+            $excel->sheet('CustomerData', function ($sheet) {
+
+                // first row styling and writing content
+                $sheet->mergeCells('A1:W1');
+                $sheet->setAllBorders('thin');
+//                $sheet->freezeFirstRow();
+                // Auto filter for entire sheet
+//                $sheet->setAutoFilter();
+                $sheet->row(1, function ($row) {
+                    $row->setFontFamily('Calibri');
+                    $row->setFontSize(20);
+                });
+
+                $sheet->row(1, array('MDA CUSTOMER PROFILE DATA'));
+
+                // second row styling and writing content
+                $sheet->row(2, function ($row) {
+
+                    // call cell manipulation methods
+                    $row->setFontSize(12);
+                    $row->setFontWeight('bold');
+                    $row->setFontFamily('Calibri');
+                    $row->setFontColor('#ff0000');
+                });
+
+                $sheet->row(2, array(
+                    'SN', 'MDA name', 'Government Level', 'Parent Ministry ', 'Sector ', 'Site Address', 'Site Address Coordinates (Longitude/Latitude)',
+                    'Closest Landmark', 'Village ', 'Town ', 'City ', 'State', 'LGA', 'DisCo', 'Business Unit ', 'Disco Account Number ', 'Customer Type',
+                    'Customer Tariff Class', 'Meter Installed ', 'Meter No', 'Meter Type', 'Meter Brand', 'Meter Model'
+
+                ));
+
+                // getting data to display - in my case only one record
+                $customers = CustomerNote::all();
+
+                // setting column names for data - you can of course set it manually
+                //$sheet->appendRow(array_keys($users[0])); // column names
+
+                // getting last row number (the one we already filled and setting it to bold
+                $sheet->row($sheet->getHighestRow(), function ($row) {
+                    $row->setFontWeight('bold');
+                });
+
+                // putting users data as next rows
+                $i = 3;
+                $sn = 1;
+                foreach ($customers as $customer) {
+                    $sheet->row($i, array(
+                        $sn++,
+                        $customer->mda_name,
+                        $customer->government_level,
+                        $customer->parent_fed_min_id,
+                        $customer->sector_id,
+                        $customer->site_address,
+                        $customer->site_latitude . '/' . $customer->site_longitude,
+                        $customer->closet_landmark,
+                        $customer->village,
+                        $customer->town,
+                        $customer->city,
+                        $customer->state_id,
+                        $customer->lga_id,
+                        $customer->disco_id,
+                        $customer->business_unit,
+                        $customer->disco_acct_number,
+                        $customer->customer_type,
+                        $customer->customer_class,
+                        $customer->meter_installed,
+                        $customer->meter_no,
+                        $customer->meter_type,
+                        $customer->meter_brand,
+                        $customer->meter_model,
+                    ));
+                    $i++;
+
+                }
+            });
+
+        })->export('xlsx');
     }
 
     public function showLogin()
