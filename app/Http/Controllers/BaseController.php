@@ -173,7 +173,7 @@ class BaseController extends Controller
             $data['disco_acct_number'] = $item->disco_acct_number;
             $data['customer_type'] = $item->customer_type;
             $data['customer_class'] = $item->customer_class;
-            $data['meter_installed'] = $item->meter_installed=='METERED';
+            $data['meter_installed'] = $item->meter_installed == 'METERED';
             $data['meter_no'] = $item->meter_no;
             $data['meter_type'] = $item->meter_type;
             $data['meter_brand'] = $item->meter_brand;
@@ -195,9 +195,9 @@ class BaseController extends Controller
                 // first row styling and writing content
                 $sheet->mergeCells('A1:M1');
                 $sheet->setAllBorders('thin');
-                $sheet->freezeFirstRow();
+//                $sheet->freezeFirstRow();
                 // Auto filter for entire sheet
-                $sheet->setAutoFilter();
+//                $sheet->setAutoFilter();
                 $sheet->row(1, function ($row) {
                     $row->setFontFamily('Calibri');
                     $row->setFontSize(20);
@@ -257,6 +257,90 @@ class BaseController extends Controller
             });
 
         })->export('xls');
+    }
+
+    public function exportCustomerNote()
+    {
+        Excel::create('MDA_CustomerData', function ($excel) {
+
+            $excel->sheet('CustomerData', function ($sheet) {
+
+                // first row styling and writing content
+                $sheet->mergeCells('A1:W1');
+                $sheet->setAllBorders('thin');
+//                $sheet->freezeFirstRow();
+                // Auto filter for entire sheet
+//                $sheet->setAutoFilter();
+                $sheet->row(1, function ($row) {
+                    $row->setFontFamily('Calibri');
+                    $row->setFontSize(20);
+                });
+
+                $sheet->row(1, array('MDA CUSTOMER PROFILE DATA'));
+
+                // second row styling and writing content
+                $sheet->row(2, function ($row) {
+
+                    // call cell manipulation methods
+                    $row->setFontSize(12);
+                    $row->setFontWeight('bold');
+                    $row->setFontFamily('Calibri');
+                    $row->setFontColor('#ff0000');
+                });
+
+                $sheet->row(2, array(
+                    'SN','MDA name','Government Level','Parent Ministry ','Sector ','Site Address','Site Address Coordinates (Longitude/Latitude)',
+                    'Closest Landmark','Village ','Town ','City ','State','LGA','DisCo','Business Unit ','Disco Account Number ','Customer Type',
+                    'Customer Tariff Class','Meter Installed ','Meter No','Meter Type','Meter Brand','Meter Model'
+
+                ));
+
+                // getting data to display - in my case only one record
+                $customers = CustomerNote::all();
+
+                // setting column names for data - you can of course set it manually
+                //$sheet->appendRow(array_keys($users[0])); // column names
+
+                // getting last row number (the one we already filled and setting it to bold
+                $sheet->row($sheet->getHighestRow(), function ($row) {
+                    $row->setFontWeight('bold');
+                });
+
+                // putting users data as next rows
+                $i = 3;
+                $sn = 1;
+                foreach ($customers as $customer) {
+                    $sheet->row($i, array(
+                        $sn++,
+                        $customer->mda_name,
+                        $customer->government_level,
+                        $customer->parent_fed_min_id,
+                        $customer->sector_id,
+                        $customer->site_address,
+                        $customer->site_latitude.'/'.$customer->site_longitude,
+                        $customer->closet_landmark,
+                        $customer->village,
+                        $customer->town,
+                        $customer->city,
+                        $customer->state_id,
+                        $customer->lga_id,
+                        $customer->disco_id,
+                        $customer->business_unit,
+                        $customer->disco_acct_number,
+                        $customer->customer_type,
+                        $customer->customer_class,
+                        $customer->meter_installed,
+                        $customer->meter_no,
+                        $customer->meter_type,
+                        $customer->meter_brand,
+                        $customer->meter_model,
+                    ));
+                    $i++;
+
+                }
+            });
+
+        })->export('xlsx');
     }
 
     public function showLogin()

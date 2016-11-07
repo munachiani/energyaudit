@@ -45,7 +45,7 @@ Route::get('ReportInfo/GetEnergyAudit','BaseController@getEnergyAudit');
 Route::get('ReportInfo/Exporttoexcel','BaseController@exportEnergyAudit');
 
 Route::get('ReportInfo/getCustomerNote','BaseController@getCustomerNote');
-Route::get('ReportInfo/ExportCustomerNote','BaseController@exportCustomerNote');
+Route::get('CustomerData/ExportCustomerNote','BaseController@exportCustomerNote');
 
 /* route to create user*/
 Route::get('ReportInfo/Energy','AdminController@reportInfo');
