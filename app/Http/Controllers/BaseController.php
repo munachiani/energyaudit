@@ -493,6 +493,9 @@ class BaseController extends Controller
 
     public function showLogin()
     {
+        $user=auth()->user();
+        if(!is_null($user))
+            return redirect('dashboard');
         return view('admin.login');
     }
 
