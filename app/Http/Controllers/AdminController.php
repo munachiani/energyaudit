@@ -565,6 +565,7 @@ class AdminController extends Controller
             $user->Address = $address;
             $user->UserName = $Email;
             $user->IsActive = 1;
+            $user->EmailConfirmed = 1;
             $user->password = bcrypt($password);
 
             $user->save();
