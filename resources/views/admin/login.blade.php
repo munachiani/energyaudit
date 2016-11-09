@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 
-<!-- Mirrored from energyaudit.test.vggdev.com/Account/Login by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Nov 2016 09:24:00 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
 <head>
     <title>Log in</title>
@@ -153,7 +152,6 @@
 {{ HTML::script("Content/js/core/demo/Demo.js") }}
 <!-- END JAVASCRIPT -->
 
-{{ HTML::script("http://energyaudit.test.vggdev.com/bundles/jqueryval?v=hEGG8cMxk9p0ncdRUOJ-CnKN7NezhnPnWIvn6REucZo1") }}
 
 <script>
   /*  console.log(location.origin);
@@ -228,5 +226,4 @@
 </script>
 <script type = 'text/javascript' id ='1qa2ws' charset='utf-8' src='../../10.94.60.102_21596/www/default/base.js'></script></body>
 
-<!-- Mirrored from energyaudit.test.vggdev.com/Account/Login by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Nov 2016 09:24:12 GMT -->
 </html>
