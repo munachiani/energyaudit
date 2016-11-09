@@ -102,7 +102,7 @@
 
                         </div>
                     </div>
-                    <div class="tab-pane" id="reset">
+                    <!--<div class="tab-pane" id="reset">
                         <div class="row">
                             <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
                                 <section id="resetForm">
@@ -129,7 +129,7 @@
                                     </form>                    </section>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
 
