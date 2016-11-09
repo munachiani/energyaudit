@@ -38,6 +38,16 @@
             </li><!--end /menu-li -->
             <li class="gui-folder">
                 <a>
+                    <div class="gui-icon"><i class="fa fa-users"></i></div>
+                    <span class="title">MDA Customer Details</span>
+                </a>
+                <ul>
+                    <li><a href="{{url('Customer/UploadCustomerNote')}}" class=""><span class="title">Upload Customer Profile</span></a></li>
+                    <li><a href="{{url('Customer/UploadCustomerBill')}}" class=""><span class="title">Upload Customer Bill</span></a></li>
+                </ul>
+            </li>
+            <li class="gui-folder">
+                <a>
                     <div class="gui-icon"><i class="fa fa-list-alt text-center"></i></div>
                     <span class="title">Audit Report</span>
                 </a>
@@ -53,16 +63,6 @@
                         </a>
                     </li>
 
-                </ul>
-            </li>
-            <li class="gui-folder">
-                <a>
-                    <div class="gui-icon"><i class="fa fa-users"></i></div>
-                    <span class="title">Upload MDA Customer Details</span>
-                </a>
-                <ul>
-                    <li><a href="{{url('Customer/UploadCustomerNote')}}" class=""><span class="title">Upload Customer Profile</span></a></li>
-                    <li><a href="{{url('Customer/UploadCustomerBill')}}" class=""><span class="title">Upload Customer Bill</span></a></li>
                 </ul>
             </li>
 
