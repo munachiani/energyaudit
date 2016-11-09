@@ -106,7 +106,7 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
                                 <section id="resetForm">
-                                    <form action="http://energyaudit.test.vggdev.com/Account/ForgotPassword" class="" method="post" role="form"><input name="__RequestVerificationToken" type="hidden" value="_csX_SwEJSPu8sXNo3RQxsMLDmeH9sHMeqrSCWL0sEKWQxWqK9xVB_TO7tUyW-PXC5-ww4iiAqaKAOg6cWeaszAgG6SR8FPtdOb7YZtkFfk1">
+                                    <form action="#" class="" method="post" role="form"><input name="__RequestVerificationToken" type="hidden" value="_csX_SwEJSPu8sXNo3RQxsMLDmeH9sHMeqrSCWL0sEKWQxWqK9xVB_TO7tUyW-PXC5-ww4iiAqaKAOg6cWeaszAgG6SR8FPtdOb7YZtkFfk1">
                                         <div class="row">
                                             <div class="form-group col-md-12">
                                                 <div style="position:relative" class="form-group">
