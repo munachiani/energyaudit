@@ -51,7 +51,7 @@
                                     </div>
                                 </div>
                             </form>
-                            <span class="alert alert-info">Please note that the excel sheet to be uploaded should be in the same format as the approved template. <a href="{{url('userimages/MDA_Debt_Sample.xlsx')}}" class="btn btn-danger">Click here</a> to download a template of the approved format</span>
+                            <span class="alert alert-info" style="display: none;>Please note that the excel sheet to be uploaded should be in the same format as the approved template. <a href="{{url('userimages/MDA_Debt_Sample.xlsx')}}" class="btn btn-danger">Click here</a> to download a template of the approved format</span>
                         </div>
                     </div>
                 </div>

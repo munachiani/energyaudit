@@ -55,7 +55,7 @@
                                         <div class="info-box-report">
                                             <span class="info-box-report-icon"><i
                                                         class="fa fa-file-excel-o ink-reaction"></i></span>
-                                            <a href="" id="test">
+                                            <a href="{{url('CustomerData/ExportCustomerBill')}}" id="test">
                                                 <div class="info-box-report-content">
                                         <span class="info-box-report-text">
                                             Export To Excel
@@ -67,7 +67,7 @@
 
                                     <div class="col-md-2 form-group">
                                         <label class="block">&nbsp;</label>
-                                        <p class="btn btn-primary-dark" id="reloadenergy">Clear Filter</p>
+                                        <p class="btn btn-primary-dark" id="reloadBill">Clear Filter</p>
                                         <span id="message" class="pull-right">
                                             <img src="{{url('userimages/default.gif')}}"></span>
                                     </div>

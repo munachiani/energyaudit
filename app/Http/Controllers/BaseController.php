@@ -217,8 +217,7 @@ class BaseController extends Controller
         } elseif (!is_null($request['disco_name'])) {
             $disco = $request['disco_name'];
             $bill = CustomerBill::discoFilter($disco);
-        }
-        /*elseif (!is_null($request['state_name']) && !is_null($request['local_gov_name'])) {
+        } /*elseif (!is_null($request['state_name']) && !is_null($request['local_gov_name'])) {
             //$start = Carbon::parse($request['start_date'])->format('Y-m-d H:i:s');
             //$end = Carbon::parse($request['end_date'])->format('Y-m-d H:i:s');
             $state = State::find($request['state_name'])->name;
@@ -254,6 +253,7 @@ class BaseController extends Controller
         return json_encode($dataList);
 
     }
+
     public function deleteCustomerBill($id)
     {
 
@@ -336,7 +336,7 @@ class BaseController extends Controller
 
     public function exportCustomerNote()
     {
-        Excel::create('MDA_CustomerData', function ($excel) {
+        Excel::create('MDA_Customer_Data', function ($excel) {
 
             $excel->sheet('CustomerData', function ($sheet) {
 
@@ -418,8 +418,84 @@ class BaseController extends Controller
         })->export('xlsx');
     }
 
+    public function exportCustomerBill()
+    {
+        Excel::create('MDA_Customer_Bill', function ($excel) {
+
+            $excel->sheet('CustomerBill', function ($sheet) {
+
+                // first row styling and writing content
+                $sheet->mergeCells('A1:M1');
+                $sheet->setAllBorders('thin');
+//                $sheet->freezeFirstRow();
+                // Auto filter for entire sheet
+//                $sheet->setAutoFilter();
+                $sheet->row(1, function ($row) {
+                    $row->setFontFamily('Calibri');
+                    $row->setFontSize(20);
+                });
+
+                $sheet->row(1, array('MDA CUSTOMER PROFILE DATA'));
+
+                // second row styling and writing content
+                $sheet->row(2, function ($row) {
+
+                    // call cell manipulation methods
+                    $row->setFontSize(12);
+                    $row->setFontWeight('bold');
+                    $row->setFontFamily('Calibri');
+                    $row->setFontColor('#ff0000');
+                });
+
+                $sheet->row(2, array(
+                    'SN','MDA Name','DisCo','Disco Account Number ','Invoice Date', 'Account Month',
+                    'Invoice number ','Monthly Energy Consumption (kWH)','Meter Reading (kWH)','Actual or Estimated Billing',
+                    'Tariff Rate (NGN/KwH)','Fixed Charge','Invoice Amount (NGN)'
+                ));
+
+                // getting data to display - in my case only one record
+                $customers = CustomerBill::all();
+
+                // setting column names for data - you can of course set it manually
+                //$sheet->appendRow(array_keys($users[0])); // column names
+
+                // getting last row number (the one we already filled and setting it to bold
+                $sheet->row($sheet->getHighestRow(), function ($row) {
+                    $row->setFontWeight('bold');
+                });
+
+                // putting users data as next rows
+                $i = 3;
+                $sn = 1;
+                foreach ($customers as $customer) {
+                    $sheet->row($i, array(
+                        $sn++,
+                        $customer->mda_name,
+                        $customer->disco,
+                        $customer->disco_account_number,
+                        $customer->invoice_date,
+                        $customer->account_month,
+                        '00'.$customer->invoice_number,
+                        $customer->monthly_energy_consumption,
+                        $customer->meter_reading,
+                        $customer->actual_estimated_billing,
+                        $customer->tariff_rate,
+                        ($customer->fixed_charge>0?$customer->fixed_charge:'NIL'),
+                        $customer->invoice_amt,
+                    ));
+                    $i++;
+
+                }
+            });
+
+        })->export('xlsx');
+    }
+
     public function showLogin()
     {
+        $user=auth()->user();
+        if(!is_null($user))
+            return redirect('dashboard');
         return view('admin.login');
     }
 

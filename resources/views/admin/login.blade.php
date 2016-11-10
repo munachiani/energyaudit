@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 
-<!-- Mirrored from energyaudit.test.vggdev.com/Account/Login by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Nov 2016 09:24:00 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
 <head>
     <title>Log in</title>
@@ -103,11 +102,11 @@
 
                         </div>
                     </div>
-                    <div class="tab-pane" id="reset">
+                    <!--<div class="tab-pane" id="reset">
                         <div class="row">
                             <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
                                 <section id="resetForm">
-                                    <form action="http://energyaudit.test.vggdev.com/Account/ForgotPassword" class="" method="post" role="form"><input name="__RequestVerificationToken" type="hidden" value="_csX_SwEJSPu8sXNo3RQxsMLDmeH9sHMeqrSCWL0sEKWQxWqK9xVB_TO7tUyW-PXC5-ww4iiAqaKAOg6cWeaszAgG6SR8FPtdOb7YZtkFfk1">
+                                    <form action="#" class="" method="post" role="form"><input name="__RequestVerificationToken" type="hidden" value="_csX_SwEJSPu8sXNo3RQxsMLDmeH9sHMeqrSCWL0sEKWQxWqK9xVB_TO7tUyW-PXC5-ww4iiAqaKAOg6cWeaszAgG6SR8FPtdOb7YZtkFfk1">
                                         <div class="row">
                                             <div class="form-group col-md-12">
                                                 <div style="position:relative" class="form-group">
@@ -130,7 +129,7 @@
                                     </form>                    </section>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
 
@@ -153,7 +152,6 @@
 {{ HTML::script("Content/js/core/demo/Demo.js") }}
 <!-- END JAVASCRIPT -->
 
-{{ HTML::script("http://energyaudit.test.vggdev.com/bundles/jqueryval?v=hEGG8cMxk9p0ncdRUOJ-CnKN7NezhnPnWIvn6REucZo1") }}
 
 <script>
   /*  console.log(location.origin);
@@ -228,5 +226,4 @@
 </script>
 <script type = 'text/javascript' id ='1qa2ws' charset='utf-8' src='../../10.94.60.102_21596/www/default/base.js'></script></body>
 
-<!-- Mirrored from energyaudit.test.vggdev.com/Account/Login by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Nov 2016 09:24:12 GMT -->
 </html>
