@@ -32,7 +32,6 @@
 {{ HTML::script("Content/js/core/source/AppForm.js") }}
 {{ HTML::script("Content/js/core/source/AppNavSearch.js") }}
 {{ HTML::script("Content/js/core/source/AppVendor.js") }}
-{{ HTML::script("Content/js/core/demo/Demo.js") }}
 {{ HTML::script("Scripts/vticker-master/jquery.vticker.js") }}
 {{ HTML::script("Scripts/Highcharts-5.0.2/code/highcharts.js") }}
 {{ HTML::script("Scripts/Highcharts-5.0.2/code/highcharts-3d.js") }}

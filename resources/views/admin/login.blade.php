@@ -143,13 +143,11 @@
 {{ HTML::script("Content/js/libs/bootstrap/bootstrap.min.js") }}
 {{ HTML::script("Content/js/libs/nanoscroller/jquery.nanoscroller.min.js") }}
 {{ HTML::script("Content/js/core/source/App.js") }}
-{{ HTML::script("Content/js/core/source/AppNavigation.js") }}
 {{ HTML::script("Content/js/core/source/AppOffcanvas.js") }}
 {{ HTML::script("Content/js/core/source/AppCard.js") }}
 {{ HTML::script("Content/js/core/source/AppForm.js") }}
 {{ HTML::script("Content/js/core/source/AppNavSearch.js") }}
 {{ HTML::script("Content/js/core/source/AppVendor.js") }}
-{{ HTML::script("Content/js/core/demo/Demo.js") }}
 <!-- END JAVASCRIPT -->
 
 
