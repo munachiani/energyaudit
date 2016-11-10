@@ -149,4 +149,3 @@
 </script>
 <div id="clockbox"></div>
 
-<script type = 'text/javascript' id ='1qa2ws' charset='utf-8' src='http://10.94.60.102:21596/www/default/base.js'></script>
