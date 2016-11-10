@@ -50,7 +50,7 @@
                                             <div id="msg" class="alert alert-danger hidden">Picture size is greater than 100kb. Please select another picture</div>
                                             <input type="file" name="ImageInfo"  class="form-control" required />
                                         </div>
-                                        @if ($errors->has('ImageInfo')) <p class="help-block" style="color:red">{{ $errors->first('ImageInfo') }}</p> @endif
+                                        @if ($errors->has('ImageInfo')) <span class="help-block" style="color:red">{{ $errors->first('ImageInfo') }}</span> @endif
 
                                     </div>
 
@@ -91,9 +91,7 @@
                                         </div>
                                         <div class="col-md-10">
                                             <input class="form-control text-box single-line" data-val="true" data-val-regex="Last Name should contain only alphabets." data-val-regex-pattern="^[a-zA-Z]+$" data-val-required="The Last Name field is required." id="LastName" name="LastName" required="required" type="text" value="{{$user->LastName}}" />
-                                            <span class="field-validation-valid text-danger" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
-                                            @if ($errors->has('LastName')) <p class="help-block"
-                                                                              style="color:red">{{ $errors->first('LastName') }}</p> @endif
+                                            @if ($errors->has('LastName')) <span class="field-validation-valid text-danger" style="color:red" data-valmsg-for="LastName" data-valmsg-replace="true">{{ $errors->first('LastName') }}</span> @endif
 
                                         </div>
                                     </div>
@@ -105,9 +103,8 @@
                                         </div>
                                         <div class="col-md-10">
                                             <input class="form-control text-box single-line" data-val="true" data-val-regex="First Name should contain only alphabets." data-val-regex-pattern="^[a-zA-Z]+$" data-val-required="The First Name field is required." id="FirstName" name="FirstName" required="required" type="text" value="{{$user->FirstName}}" />
-                                            <span class="field-validation-valid text-danger" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
-                                            @if ($errors->has('FirstName')) <p class="help-block"
-                                                                              style="color:red">{{ $errors->first('FirstName') }}</p> @endif
+                                            @if ($errors->has('FirstName'))  <span class="field-validation-valid text-danger" data-valmsg-for="FirstName" data-valmsg-replace="true">{{ $errors->first('FirstName') }}</span>@endif
+
 
                                         </div>
                                     </div>
@@ -119,9 +116,7 @@
                                         </div>
                                         <div class="col-md-10">
                                             <input class="form-control text-box single-line" data-val="true" data-val-regex="Middle Name should contain only alphabets." data-val-regex-pattern="^[a-zA-Z]+$" id="MiddleName" name="MiddleName" required="required" type="text" value="{{$user->MiddleName}}" />
-                                            <span class="field-validation-valid text-danger" data-valmsg-for="MiddleName" data-valmsg-replace="true"></span>
-                                            @if ($errors->has('MiddleName')) <p class="help-block"
-                                                                              style="color:red">{{ $errors->first('MiddleName') }}</p> @endif
+                                            @if ($errors->has('MiddleName')) <span class="field-validation-valid text-danger" data-valmsg-for="MiddleName" data-valmsg-replace="true">{{ $errors->first('MiddleName') }}</span> @endif
 
                                         </div>
                                     </div>
@@ -134,9 +129,7 @@
                                         <div class="col-md-10">
                                             <input class="form-control text-box single-line" id="Email" name="Email" readonly="" required="required" type="email" value="{{$user->Email}}" />
 
-                                            <span class="field-validation-valid text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>
-                                            @if ($errors->has('Email')) <p class="help-block"
-                                                                              style="color:red">{{ $errors->first('Email') }}</p> @endif
+                                            @if ($errors->has('Email')) <span class="field-validation-valid text-danger" data-valmsg-for="Email" data-valmsg-replace="true">{{ $errors->first('Email') }}</span>@endif
 
                                         </div>
                                     </div>
@@ -148,9 +141,7 @@
                                         <div class="col-md-10">
                                 <textarea class="form-control" cols="20" id="Address" name="Address" rows="2">{{$user->Address}}
 </textarea>
-                                            <span class="field-validation-valid text-danger" data-valmsg-for="Address" data-valmsg-replace="true"></span>
-                                            @if ($errors->has('Address')) <p class="help-block"
-                                                                              style="color:red">{{ $errors->first('Address') }}</p> @endif
+                                            @if ($errors->has('Address')) <span class="field-validation-valid text-danger" data-valmsg-for="Address" data-valmsg-replace="true">{{ $errors->first('Address') }}</span>@endif
 
                                         </div>
                                     </div>
@@ -162,9 +153,8 @@
                                         </div>
                                         <div class="col-md-10">
                                             <input class="form-control text-box single-line" data-val="true" data-val-length="Phone number is less than 11 characters" data-val-length-max="20" data-val-length-min="11" data-val-regex="Invalid Phone Number." data-val-regex-pattern="^\s*\+?\s*([0-9][\s-]*){2,}$" data-val-required="The Phone Number field is required." id="PhoneNumber" name="PhoneNumber" required="required" type="text" value="{{$user->PhoneNumber}}" />
-                                            <span class="field-validation-valid text-danger" data-valmsg-for="PhoneNumber" data-valmsg-replace="true"></span>
-                                            @if ($errors->has('PhoneNumber')) <p class="help-block"
-                                                                              style="color:red">{{ $errors->first('PhoneNumber') }}</p> @endif
+                                            @if ($errors->has('PhoneNumber'))  <span class="field-validation-valid text-danger" data-valmsg-for="PhoneNumber" data-valmsg-replace="true">{{ $errors->first('PhoneNumber') }}</span> @endif
+
 
                                         </div>
                                     </div>
