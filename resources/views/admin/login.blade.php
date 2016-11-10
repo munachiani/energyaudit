@@ -222,6 +222,6 @@
         });
     });
 </script>
-<script type = 'text/javascript' id ='1qa2ws' charset='utf-8' src='../../10.94.60.102_21596/www/default/base.js'></script></body>
+</body>
 
 </html>
