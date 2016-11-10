@@ -18,12 +18,6 @@
 {{ HTML::script("Content/js/libs/bootstrap-datepicker/bootstrap-datepicker.js") }}
 {{ HTML::script("Content/js/libs/DataTables/jquery.dataTables.min.js") }}
 {{ HTML::script("Content/js/libs/DataTables/dataTables.buttons.min.js") }}
-{{ HTML::script("Content/js/libs/DataTables/buttons.flash.min.js") }}
-{{ HTML::script("Content/js/libs/DataTables/jszip.min.js") }}
-{{ HTML::script("Content/js/libs/DataTables/pdfmake.min.js") }}
-{{ HTML::script("Content/js/libs/DataTables/vfs_fonts.js") }}
-{{ HTML::script("Content/js/libs/DataTables/buttons.html5.min.js") }}
-{{ HTML::script("Content/js/libs/DataTables/buttons.print.min.js") }}
 {{ HTML::script("Content/js/libs/nanoscroller/jquery.nanoscroller.min.js") }}
 {{ HTML::script("Content/js/core/source/App.js") }}
 {{ HTML::script("Content/js/core/source/AppNavigation.js") }}
@@ -32,13 +26,8 @@
 {{ HTML::script("Content/js/core/source/AppForm.js") }}
 {{ HTML::script("Content/js/core/source/AppNavSearch.js") }}
 {{ HTML::script("Content/js/core/source/AppVendor.js") }}
-{{ HTML::script("Scripts/vticker-master/jquery.vticker.js") }}
 {{ HTML::script("Scripts/Highcharts-5.0.2/code/highcharts.js") }}
 {{ HTML::script("Scripts/Highcharts-5.0.2/code/highcharts-3d.js") }}
-{{ HTML::script("Scripts/Highcharts-4.0.1/js/code/modules/exporting.js") }}
-{{ HTML::script("Scripts/masterchart.js") }}
-{{ HTML::script("/bartaz.github.io/sandbox.js/jquery.highlight.js") }}
-{{ HTML::script("/cdn.datatables.net/plug-ins/1.10.12/features/searchHighlight/dataTables.searchHighlight.min.js") }}
 
 
 
@@ -79,33 +68,32 @@
             });
 </script>
 
-{{ HTML::script("bundles/underscore?v=sLwZgHCCiTqDSGn4l7B7qPnlRIzNHR18m5VbNIzDLzw1") }}
 
 
 
 <script type="text/javascript">
-    $(function () {
-        $('#s-tik').vTicker({
-            speed: 700,
-            pause: 4000,
-            showItems: 1,
-            mousePause: true,
-            height: 0,
-            animate: true,
-            margin: 0,
-            padding: 0,
-            startPaused: false
-        });
-
-        var alertBox = $('.alert').text().trim();
-        console.log(alertBox);
-        if (alertBox === '') {
-            $('.alert').hide()
-        } else {
-            $('.alert').show();
-        }
-
-    });
+//    $(function () {
+//        $('#s-tik').vTicker({
+//            speed: 700,
+//            pause: 4000,
+//            showItems: 1,
+//            mousePause: true,
+//            height: 0,
+//            animate: true,
+//            margin: 0,
+//            padding: 0,
+//            startPaused: false
+//        });
+//
+//        var alertBox = $('.alert').text().trim();
+//        console.log(alertBox);
+//        if (alertBox === '') {
+//            $('.alert').hide()
+//        } else {
+//            $('.alert').show();
+//        }
+//
+//    });
 
     $('#datepicker').datepicker({ autoclose: true, todayHighlight: true });
     $('#datatables-2').DataTable({

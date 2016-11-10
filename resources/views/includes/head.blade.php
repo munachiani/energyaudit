@@ -17,7 +17,6 @@
    {{ HTML::style("Content/css/material-design-iconic-font.min.css") }}
    {{ HTML::style("Content/css/libs/DataTables/jquery.dataTables.css") }}
    {{ HTML::style("Content/css/libs/bootstrap-datepicker/datepicker3.css") }}
-   {{ HTML::style("/cdn.datatables.net/plug-ins/1.10.12/features/searchHighlight/dataTables.searchHighlight.css") }}
     <!-- END STYLESHEETS -->
     <!-- Additional CSS includes -->
    {{ HTML::style("Content/css/style.css") }}
