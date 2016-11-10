@@ -23,6 +23,8 @@
                                     {{ session('flash_message') }}
                                 </div>
                             @endif
+
+
                             <form action="{{url('auth/createUser')}}" class="" method="post" role="form">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -41,13 +43,14 @@
                                                            data-val-regex-pattern="^[a-zA-Z]+$"
                                                            data-val-required="The Last Name field is required."
                                                            id="LastName" name="LastName" type="text"
-                                                           value=""/>
+                                                           value="{{old('LastName')}}"  required/>
                                                     <span class="field-validation-valid text-danger"
                                                           data-valmsg-for="LastName" data-valmsg-replace="true">
-                                                    @if ($errors->has('LastName')) <p class="help-block"
-                                                                                      style="color:red">{{ $errors->first('LastName') }}</p> @endif
 
                                                     </span>
+                                                    @if ($errors->has('LastName')) <span class="help-block"
+                                                                                         style="color:red">{{ $errors->first('LastName') }}</span> @endif
+
 
                                                 </div>
                                                 <div class="col-md-4 form-group">
@@ -58,14 +61,15 @@
                                                            data-val-regex-pattern="^[a-zA-Z]+$"
                                                            data-val-required="The First Name field is required."
                                                            id="FirstName" name="FirstName" type="text"
-                                                           value=""/>
+                                                           value="{{old('FirstName')}}"  required/>
                                                     <span class="field-validation-valid text-danger"
                                                           data-valmsg-for="FirstName" data-valmsg-replace="true">
-                                                                                                            @if ($errors->has('FirstName'))
-                                                            <p class="help-block"
-                                                               style="color:red">{{ $errors->first('FirstName') }}</p> @endif
+
 
                                                     </span>
+                                                    @if ($errors->has('FirstName'))
+                                                        <span class="help-block"
+                                                              style="color:red">{{ $errors->first('FirstName') }}</span> @endif
 
                                                 </div>
                                                 <div class="col-md-4 form-group">
@@ -74,15 +78,15 @@
                                                     <input class="form-control text-box single-line" data-val="true"
                                                            data-val-regex="Middle Name should contain only alphabets."
                                                            data-val-regex-pattern="^[a-zA-Z]+$" id="MiddleName"
-                                                           name="MiddleName" type="text" value=""/>
+                                                           name="MiddleName" type="text" value="{{old('MiddleName')}}"  required/>
                                                     <span class="field-validation-valid text-danger"
                                                           data-valmsg-for="MiddleName"
                                                           data-valmsg-replace="true">
-                                                                                                            @if ($errors->has('MiddleName'))
-                                                            <p class="help-block"
-                                                               style="color:red">{{ $errors->first('MiddleName') }}</p> @endif
 
                                                     </span>
+                                                    @if ($errors->has('MiddleName'))
+                                                        <span class="help-block"
+                                                              style="color:red">{{ $errors->first('MiddleName') }}</span> @endif
 
                                                 </div>
                                             </div>
@@ -93,18 +97,19 @@
                                                     <span class="require">*</span>
                                                     <select class="form-control" data-val="true"
                                                             data-val-required="The Gender field is required."
-                                                            id="Gender" name="Gender">
-                                                        <option value="">&lt;--Select--&gt;</option>
+                                                            id="Gender" name="Gender" required>
+                                                        <option value="{{old('Gender')}}"  required>&lt;--Select--&gt;</option>
                                                         <option value="Male">Male</option>
                                                         <option value="Female">Female</option>
                                                     </select>
                                                     <span class="field-validation-valid text-danger"
                                                           data-valmsg-for="Gender" data-valmsg-replace="true">
-                                                                                                            @if ($errors->has('Gender'))
-                                                            <p class="help-block"
-                                                               style="color:red">{{ $errors->first('Gender') }}</p> @endif
 
                                                     </span>
+                                                    @if ($errors->has('Gender'))
+                                                        <span class="help-block"
+                                                              style="color:red">{{ $errors->first('Gender') }}</span> @endif
+
 
                                                 </div>
                                                 <div class="col-md-4 form-group">
@@ -117,15 +122,16 @@
                                                            data-val-regex-pattern="^\s*\+?\s*([0-9][\s-]*){11,14}$"
                                                            data-val-required="The Phone Number field is required."
                                                            id="PhoneNumber" name="PhoneNumber" type="number"
-                                                           value=""/>
+                                                           value="{{old('PhoneNumber')}}"  required/>
                                                     <span class="field-validation-valid text-danger"
                                                           data-valmsg-for="PhoneNumber"
                                                           data-valmsg-replace="true">
-                                                                                                            @if ($errors->has('PhoneNumber'))
-                                                            <p class="help-block"
-                                                               style="color:red">{{ $errors->first('PhoneNumber') }}</p> @endif
+
 
                                                     </span>
+                                                    @if ($errors->has('PhoneNumber'))
+                                                        <span class="help-block"
+                                                              style="color:red">{{ $errors->first('PhoneNumber') }}</span> @endif
 
                                                 </div>
                                                 <div class="col-md-4 form-group">
@@ -135,30 +141,33 @@
                                                            data-val-regex="Enter a valid Email Address"
                                                            data-val-regex-pattern="^([\w-\._]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
                                                            data-val-required="The Email field is required." id="Email"
-                                                           name="Email" type="email" value=""/>
+                                                           name="Email" type="email" value="{{old('Email')}}"  required/>
                                                     <span class="field-validation-valid text-danger"
                                                           data-valmsg-for="Email" data-valmsg-replace="true">
-                                                                                                            @if ($errors->has('Email'))
-                                                            <p class="help-block"
-                                                               style="color:red">{{ $errors->first('Email') }}</p> @endif
+
 
                                                     </span>
+                                                    @if ($errors->has('Email'))
+                                                        <span class="help-block"
+                                                              style="color:red">{{ $errors->first('Email') }}</span> @endif
 
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-8 form-group">
                                                     <label for="Address">Address</label>
+                                                    <span class="require">*</span>
                                             <textarea class="form-control" cols="20" id="Address" name="Address"
-                                                      rows="2">
+                                                      rows="2" required>
 </textarea>
                                                     <span class="field-validation-valid text-danger"
                                                           data-valmsg-for="Address" data-valmsg-replace="true">
-                                                                                                            @if ($errors->has('Address'))
-                                                            <p class="help-block"
-                                                               style="color:red">{{ $errors->first('Address') }}</p> @endif
+
 
                                                     </span>
+                                                    @if ($errors->has('Address'))
+                                                        <span class="help-block"
+                                                              style="color:red">{{ $errors->first('Address') }}</span> @endif
 
                                                 </div>
                                                 <div class="col-md-4 form-group">
@@ -166,19 +175,20 @@
                                                     <span class="require">*</span>
                                                     <select class="form-control" data-val="true"
                                                             data-val-required="The User Role field is required."
-                                                            id="role" name="UserRole">
-                                                        <option value="">Select</option>
+                                                            id="role" name="UserRole" required>
+                                                        <option value="{{old('UserRole')}}"  >Select</option>
                                                         @foreach(\App\Role::all() as $role)
-                                                            <option value="{{$role->name}}">{{$role->name}}</option>
+                                                            <option value="{{$role->name}}"  required>{{$role->name}}</option>
                                                         @endforeach
                                                     </select>
                                                     <span class="field-validation-valid text-danger"
                                                           data-valmsg-for="UserRole" data-valmsg-replace="true">
-                                                                                                            @if ($errors->has('UserRole'))
-                                                            <p class="help-block"
-                                                               style="color:red">{{ $errors->first('UserRole') }}</p> @endif
+
 
                                                     </span>
+                                                    @if ($errors->has('UserRole'))
+                                                        <span class="help-block"
+                                                              style="color:red">{{ $errors->first('UserRole') }}</span> @endif
 
                                                 </div>
                                             </div>
@@ -193,14 +203,15 @@
                                                            data-val-regex-pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,14}$"
                                                            data-val-required="Please enter a password" id="Password"
                                                            maxlength="14" name="password" type="password"
-                                                           value=""/>
+                                                           value="{{old('')}}"  required/>
                                                     <span class="field-validation-valid text-danger"
                                                           data-valmsg-for="Password" data-valmsg-replace="true">
-                                                                                                            @if ($errors->has('password'))
-                                                            <p class="help-block"
-                                                               style="color:red">{{ $errors->first('password') }}</p> @endif
 
                                                     </span>
+                                                    @if ($errors->has('password'))
+                                                        <span class="help-block"
+                                                              style="color:red">{{ $errors->first('password') }}</span> @endif
+
 
                                                 </div>
                                                 <div class="col-md-4 form-group">
@@ -212,17 +223,14 @@
                                                            data-val-regex-pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,14}$"
                                                            data-val-required="Please confirm password"
                                                            id="ConfirmPassword" maxlength="14" name="confirmPassword"
-                                                           type="password" value=""/>
-                                                    <span class="field-validation-valid text-danger"
-                                                          data-valmsg-for="ConfirmPassword"
-                                                          data-valmsg-replace="true">
-                                                                                                            @if ($errors->has('confirmPassword'))
-                                                            <p class="help-block"
-                                                               style="color:red">{{ $errors->first('confirmPassword') }}</p> @endif
+                                                           type="password" value="{{old('')}}"  required/>
 
-                                                    </span>
 
+                                                    @if ($errors->has('confirmPassword'))
+                                                        <span class="help-block"
+                                                              style="color:red">{{ $errors->first('confirmPassword') }}</span> @endif
                                                 </div>
+
                                             </div>
 
                                         </div>
@@ -236,10 +244,10 @@
                                         <label>State</label>
                                         <span class="require">*</span>
                                         <select class="form-control" id="State" name="State">
-                                            <option value="">Select State</option>
+                                            <option value="{{old('')}}"  required>Select State</option>
 
                                             @foreach(\App\State::all() as $state)
-                                                <option value="{{$state->id}}">{{$state->name}}</option>
+                                                <option value="{{$state->id}}"  required>{{$state->name}}</option>
                                             @endforeach
                                         </select>
                                         <span class="field-validation-valid text-danger" data-valmsg-for="State"
@@ -249,7 +257,7 @@
                                         <label>Region</label>
                                         <span class="require">*</span>
                                         <select class="form-control" disabled="True" id="Region" name="Region">
-                                            <option value="">Select Region</option>
+                                            <option value="{{old('')}}"  required>Select Region</option>
                                         </select>
                                         <span class="field-validation-valid text-danger" data-valmsg-for="Region"
                                               data-valmsg-replace="true"></span>
@@ -262,9 +270,9 @@
                                         <label>Disco</label>
                                         <span class="require">*</span>
                                         <select class="form-control" id="disco" name="disco_id">
-                                            <option value="">Select Disco</option>
+                                            <option value="{{old('')}}"  required>Select Disco</option>
                                             @foreach(\App\DistributionCompany::orderby('disco_name')->get() as $disco)
-                                                <option value="{{$disco->id}}">{{$disco->disco_name}}</option>
+                                                <option value="{{$disco->id}}"  required>{{$disco->disco_name}}</option>
                                             @endforeach
                                         </select>
                                         <span class="field-validation-valid text-danger" data-valmsg-for="disco"

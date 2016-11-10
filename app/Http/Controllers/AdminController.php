@@ -543,7 +543,8 @@ class AdminController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()
-                ->withErrors($validator);
+                ->withInput()
+            ->withErrors($validator);
         } else {
             $LastName = $request['LastName'];
             $FirstName = $request['FirstName'];
