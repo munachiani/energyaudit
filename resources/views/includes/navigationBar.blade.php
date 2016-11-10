@@ -26,8 +26,12 @@ $user = auth()->user();
             <form action="/Account/LogOff" class="navbar-right" id="logoutForm" method="post"><input name="__RequestVerificationToken" type="hidden" value="fADiWXqzdT5w4ZZ18mR3WsLjMsDoTIzEEgyXNe7IHSzfKaDMtzXkozDlGWTLImyEtgNL739jgmgf5byrE9PCmlhbNCHEVtBY9BV8jjydENI7eGFF8G6v46-zn1UHomK0CRRZIs_rG04G9rJm9gRzlw2" />        <ul class="header-nav header-nav-profile">
                     <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle ink-reaction" data-toggle="dropdown">
-
-                            <img src="{{url('userimages/'.$user->ImageInfo)}}" alt="" />
+                            <?php
+                            $url = 'userimages/';
+                            $picDefault = 'default.png';
+                            $userImage = empty($user->ImageInfo)?$picDefault:$user->ImageInfo;
+                            ?>
+                            <img src="{{url($url.$userImage)}}" alt="" />
 
 
 
