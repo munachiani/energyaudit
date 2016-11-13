@@ -74,10 +74,9 @@ $ministryAmount = implode(",", $ministryAmount);
             ﻿﻿<input type="hidden" id="discoData" value="{{$discoData}}">
             ﻿﻿<input type="hidden" id="ministry" value="{{$ministry}}">
             ﻿﻿<input type="hidden" id="discoCount" value="{{$discoCount}}">
-            <input id="startdate" name="startdate" type="hidden" value="11/03/2016"/><input id="enddate" name="enddate"
-                                                                                            type="hidden"
-                                                                                            value="11/03/2016"/>
-            <input id="userid" name="userid" type="hidden" value=""/>
+            <input id="startdate" name="startdate" type="hidden" value="1/01/2016"/>
+            <input id="enddate" name="enddate" type="hidden" value="31/12/2016"/>
+            <input id="userid" name="userid" type="hidden" value="{{auth()->user()->id}}"/>
 
             <form action="/Dashboard" id="form" method="get">
                 <div class="row">
@@ -94,7 +93,7 @@ $ministryAmount = implode(",", $ministryAmount);
                                             </div>
                                             <div class="col-md-8">
                                                 <input autocomplete="off" class="form-control" id="datepick"
-                                                       name="datepick" placeholder="03/Nov/2016" type="text" value=""/>
+                                                       name="datepick" placeholder="03/Nov/2016" type="text" value="1/01/2016" />
                                             </div>
                                         </div>
 
@@ -104,7 +103,7 @@ $ministryAmount = implode(",", $ministryAmount);
                                             </div>
                                             <div class="col-md-8">
                                                 <input autocomplete="off" class="form-control" id="datepick2"
-                                                       name="datepick2" placeholder="03/Nov/2016" type="text" value=""/>
+                                                       name="datepick2" placeholder="03/Nov/2016" type="text" value="31/12/2016" />
                                             </div>
                                         </div>
                                     </div>
@@ -188,8 +187,7 @@ $ministryAmount = implode(",", $ministryAmount);
                 <div class="col-md-12">
                     <div class="card card-underline">
                         <div class="card-head custom-default-dark">
-                            <header class="text-bold"><i class="fa fa-s fa-bar-chart-o"></i>&nbsp; Total Debt per
-                                Ministry
+                            <header class="text-bold"><i class="fa fa-s fa-bar-chart-o"></i>&nbsp; Customer Debt Analysis
                             </header>
                         </div>
                         <div class="card-body height-12">
@@ -385,7 +383,7 @@ $ministryAmount = implode(",", $ministryAmount);
                 },
 
                 series: [{
-                    name: 'Total Dept owed by Ministries',
+                    name: 'Total Debt owed',
                     data: [{{$ministryAmount}}],
                     color: '#2a532a'
 

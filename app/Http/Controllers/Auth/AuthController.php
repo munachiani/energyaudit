@@ -10,6 +10,7 @@ use App\UserDisco;
 use App\UserRegion;
 use App\UserRole;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
@@ -85,7 +86,17 @@ class AuthController extends Controller
             'UserName' => $request->UserName,
             'password' => $request->password
         );
-
+        $remember = $request->input('remember')=="true"?true:false;
+//dd($remember);
+        $year = time() + 31536000;
+        if($remember)
+        setcookie('remember_me', $request->UserName, $year);
+        else{
+            if(isset($_COOKIE['remember_me'])) {
+                $past = time() - 100;
+                setcookie('remember_me', 'gone', $past);
+            }
+        }
         //search for the user first
         $user = User::where('UserName', '=', $request->UserName)->first();
         //dd($user);
@@ -105,7 +116,7 @@ class AuthController extends Controller
                     ->withErrors(["loginError" => "Unable to login"]);
             }*/
             else {
-                if (Auth::attempt($userData)) {
+                if (Auth::attempt($userData,$remember)) {
                     $this->auditTrail($user,AuditAction::$LOGIN);
                     $user->LockoutEnabled=0;
                     $user->AccessFailedCount=0;

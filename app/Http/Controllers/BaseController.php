@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Maatwebsite\Excel\Facades\Excel;
 use PHPExcel_Worksheet_PageSetup;
@@ -448,9 +449,9 @@ class BaseController extends Controller
                 });
 
                 $sheet->row(2, array(
-                    'SN','MDA Name','DisCo','Disco Account Number ','Invoice Date', 'Account Month',
-                    'Invoice number ','Monthly Energy Consumption (kWH)','Meter Reading (kWH)','Actual or Estimated Billing',
-                    'Tariff Rate (NGN/KwH)','Fixed Charge','Invoice Amount (NGN)'
+                    'SN', 'MDA Name', 'DisCo', 'Disco Account Number ', 'Invoice Date', 'Account Month',
+                    'Invoice number ', 'Monthly Energy Consumption (kWH)', 'Meter Reading (kWH)', 'Actual or Estimated Billing',
+                    'Tariff Rate (NGN/KwH)', 'Fixed Charge', 'Invoice Amount (NGN)'
                 ));
 
                 // getting data to display - in my case only one record
@@ -475,12 +476,12 @@ class BaseController extends Controller
                         $customer->disco_account_number,
                         $customer->invoice_date,
                         $customer->account_month,
-                        '00'.$customer->invoice_number,
+                        '00' . $customer->invoice_number,
                         $customer->monthly_energy_consumption,
                         $customer->meter_reading,
                         $customer->actual_estimated_billing,
                         $customer->tariff_rate,
-                        ($customer->fixed_charge>0?$customer->fixed_charge:'NIL'),
+                        ($customer->fixed_charge > 0 ? $customer->fixed_charge : 'NIL'),
                         $customer->invoice_amt,
                     ));
                     $i++;
@@ -493,9 +494,13 @@ class BaseController extends Controller
 
     public function showLogin()
     {
-        $user=auth()->user();
-        if(!is_null($user))
-            return redirect('dashboard');
+        $user = auth()->user();
+        if (!is_null($user)) {
+            if (isset($_COOKIE['remember_me']))
+                return redirect('dashboard');
+            else
+                Auth::logout();
+        }
         return view('admin.login');
     }
 
