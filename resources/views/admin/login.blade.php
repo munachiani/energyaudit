@@ -62,7 +62,7 @@
 
                                                 <div style="position:relative">
                                                     <i class="fa fa-user"></i>
-                                                    <input class="form-control" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="username" name="UserName" placeholder="Email" type="text" value="")>
+                                                    <input class="form-control" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="username" name="UserName" placeholder="Email" type="text" value="">
                                                 </div>
                                                 <span class="field-validation-valid text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>
                                             </div>
@@ -86,7 +86,8 @@
                                             <div class="col-md-12 form-group">
                                                 <div class="checkbox checkbox-styled checkbox-custom-style inline-block">
                                                     <label>
-                                                        <input data-val="true" data-val-required="The Remember me? field is required." id="RememberMe" name="RememberMe" type="checkbox" value="true")><input name="RememberMe" type="hidden" value="false")>
+                                                        <input <?php echo (isset($_COOKIE['remember_me'])?'checked':'')?> onchange="document.getElementById('rem').value=$(this).attr('checked')?'true':'false'" type="checkbox" value="true">
+                                                        <input name="remember" type="hidden" id="rem" value="<?php echo (isset($_COOKIE['remember_me'])?'true':'false')?>">
                                                         <span>Remember Me</span>
                                                     </label>
                                                 </div>
@@ -97,7 +98,8 @@
                                                 <button type="submit" onclick="$('#logloader').css('display','')" class="btn btn-raised ink-reaction style-custom">Log in</button><span id="logloader" style="display: none;" ><img src="{{url('userimages/loader.gif')}}"></span>
                                             </div>
                                         </div>
-                                    </form>                    </section>
+                                    </form>
+                                </section>
                             </div>
 
                         </div>
@@ -149,65 +151,6 @@
 {{ HTML::script("Content/js/core/source/AppNavSearch.js") }}
 {{ HTML::script("Content/js/core/source/AppVendor.js") }}
 <!-- END JAVASCRIPT -->
-
-
-<script>
-  /*  console.log(location.origin);
-    $(document).ready(function () {
-        var my_form = $("#loginuser");
-        document.getElementById("err").setAttribute("class", "hidden");
-        $("#logloader").hide();
-
-        my_form.submit(function (e) {
-            e.preventDefault();
-            e.returnValue = false;
-            if ($("#username").val() && $("#password").val()) {
-                if (my_form[0].checkValidity()) {
-                    $.ajax({
-                        type: 'POST',
-                        url: location.origin+"/token",
-                        data: {
-                            grant_type: "password",
-                            userName: $("#username").val(),
-                            password: $("#password").val()
-                        },
-                        beforeSend: function () {
-
-                            $("#logloader").show();
-
-                        },
-                        success: function (data) {
-                            $("#logloader").hide();
-                            window.location.href = location.origin + "/Dashboard/SaveUserTrail"
-                        },
-                        error: function () {
-                            window.location.href = "{{url('/')}}";
-                            //window.location.href = location.protocol + "//" + location.hostname + ":2233/Account/Login";
-                           /!* $("#logloader").hide();
-                            document.getElementById("err").removeAttribute("class", 'hidden');
-                            document.getElementById("err").setAttribute("class", "alert alert-callout alert-danger alert-dismissable");
-                            $("#err").html("Invalid Username/Password").show();*!/
-                        }
-                    }).done(function (data) {
-
-                        localStorage.setItem("access_token", data.access_token);
-                    });
-                    $("#username").keyup(function () {
-                        document.getElementById("err").removeAttribute("class", 'alert alert-callout alert-danger alert-dismissable');
-                        $("#err").html("Invalid Username/Password").hide();
-                    });
-                    $("#password").keyup(function () {
-                        document.getElementById("err").removeAttribute("class", 'alert alert-callout alert-danger alert-dismissable');
-                        $("#err").html("Invalid Username/Password").hide();
-                    });
-                }
-            }
-
-        });
-    });
-*/
-
-</script>
 
 <script type="text/javascript">
     $(function(){
