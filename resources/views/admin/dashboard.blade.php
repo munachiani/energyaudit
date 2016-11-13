@@ -54,7 +54,7 @@ $ministry = [];
 $ministryAmountTotal = 0;
 foreach ($mdaCapturedDistinct as $mdasDistinct) {
     $ministry[] = $mdasDistinct;
-    $totalCountM = \App\CustomerBill::where('mda_name', '=',$mdasDistinct)->get();
+    $totalCountM = \App\CustomerBill::where('parent_ministry', '=',$mdasDistinct)->get();
     $totalM = 0;
 
     foreach($totalCountM as $tm ){
@@ -187,7 +187,8 @@ $ministryAmount = implode(",", $ministryAmount);
                 <div class="col-md-12">
                     <div class="card card-underline">
                         <div class="card-head custom-default-dark">
-                            <header class="text-bold"><i class="fa fa-s fa-bar-chart-o"></i>&nbsp; Customer Debt Analysis
+                            <header class="text-bold"><i class="fa fa-s fa-bar-chart-o"></i>&nbsp; Total Debt per
+                                Ministry
                             </header>
                         </div>
                         <div class="card-body height-12">
@@ -383,7 +384,7 @@ $ministryAmount = implode(",", $ministryAmount);
                 },
 
                 series: [{
-                    name: 'Total Debt owed',
+                    name: 'Total Dept owed',
                     data: [{{$ministryAmount}}],
                     color: '#2a532a'
 

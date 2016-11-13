@@ -16,6 +16,7 @@ class CreateCustomerBillsTable extends Migration
             $table->increments('id');
             $table->string('mda_name');
             $table->string('disco');
+            $table->string('parent_ministry');
             $table->string('disco_account_number');
             $table->string('invoice_date');
             $table->string('account_month');
