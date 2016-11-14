@@ -37,7 +37,8 @@ class AdminController extends Controller
     public function dashboard()
     {
         $mdasUploaded = CustomerBill::all()->count();
-        $mdasCaptured = CustomerBill::distinct('mda_name')->count('mda_name');
+//        $mdasCaptured = CustomerNote::distinct('mda_name')->count('mda_name');
+        $mdasCaptured = CustomerNote::all()->count('mda_name');
         $mdaCapturedDistinct = ParentFederalMinistry::all();
 //        dd($mdaCapturedDistinct);
         $customerNotes = CustomerNote::all();

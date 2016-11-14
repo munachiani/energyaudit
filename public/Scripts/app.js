@@ -4331,8 +4331,8 @@ var App = {
 
          }*/
     },
-    /*showLagData: function () {
-     var user_id = document.getElementById('user_id').innerHTML;
+    showLagData: function () {
+     /*var user_id = document.getElementById('user_id').innerHTML;
 
      var tokenz = localStorage.getItem("access_token");
      //console.log(tokenz);
@@ -4373,52 +4373,52 @@ var App = {
      //setInterval(App.getData, 2000);
      App.showLagData();
      }
-     });
-     },*/
+     });*/
+     },
     getData: function () {
-        var user_id = document.getElementById('user_id').innerHTML;
+        /*var user_id = document.getElementById('user_id').innerHTML;
 
-        var tokenz = localStorage.getItem("access_token");
-        //console.log(tokenz);
-        App.CONSTANTS.auth_token = "Bearer " + tokenz;
+         var tokenz = localStorage.getItem("access_token");
+         //console.log(tokenz);
+         App.CONSTANTS.auth_token = "Bearer " + tokenz;
 
-        newurl = App.CONSTANTS.url.energyaudit + "?user_id=" + user_id + "&lim=" + App.CONSTANTS.limit;
-        console.log(newurl);
-        //console.log(App.CONSTANTS.url);
-        //console.log(location.origin);
-        $.ajax({
-            url: newurl,
-            type: "GET",
-            dataType: "json",
-            headers: {
-                Authorization: App.CONSTANTS.auth_token
-            },
-            beforeSend: function () {
-                //showRequest();
-                //request.setRequestHeader("Authorization", App.CONSTANTS.auth_token);
-            },
-            success: function (result) {
-                //console.log(result);
-                App.showData(result);
-                App.CONSTANTS.limit += 80;
+         newurl = App.CONSTANTS.url.energyaudit + "?user_id=" + user_id + "&lim=" + App.CONSTANTS.limit;
+         console.log(newurl);
+         //console.log(App.CONSTANTS.url);
+         //console.log(location.origin);
+         $.ajax({
+         url: newurl,
+         type: "GET",
+         dataType: "json",
+         headers: {
+         Authorization: App.CONSTANTS.auth_token
+         },
+         beforeSend: function () {
+         //showRequest();
+         //request.setRequestHeader("Authorization", App.CONSTANTS.auth_token);
+         },
+         success: function (result) {
+         //console.log(result);
+         App.showData(result);
+         App.CONSTANTS.limit += 80;
 
-            },
-            complete: function () {
-                //App.doneLoading();
-            },
-            error: function (e, response) {
-                console.log({
-                    e: e,
-                    response: response
-                });
-            }
-        }).done(function () {
-            if (App.CONSTANTS.status === true) {
-                //setInterval(App.getData, 2000);
-                App.getData();
-            }
-        });
-
+         },
+         complete: function () {
+         //App.doneLoading();
+         },
+         error: function (e, response) {
+         console.log({
+         e: e,
+         response: response
+         });
+         }
+         }).done(function () {
+         if (App.CONSTANTS.status === true) {
+         //setInterval(App.getData, 2000);
+         App.getData();
+         }
+         });
+         */
         //    get data from api
     },
     loadJson :function (callback) {
@@ -4435,7 +4435,7 @@ var App = {
         xobj.send(null);
     }
     ,
-    /*showInfo: function (data) {
+    showInfo: function (data) {
      //console.log(data);
      var labelHTML = "";
      var position, path;
@@ -4481,7 +4481,7 @@ var App = {
      }
 
      //console.log(App.CONSTANTS.stateData.length);
-     },*/
+     },
     showData: function (data) {
         //console.log(data);
         var labelHTML = "";

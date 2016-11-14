@@ -15,34 +15,34 @@ class CreateCustomerNotesTable extends Migration
         Schema::create('customer_notes', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('mda_name');
-            $table->string('government_level');
-            $table->string('site_address');
-            $table->string('site_latitude');
-            $table->string('site_longitude');
-            $table->string('closet_landmark');
-            $table->string('city');
-            $table->string('sector_id');
-            $table->string('lga_id'); //REFERS TO Region
-            $table->string('state_id');
-            $table->string('parent_fed_min_id');
-            $table->string('disco_id');
-            $table->integer('business_unit_id');
-            $table->string('disco_acct_number');
-            $table->integer('customer_type_id');
-            $table->string('business_unit');
-            $table->string('customer_type');
-            $table->string('customer_class');
-            $table->string('meter_installed');
-            $table->string('meter_no');
-            $table->string('meter_type');
-            $table->string('meter_brand');
-            $table->string('meter_model');
-            $table->integer('mda_name_id');
-            $table->string('customer_class_id');
-            $table->string('town');
-            $table->string('village');
-            $table->integer('status');
+            $table->string('mda_name')->nullable();
+            $table->string('government_level')->nullable();
+            $table->string('site_address')->nullable();
+            $table->string('site_latitude')->nullable();
+            $table->string('site_longitude')->nullable();
+            $table->string('closet_landmark')->nullable();
+            $table->string('city')->nullable();
+            $table->string('sector_id')->nullable();
+            $table->string('lga_id')->nullable(); //REFERS TO Region
+            $table->string('state_id')->nullable();
+            $table->string('parent_fed_min_id')->nullable();
+            $table->string('disco_id')->nullable();
+            $table->integer('business_unit_id')->nullable();
+            $table->string('disco_acct_number')->nullable();
+            $table->integer('customer_type_id')->nullable();
+            $table->string('business_unit')->nullable();
+            $table->string('customer_type')->nullable();
+            $table->string('customer_class')->nullable();
+            $table->string('meter_installed')->nullable();
+            $table->string('meter_no')->nullable();
+            $table->string('meter_type')->nullable();
+            $table->string('meter_brand')->nullable();
+            $table->string('meter_model')->nullable();
+            $table->integer('mda_name_id')->nullable();
+            $table->string('customer_class_id')->nullable();
+            $table->string('town')->nullable();
+            $table->string('village')->nullable();
+            $table->integer('status')->nullable();
 
 
             $table->timestamps();

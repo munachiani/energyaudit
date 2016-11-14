@@ -141,7 +141,7 @@ $ministryAmount = implode(",", $ministryAmount);
                                 <span class="info-box-icon"><i class="fa fa-institution"></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">MDAs-Uploaded</span>
+                                    <span class="info-box-text">MDAs-Uploaded Bills</span>
                                     {{--<span class="info-box-number" id="numberOfMembers">{{$mdasUploaded}}</span>--}}
                                     <span class="counter info-box-number" data-counter="counterup"
                                           data-value="{{$mdasUploaded}}">0</span>
