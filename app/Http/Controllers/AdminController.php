@@ -7,6 +7,7 @@ use App\CustomerBill;
 use App\CustomerNote;
 use App\DistributionCompany;
 use App\EnergyAuditData;
+use App\ParentFederalMinistry;
 use App\Region;
 use App\Role;
 use App\User;
@@ -37,7 +38,7 @@ class AdminController extends Controller
     {
         $mdasUploaded = CustomerBill::all()->count();
         $mdasCaptured = CustomerBill::distinct('mda_name')->count('mda_name');
-        $mdaCapturedDistinct = CustomerBill::distinctBill();
+        $mdaCapturedDistinct = ParentFederalMinistry::all();
 //        dd($mdaCapturedDistinct);
         $customerNotes = CustomerNote::all();
         $disco = DistributionCompany::all();
