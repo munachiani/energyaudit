@@ -104,11 +104,12 @@
 
                         </div>
                     </div>
-                    <!--<div class="tab-pane" id="reset">
+                    <div class="tab-pane" id="reset">
                         <div class="row">
                             <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
                                 <section id="resetForm">
-                                    <form action="#" class="" method="post" role="form"><input name="__RequestVerificationToken" type="hidden" value="_csX_SwEJSPu8sXNo3RQxsMLDmeH9sHMeqrSCWL0sEKWQxWqK9xVB_TO7tUyW-PXC5-ww4iiAqaKAOg6cWeaszAgG6SR8FPtdOb7YZtkFfk1">
+                                    <form action="{{url('/')}}" class="" method="post" role="form">
+                                        <input name="_token" type="hidden" value="{{csrf_token()}}">
                                         <div class="row">
                                             <div class="form-group col-md-12">
                                                 <div style="position:relative" class="form-group">
@@ -131,7 +132,7 @@
                                     </form>                    </section>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
                 </div>
             </div>
 
