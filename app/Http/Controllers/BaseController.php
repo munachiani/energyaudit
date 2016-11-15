@@ -492,6 +492,67 @@ class BaseController extends Controller
         })->export('xlsx');
     }
 
+
+    public function accountInfos(Request $request)
+    {
+        /**
+         * labelHTML = "<div style='margin-top: 10px;'><div class='panel panel-success'>" +
+         * "<div class='panel-heading'><h2 class='panel-title'>MDA Details</h2></div>" +
+         * "<div class='panel-body'>" +
+         * "<p>MDA Name: <b>" + data[i].mda_name + "</b></p>" +
+         * "<p>Address: <b>" + data[i].address + "</b></p>" +
+         * "<p>Account Number: <b>" + data[i].acct_number + "</b></p>" +
+         * "<p>Institution: <b>" + data[i].institution + "</b></p>" +
+         * "</div>" +
+         * "</div><div class='panel panel-warning'>" +
+         * "<div class='panel-heading'><h2 class='panel-title'>Audit Details</h2></div>" +
+         * "<div class='panel-body'>" +
+         * "<p>Address: <b>" + data[i].address + "</b></p>" +
+         * "<p>No of Years at location: <b>" + data[i].num_of_years_at_location +" yrs" + "</b></p>" +
+         * "<p>No of generators: <b>" + 6+i + "</b></p>" +
+         * "<p>Generator running per hours: <b>" + 8+i+" hrs" + "</b></p>" +
+         * "<p>Avg. Electricity Bill per month : <b>" + 50,000 + "</b></p>" +
+         * "</div></div></div>";
+         *
+         * position = {
+         * lat: parseFloat(data[i].latitude),
+         * lng: parseFloat(data[i].longitude)
+         * };
+         * ]
+         */
+       /* if (!is_null($request['start_date']) && !is_null($request['end_date'])) {
+            $start = Carbon::parse($request['start_date'])->format('Y-m-d H:i:s');
+            $end = Carbon::parse($request['end_date'])->format('Y-m-d H:i:s');
+            $bill = CustomerBill::dateRange($start, $end);
+
+            //dd($bill);
+        } elseif (!is_null($request['disco_name'])) {
+            $disco = $request['disco_name'];
+            $bill = CustomerBill::discoFilter($disco);
+        }
+        else*/
+            $bill = EnergyAuditData::latest('id')->get();
+
+        $dataList = array();
+        foreach ($bill as $i => $item) {
+            $data['mda_name'] = $item->mda_name;
+            $data['address'] = $item->address;
+            $data['acct_number'] = $item->acct_number;
+            $data['institution'] = $item->institution;
+            $data['num_of_years_at_location'] = $item->num_of_years_at_location;
+            $data['num_of_generators'] = $item->num_of_generators;
+            $data['generator_running'] = $item->generator_running;
+            $data['avg_electricity_bill_per_month'] = $item->avg_electricity_bill_per_month;
+            $data['latitude'] = $item->latitude;
+            $data['longitude'] = $item->longitude;
+
+            $dataList[] = $data;
+        }
+
+        return json_encode($dataList);
+
+    }
+
     public function showLogin()
     {
         $user = auth()->user();

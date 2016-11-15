@@ -18,6 +18,7 @@ class CreateEnergyAuditDatasTable extends Migration
             $table->string('local_gov_id')->nullable();
             $table->string('disco_id')->nullable();
             $table->string('mda_name')->nullable();
+            $table->string('acct_number')->nullable();
             $table->integer('sector_id')->nullable();
             $table->integer('ministry_id')->nullable();
             $table->integer('dept_id')->nullable();

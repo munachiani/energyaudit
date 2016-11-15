@@ -126,6 +126,12 @@ class AdminController extends Controller
                                 $energyAudit->num_of_years_at_location = $row[$key[10]];
                                 $energyAudit->contact_of_mda_head = $row[$key[11]];
                                 $energyAudit->telephone = $row[$key[12]];
+                                $energyAudit->acct_number = $row[$key[13]];
+
+                                $latlong = explode('/',$row[$key[14]]);
+
+                                $energyAudit->latitude = $latlong[0];
+                                $energyAudit->longitude = $latlong[1];
 
                                 $energyAudit->save();
 //                                dd($energyAudit);//->save();
