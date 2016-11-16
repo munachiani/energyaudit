@@ -175,7 +175,7 @@ $ministryAmount = implode(",", $ministryAmount);
                     <div class="card card-underline">
                         <div class="card-head custom-default-dark">
                             <header class="text-bold"><i class="fa fa-s fa-bar-chart-o"></i>&nbsp; Total Debt owed per
-                                DisCo
+                                Disco
                             </header>
                         </div>
                         <div class="card-body height-12">
@@ -371,7 +371,7 @@ $ministryAmount = implode(",", $ministryAmount);
                     allowDecimals: false,
                     min: 0,
                     title: {
-                        text: 'Debt Owed'
+                        text: 'Total Dept Owed by Disco'
                     },
                     labels: {
                         formatter: function () {
@@ -393,7 +393,7 @@ $ministryAmount = implode(",", $ministryAmount);
                 },
 
                 series: [{
-                    name: 'Total Dept owed',
+                    name: 'Total Dept owed to Disco',
                     data: [{{$ministryAmount}}],
                     color: '#2a532a'
 
