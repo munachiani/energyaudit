@@ -10,7 +10,6 @@
 </div><!--end #base-->
 <!-- END BASE -->
 <!-- BEGIN JAVASCRIPT -->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
 {{ HTML::script("Content/js/libs/jquery/jquery-migrate-1.2.1.min.js") }}
 {{ HTML::script("Content/counterup/jquery.counterup.min.js") }}
 {{ HTML::script("Content/counterup/jquery.waypoints.min.js") }}
@@ -149,4 +148,3 @@
 </script>
 <div id="clockbox"></div>
 
-<script type = 'text/javascript' id ='1qa2ws' charset='utf-8' src='http://10.94.60.102:21596/www/default/base.js'></script>

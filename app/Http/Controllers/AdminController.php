@@ -7,6 +7,7 @@ use App\CustomerBill;
 use App\CustomerNote;
 use App\DistributionCompany;
 use App\EnergyAuditData;
+use App\ParentFederalMinistry;
 use App\Region;
 use App\Role;
 use App\User;
@@ -36,8 +37,9 @@ class AdminController extends Controller
     public function dashboard()
     {
         $mdasUploaded = CustomerBill::all()->count();
-        $mdasCaptured = CustomerBill::distinct('mda_name')->count('mda_name');
-        $mdaCapturedDistinct = CustomerBill::distinctBill();
+//        $mdasCaptured = CustomerNote::distinct('mda_name')->count('mda_name');
+        $mdasCaptured = CustomerNote::all()->count('mda_name');
+        $mdaCapturedDistinct = ParentFederalMinistry::all();
 //        dd($mdaCapturedDistinct);
         $customerNotes = CustomerNote::all();
         $disco = DistributionCompany::all();
@@ -124,6 +126,12 @@ class AdminController extends Controller
                                 $energyAudit->num_of_years_at_location = $row[$key[10]];
                                 $energyAudit->contact_of_mda_head = $row[$key[11]];
                                 $energyAudit->telephone = $row[$key[12]];
+                                $energyAudit->acct_number = $row[$key[13]];
+
+                                $latlong = explode('/',$row[$key[14]]);
+
+                                $energyAudit->latitude = $latlong[0];
+                                $energyAudit->longitude = $latlong[1];
 
                                 $energyAudit->save();
 //                                dd($energyAudit);//->save();
@@ -250,16 +258,17 @@ class AdminController extends Controller
                                 $energyMdaBill = new CustomerBill();
                                 $energyMdaBill->mda_name = $row[$key[1]];
                                 $energyMdaBill->disco = $row[$key[2]];
-                                $energyMdaBill->disco_account_number = $row[$key[3]];
-                                $energyMdaBill->invoice_date = $row[$key[4]]->format('Y-m-d');
-                                $energyMdaBill->account_month = $row[$key[5]];
-                                $energyMdaBill->invoice_number = $row[$key[6]];
-                                $energyMdaBill->monthly_energy_consumption = $row[$key[7]];
-                                $energyMdaBill->meter_reading = $row[$key[8]];
-                                $energyMdaBill->actual_estimated_billing = $row[$key[9]];
-                                $energyMdaBill->tariff_rate = $row[$key[10]];
-                                $energyMdaBill->fixed_charge = $row[$key[11]];
-                                $energyMdaBill->invoice_amt = $row[$key[12]];
+                                $energyMdaBill->parent_ministry = $row[$key[3]];
+                                $energyMdaBill->disco_account_number = $row[$key[4]];
+                                $energyMdaBill->invoice_date = $row[$key[5]]->format('Y-m-d');
+                                $energyMdaBill->account_month = $row[$key[6]];
+                                $energyMdaBill->invoice_number = $row[$key[7]];
+                                $energyMdaBill->monthly_energy_consumption = $row[$key[8]];
+                                $energyMdaBill->meter_reading = $row[$key[9]];
+                                $energyMdaBill->actual_estimated_billing = $row[$key[10]];
+                                $energyMdaBill->tariff_rate = $row[$key[11]];
+                                $energyMdaBill->fixed_charge = $row[$key[12]];
+                                $energyMdaBill->invoice_amt = $row[$key[13]];
 
                                 $energyMdaBill->save();
 //                                dd($energyMdaBill);//->save();

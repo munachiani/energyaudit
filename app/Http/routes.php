@@ -82,6 +82,9 @@ Route::post('Customer/UploadCustomerNote','AdminController@saveMDACustomerNote')
 Route::get('Customer/UploadCustomerBill','AdminController@uploadMDACustomerBill');
 Route::post('Customer/UploadCustomerBill','AdminController@saveMDACustomerBill');
 
+Route::get('api/accountinfos','BaseController@accountInfos');
+Route::post('Customer/UploadCustomerBill','AdminController@saveMDACustomerBill');
+
 
 Route::get('Users/ManageRole','AdminController@ManageRole');
 

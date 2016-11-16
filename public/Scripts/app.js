@@ -1,6 +1,8 @@
 /**
  * Created by Kasali.Razaq & Mbakwe.Caleb on 3/10/2016.
  */
+
+
 $(document).ready(function () {
     var checkValue = document.getElementById("stateImage");
 
@@ -10,13 +12,13 @@ var App = {
     CONSTANTS: {
         map: null,
         data: null,
-        //url: location.origin + "/api/energyaudit",
-        //url: { "acctinfo": location.origin + "/api/accountinfos", "energyaudit": location.origin + "/api/energyaudit" },
-        url: location.protocol + "//" + location.hostname + ":8089" + "/api/business",
+        //url: location.origin + "/api/energyaudit", url = $("#getCustomerBill").val();location.origin + "/api/accountinfos"
+        url: { "acctinfo": $("#accountInfoUrl").val(), "energyaudit": $("#energyAuditUrl").val()  },
+        //url: location.protocol + "//" + location.hostname + ":8089" + "/api/business",
         auth_url: location.origin + "/token",
         //auth_url: location.protocol + "//" + location.hostname + ":8089" + "/token",
         path: location.origin + "userimages/phone-marke.gif",
-        pathstate: location.origin + "userimages/state2.png",
+        pathstate: $("#stateImage").val(),
         //path: location.protocol + "//" + location.hostname + ":8089" + "/userimages/phone-marker.png",
         kml: "http://code.caleb.com.ng/vgg/mastercard/nga.kml",
         limit: 0,
@@ -4284,7 +4286,7 @@ var App = {
     initMap: function () {
         //console.log(App.getGoogleCords(63, 30, 22.1178));
         App.CONSTANTS.map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 7,
+            zoom: 6,
             center: {
                 lat: App.CONSTANTS.center.lat,
                 lng: App.CONSTANTS.center.long
@@ -4331,17 +4333,17 @@ var App = {
 
          }*/
     },
-    /*showLagData: function () {
-     var user_id = document.getElementById('user_id').innerHTML;
+    showLagData: function () {
+     /*var user_id = document.getElementById('user_id').innerHTML;
 
      var tokenz = localStorage.getItem("access_token");
      //console.log(tokenz);
-     App.CONSTANTS.auth_token = "Bearer " + tokenz;
+     App.CONSTANTS.auth_token = "Bearer " + tokenz;*/
 
-     newurl = App.CONSTANTS.url.acctinfo + "?user_id=" + user_id + "&lim=" + App.CONSTANTS.laglimit;
+     //newurl = App.CONSTANTS.url.acctinfo + "?user_id=" + user_id + "&lim=" + App.CONSTANTS.laglimit;
+     newurl = App.CONSTANTS.url.acctinfo;
      console.log(newurl);
-     //console.log(App.CONSTANTS.url);
-     //console.log(location.origin);
+
      $.ajax({
      url: newurl,
      type: "GET",
@@ -4371,54 +4373,54 @@ var App = {
      }).done(function () {
      if (App.CONSTANTS.lagstatus === true) {
      //setInterval(App.getData, 2000);
-     App.showLagData();
+     //App.showLagData();
      }
      });
-     },*/
+     },
     getData: function () {
-        var user_id = document.getElementById('user_id').innerHTML;
+        /*var user_id = document.getElementById('user_id').innerHTML;
 
-        var tokenz = localStorage.getItem("access_token");
-        //console.log(tokenz);
-        App.CONSTANTS.auth_token = "Bearer " + tokenz;
+         var tokenz = localStorage.getItem("access_token");
+         //console.log(tokenz);
+         App.CONSTANTS.auth_token = "Bearer " + tokenz;
 
-        newurl = App.CONSTANTS.url.energyaudit + "?user_id=" + user_id + "&lim=" + App.CONSTANTS.limit;
-        console.log(newurl);
-        //console.log(App.CONSTANTS.url);
-        //console.log(location.origin);
-        $.ajax({
-            url: newurl,
-            type: "GET",
-            dataType: "json",
-            headers: {
-                Authorization: App.CONSTANTS.auth_token
-            },
-            beforeSend: function () {
-                //showRequest();
-                //request.setRequestHeader("Authorization", App.CONSTANTS.auth_token);
-            },
-            success: function (result) {
-                //console.log(result);
-                App.showData(result);
-                App.CONSTANTS.limit += 80;
+         newurl = App.CONSTANTS.url.energyaudit + "?user_id=" + user_id + "&lim=" + App.CONSTANTS.limit;
+         console.log(newurl);
+         //console.log(App.CONSTANTS.url);
+         //console.log(location.origin);
+         $.ajax({
+         url: newurl,
+         type: "GET",
+         dataType: "json",
+         headers: {
+         Authorization: App.CONSTANTS.auth_token
+         },
+         beforeSend: function () {
+         //showRequest();
+         //request.setRequestHeader("Authorization", App.CONSTANTS.auth_token);
+         },
+         success: function (result) {
+         //console.log(result);
+         App.showData(result);
+         App.CONSTANTS.limit += 80;
 
-            },
-            complete: function () {
-                //App.doneLoading();
-            },
-            error: function (e, response) {
-                console.log({
-                    e: e,
-                    response: response
-                });
-            }
-        }).done(function () {
-            if (App.CONSTANTS.status === true) {
-                //setInterval(App.getData, 2000);
-                App.getData();
-            }
-        });
-
+         },
+         complete: function () {
+         //App.doneLoading();
+         },
+         error: function (e, response) {
+         console.log({
+         e: e,
+         response: response
+         });
+         }
+         }).done(function () {
+         if (App.CONSTANTS.status === true) {
+         //setInterval(App.getData, 2000);
+         App.getData();
+         }
+         });
+         */
         //    get data from api
     },
     loadJson :function (callback) {
@@ -4435,7 +4437,7 @@ var App = {
         xobj.send(null);
     }
     ,
-    /*showInfo: function (data) {
+    showInfo: function (data) {
      //console.log(data);
      var labelHTML = "";
      var position, path;
@@ -4460,10 +4462,10 @@ var App = {
      "<div class='panel-heading'><h2 class='panel-title'>Audit Details</h2></div>" +
      "<div class='panel-body'>" +
      "<p>Address: <b>" + data[i].address + "</b></p>" +
-     "<p>No of Years at location: <b>" + 5+i+" yrs" + "</b></p>" +
-     "<p>No of generators: <b>" + 6+i + "</b></p>" +
-     "<p>Generator running per hours: <b>" + 8+i+" hrs" + "</b></p>" +
-     "<p>Avg. Electricity Bill per month : <b>" + 50,000 + "</b></p>" +
+     "<p>No of Years at location: <b>" + data[i].num_of_years_at_location +" yrs" + "</b></p>" +
+     "<p>No of generators: <b>" + data[i].num_of_generators + "</b></p>" +
+     "<p>Generator running per hours: <b>" + data[i].generator_running +" hrs" + "</b></p>" +
+     "<p>Avg. Electricity Bill per month : <b>" + data[i].avg_electricity_bill_per_month + "</b></p>" +
      "</div></div></div>";
 
      position = {
@@ -4474,14 +4476,14 @@ var App = {
      //path = google.maps.SymbolPath.CIRCLE;
      path = App.CONSTANTS.path;
      //console.log(position);
-     App.showMarker(position, labelHTML, path, 7, "blue", data[i].mda_name);
+     App.showMarker(position, labelHTML, path, 7, "green", data[i].mda_name);
      //data[i].international_card_acceptance ? App.showInternationalAcceptance(position, labelHTML, 7, "blue", "International Card Acceptance") : App.showInternationalAcceptance(position, labelHTML, 7, "green", "International Card Acceptance")
 
      }
      }
 
      //console.log(App.CONSTANTS.stateData.length);
-     },*/
+     },
     showData: function (data) {
         //console.log(data);
         var labelHTML = "";
@@ -4511,7 +4513,7 @@ var App = {
                     "<p>Year At Location: <b>" + data[i].num_of_years_at_location + "</b></p>" +
                     "<p>Number of Generator: <b>" + data[i].num_of_generators + "</b></p>" +
                     "<p>Generator Running Hrs/Month: <b>" + data[i].generator_running + "</b></p>" +
-                    "<p>Avg. Electricity Bill Per Month : <b>" + data[i].avg_electricity_bill_per_month + "</b></p>" +
+                    "<p>Avg. Electricity Bill Per Month : <b>  ₦" + data[i].avg_electricity_bill_per_month.toFixed(2) + "</b></p>" +
                     "<p>Telephone : <b>" + data[i].telephone + "</b></p>" +
                     "<p>Image : <img src='" + location.origin + checkValue.value + "' alt='Building Image' width='100px' height='100px'></p>" +
                     "</div></div></div>";
@@ -4522,9 +4524,9 @@ var App = {
                 };
 
                 //path = google.maps.SymbolPath.CIRCLE;
-                path = App.CONSTANTS.path;
+                path = App.CONSTANTS.pathstate;
                 //console.log(position);
-                App.showMarker(position, labelHTML, path, 7, "blue", data[i].mda_name);
+                App.showMarker(position, labelHTML, path, 7, "green", data[i].mda_name);
                 //data[i].international_card_acceptance ? App.showInternationalAcceptance(position, labelHTML, 7, "blue", "International Card Acceptance") : App.showInternationalAcceptance(position, labelHTML, 7, "green", "International Card Acceptance")
 
             }
@@ -4633,15 +4635,26 @@ var App = {
 
 
     },
+
     showMarker: function (position, label, path, scale, color, title) {
+        /*var goldStar = {
+            path: 'M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
+            fillColor: 'yellow',
+            fillOpacity: 0.8,
+            scale: 1,
+            strokeColor: 'gold',
+            strokeWeight: 2.0
+        };*/
         var marker = new google.maps.Marker({
             position: position,
+            //icon: goldStar,
             icon: {
                 path: google.maps.SymbolPath.CIRCLE,
+                //path: path,
                 fillOpacity: 1.0,
                 fillColor: color,
-                strokeOpacity: 0.3,
-                strokeColor: '#ffff0',
+                strokeOpacity: 0.5,
+                strokeColor: 'yellow',
                 strokeWeight: 2.0,
                 scale: 10 //pixels
             },
@@ -4664,7 +4677,6 @@ var App = {
 
 };
 
-
 $(document).ready(function () {
     App.init();
 
@@ -4672,3 +4684,7 @@ $(document).ready(function () {
 /**
  * Created by hp on 11/3/2016.
  */
+
+function formatCurrency(n, currency) {
+    return currency + " " + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+}

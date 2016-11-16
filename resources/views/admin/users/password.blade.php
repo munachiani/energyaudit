@@ -11,7 +11,7 @@
                     <header>
                         Change Password
                         <small class="pull-right">
-                            <a href="{{url('Users/Edit')}}">
+                            <a href="{{url('Users/Edit/'.$user->id)}}">
                                 <i class="fa fa-angle-double-left"></i>&nbsp; Back to Profile
                             </a>
                         </small>

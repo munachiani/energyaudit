@@ -16,10 +16,11 @@
         }
 
         #container2 {
-            height: 1200px;
-            min-width: 310px;
-            max-width: 800px;
+            height: 600px !important;
+            min-width: 610px !important;
+            max-width: 920px;
             margin: 0 auto;
+            text-align: right;
         }
     </style>
 @stop
@@ -53,8 +54,8 @@ $ministryAmount = [];
 $ministry = [];
 $ministryAmountTotal = 0;
 foreach ($mdaCapturedDistinct as $mdasDistinct) {
-    $ministry[] = $mdasDistinct;
-    $totalCountM = \App\CustomerBill::where('mda_name', '=',$mdasDistinct)->get();
+    $ministry[] = $mdasDistinct->parent_fed_ministry_name;
+    $totalCountM = \App\CustomerBill::where('parent_ministry', '=',$mdasDistinct->parent_fed_ministry_name)->get();
     $totalM = 0;
 
     foreach($totalCountM as $tm ){
@@ -74,10 +75,9 @@ $ministryAmount = implode(",", $ministryAmount);
             ﻿﻿<input type="hidden" id="discoData" value="{{$discoData}}">
             ﻿﻿<input type="hidden" id="ministry" value="{{$ministry}}">
             ﻿﻿<input type="hidden" id="discoCount" value="{{$discoCount}}">
-            <input id="startdate" name="startdate" type="hidden" value="11/03/2016"/><input id="enddate" name="enddate"
-                                                                                            type="hidden"
-                                                                                            value="11/03/2016"/>
-            <input id="userid" name="userid" type="hidden" value=""/>
+            <input id="startdate" name="startdate" type="hidden" value="01/01/2015"/>
+            <input id="enddate" name="enddate" type="hidden" value="31/12/2016"/>
+            <input id="userid" name="userid" type="hidden" value="{{auth()->user()->id}}"/>
 
             <form action="/Dashboard" id="form" method="get">
                 <div class="row">
@@ -94,7 +94,7 @@ $ministryAmount = implode(",", $ministryAmount);
                                             </div>
                                             <div class="col-md-8">
                                                 <input autocomplete="off" class="form-control" id="datepick"
-                                                       name="datepick" placeholder="03/Nov/2016" type="text" value=""/>
+                                                       name="datepick" placeholder="03/Nov/2016" type="text" value="01/01/2015" />
                                             </div>
                                         </div>
 
@@ -104,7 +104,7 @@ $ministryAmount = implode(",", $ministryAmount);
                                             </div>
                                             <div class="col-md-8">
                                                 <input autocomplete="off" class="form-control" id="datepick2"
-                                                       name="datepick2" placeholder="03/Nov/2016" type="text" value=""/>
+                                                       name="datepick2" placeholder="03/Nov/2016" type="text" value="31/12/2016" />
                                             </div>
                                         </div>
                                     </div>
@@ -141,7 +141,7 @@ $ministryAmount = implode(",", $ministryAmount);
                                 <span class="info-box-icon"><i class="fa fa-institution"></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">MDAs-Uploaded</span>
+                                    <span class="info-box-text">MDAs-Uploaded Bills</span>
                                     {{--<span class="info-box-number" id="numberOfMembers">{{$mdasUploaded}}</span>--}}
                                     <span class="counter info-box-number" data-counter="counterup"
                                           data-value="{{$mdasUploaded}}">0</span>
@@ -192,8 +192,8 @@ $ministryAmount = implode(",", $ministryAmount);
                                 Ministry
                             </header>
                         </div>
-                        <div class="card-body height-12">
-                            <div id="container2" style="height: 400px"></div>
+                        <div class="card-body height-12" style="height: 640px;">
+                            <div id="container2" style="height: 400px;"></div>
                         </div>
                     </div>
                 </div>
@@ -355,8 +355,16 @@ $ministryAmount = implode(",", $ministryAmount);
                     text: ''
                 },
 
+                style: {
+                    width: '250px'
+                },
                 xAxis: {
-                    categories: horMinistry
+                    categories: horMinistry,
+                    labels:{
+                        formatter: function() {
+                            return this.value.toString().substring(0, 40);
+                        }
+                    }
                 },
 
                 yAxis: {
@@ -385,7 +393,7 @@ $ministryAmount = implode(",", $ministryAmount);
                 },
 
                 series: [{
-                    name: 'Total Dept owed by Ministries',
+                    name: 'Total Dept owed',
                     data: [{{$ministryAmount}}],
                     color: '#2a532a'
 

@@ -36,7 +36,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach(\App\User::notMe() as $user)
+                                    @foreach(\App\User::all() as $user)
                                         <?php
                                         $userRoles = [];
                                         $userRegions = [];

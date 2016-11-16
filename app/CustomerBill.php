@@ -10,6 +10,7 @@ class CustomerBill extends Model
     protected $fillable = [
         'mda_name',
         'disco',
+        'parent_ministry',
         'disco_account_number',
         'invoice_date',
         'account_month',
@@ -38,8 +39,8 @@ class CustomerBill extends Model
         $array = [];
         $eg = DB::table('customer_bills')->distinct()->get();
         foreach($eg as $item){
-            if(!in_array($item->mda_name,$array)){
-                $array[]=$item->mda_name;
+            if(!in_array($item->parent_ministry,$array)){
+                $array[]=$item->parent_ministry;
             }
         }
         return $array;
