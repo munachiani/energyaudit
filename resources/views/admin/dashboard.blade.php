@@ -309,7 +309,7 @@ $ministryAmount = implode(",", $ministryAmount);
                     allowDecimals: false,
                     min: 0,
                     title: {
-                        text: 'Debt Owed '
+                        text: 'Total Debt Owed'
                     }, labels: {
                         formatter: function () {
                             return '₦' + this.axis.defaultLabelFormatter.call(this);
@@ -331,7 +331,7 @@ $ministryAmount = implode(",", $ministryAmount);
                 },
 
                 series: [{
-                    name: 'Total Dept owed by Discos',
+                    name: 'Total Dept owed to Discos',
                     data: [{{$discoAmount}}],
                     color: '#2a532a'
 
@@ -371,7 +371,7 @@ $ministryAmount = implode(",", $ministryAmount);
                     allowDecimals: false,
                     min: 0,
                     title: {
-                        text: 'Total Dept Owed by Disco'
+                        text: 'Debt Owed'
                     },
                     labels: {
                         formatter: function () {
@@ -393,7 +393,7 @@ $ministryAmount = implode(",", $ministryAmount);
                 },
 
                 series: [{
-                    name: 'Total Dept owed to Disco',
+                    name: 'Total Dept owed',
                     data: [{{$ministryAmount}}],
                     color: '#2a532a'
 
