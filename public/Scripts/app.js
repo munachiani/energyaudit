@@ -4627,7 +4627,7 @@ var App = {
         google.maps.event.addListener(marker, 'click', function () {
 
             //console.log(label);
-            App.CONSTANTS.map.setZoom(10);
+            App.CONSTANTS.map.setZoom(7);
             App.CONSTANTS.map.setCenter(marker.getPosition());
             App.CONSTANTS.infoWindow.setContent(label);
             App.CONSTANTS.infoWindow.open(App.CONSTANTS.map, this);
@@ -4668,7 +4668,7 @@ var App = {
 
         google.maps.event.addListener(marker, 'click', function () {
             //console.log(label);
-            App.CONSTANTS.map.setZoom(9);
+            App.CONSTANTS.map.setZoom(7);
             App.CONSTANTS.map.setCenter(marker.getPosition());
             App.CONSTANTS.infoWindow.setContent(label);
             App.CONSTANTS.infoWindow.open(App.CONSTANTS.map, this);
