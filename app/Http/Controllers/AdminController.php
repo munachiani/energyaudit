@@ -23,7 +23,9 @@ use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
+
 {
+
     public function __construct()
     {
         /*  $user=auth()->user();
@@ -240,10 +242,15 @@ class AdminController extends Controller
 
             }*/
             else {
+                $filename = 'mda_' . '.' . $extension;
+
+           $file->move($destinationPath, $filename);
+                $nowFile=$destinationPath.$filename;
+//                dd($nowFile);
                 try {
-                    Excel::selectSheetsByIndex(2)->load($file, function ($reader) {
-                        $sheet = $reader->getExcel()->getSheet(2);
-                        $highestRow = $sheet->getHighestRow();
+                    Excel::selectSheetsByIndex(2)->filter('chunk')->load($nowFile)->chunk(150, function ($reader) {
+//                        $sheet = $reader->getExcel()->getSheet(2);
+//                        $highestRow = $sheet->getHighestRow();
                         $cc = 1;
                         foreach ($reader->toArray() as $row) {
                             if ($cc++ < 1)
@@ -260,7 +267,7 @@ class AdminController extends Controller
                                 $energyMdaBill->disco = $row[$key[2]];
                                 $energyMdaBill->parent_ministry = $row[$key[3]];
                                 $energyMdaBill->disco_account_number = $row[$key[4]];
-                                $energyMdaBill->invoice_date = $row[$key[5]]->format('Y-m-d');
+                                $energyMdaBill->invoice_date = $row[$key[5]];
                                 $energyMdaBill->account_month = $row[$key[6]];
                                 $energyMdaBill->invoice_number = $row[$key[7]];
                                 $energyMdaBill->monthly_energy_consumption = $row[$key[8]];
@@ -275,7 +282,8 @@ class AdminController extends Controller
                             }
 
                         }
-                    });
+                    },true);
+                    unlink($nowFile);
                     session()->flash('flash_message', 'Report uploaded successfully.');
                     return redirect()->back();
                 } catch (\Exception $e) {

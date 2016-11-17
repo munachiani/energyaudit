@@ -4441,7 +4441,9 @@ var App = {
      //console.log(data);
      var labelHTML = "";
      var position, path;
-     //console.log(data.length);
+        var buildingImageVal = document.getElementById("buildingImage");
+
+        //console.log(data.length);
      if (data.length === 0) {
      App.CONSTANTS.lagstatus = false;
      }
@@ -4451,6 +4453,10 @@ var App = {
 
 
      labelHTML = "<div style='margin-top: 10px;'><div class='panel panel-success'>" +
+     "<div class='panel-heading'><h2 class='panel-title'>" + data[i].mda_name + "</h2></div>" +
+     "<div class='panel-body'>" +
+         "<img src='" + buildingImageVal.value + "' alt='Building Image' width='100%'>" +
+         "</div>" +
      "<div class='panel-heading'><h2 class='panel-title'>MDA Details</h2></div>" +
      "<div class='panel-body'>" +
      "<p>MDA Name: <b>" + data[i].mda_name + "</b></p>" +
@@ -4462,9 +4468,9 @@ var App = {
      "<div class='panel-heading'><h2 class='panel-title'>Audit Details</h2></div>" +
      "<div class='panel-body'>" +
      "<p>Address: <b>" + data[i].address + "</b></p>" +
-     "<p>No of Years at location: <b>" + data[i].num_of_years_at_location +" yrs" + "</b></p>" +
+     "<p>No of Years at location: <b>" + data[i].num_of_years_at_location +" " + "</b></p>" +
      "<p>No of generators: <b>" + data[i].num_of_generators + "</b></p>" +
-     "<p>Generator running per hours: <b>" + data[i].generator_running +" hrs" + "</b></p>" +
+     "<p>Generator running per hours: <b>" + data[i].generator_running +" " + "</b></p>" +
      "<p>Avg. Electricity Bill per month : <b>" + data[i].avg_electricity_bill_per_month + "</b></p>" +
      "</div></div></div>";
 
@@ -4549,7 +4555,7 @@ var App = {
         var marker = new google.maps.Marker({
             position: position,
             icon: {
-                path: google.maps.SymbolPath.CIRCLE,
+                //path: google.maps.SymbolPath.CIRCLE,
                 fillOpacity: 1.0,
                 fillColor: color,
                 strokeOpacity: 1.0,
@@ -4572,6 +4578,7 @@ var App = {
         });
     },
     showStateMarker: function(position, label, scale, color, title, disco){
+
         var marker = new google.maps.Marker({
             position: position,
             icon: App.CONSTANTS.pathstate/* {
@@ -4627,7 +4634,7 @@ var App = {
         google.maps.event.addListener(marker, 'click', function () {
 
             //console.log(label);
-            App.CONSTANTS.map.setZoom(10);
+            App.CONSTANTS.map.setZoom(7);
             App.CONSTANTS.map.setCenter(marker.getPosition());
             App.CONSTANTS.infoWindow.setContent(label);
             App.CONSTANTS.infoWindow.open(App.CONSTANTS.map, this);
@@ -4645,11 +4652,12 @@ var App = {
             strokeColor: 'gold',
             strokeWeight: 2.0
         };*/
+        var mapImage=$("#mapImage").val();
         var marker = new google.maps.Marker({
             position: position,
-            //icon: goldStar,
-            icon: {
-                path: google.maps.SymbolPath.CIRCLE,
+            icon: mapImage,
+            /*icon: {
+                //path: google.maps.SymbolPath.CIRCLE,
                 //path: path,
                 fillOpacity: 1.0,
                 fillColor: color,
@@ -4657,7 +4665,7 @@ var App = {
                 strokeColor: 'yellow',
                 strokeWeight: 2.0,
                 scale: 10 //pixels
-            },
+            },*/
             title: title,
             draggable: false,
             map: App.CONSTANTS.map
@@ -4668,7 +4676,7 @@ var App = {
 
         google.maps.event.addListener(marker, 'click', function () {
             //console.log(label);
-            App.CONSTANTS.map.setZoom(9);
+            App.CONSTANTS.map.setZoom(7);
             App.CONSTANTS.map.setCenter(marker.getPosition());
             App.CONSTANTS.infoWindow.setContent(label);
             App.CONSTANTS.infoWindow.open(App.CONSTANTS.map, this);

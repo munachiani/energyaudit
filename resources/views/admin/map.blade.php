@@ -19,6 +19,8 @@
             <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDnwVXdPAfWb3f2OwfsimrxuLIPhHtYZcc">
             </script>
             <input type="hidden" id="stateImage" value="{{url('userimages/state2.png')}}">
+            <input type="hidden" id="mapImage" value="{{url('userimages/map.png')}}">
+            <input type="hidden" id="buildingImage" value="{{url('userimages/building.jpg')}}">
             <input type="hidden" id="accountInfoUrl" value="{{url('api/accountinfos')}}">
             <input type="hidden" id="energyAuditUrl" value="{{url('api/energyaudit')}}">
             {{ HTML::script('Scripts/maplabel.js')}}
