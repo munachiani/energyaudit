@@ -4555,7 +4555,7 @@ var App = {
         var marker = new google.maps.Marker({
             position: position,
             icon: {
-                path: google.maps.SymbolPath.CIRCLE,
+                //path: google.maps.SymbolPath.CIRCLE,
                 fillOpacity: 1.0,
                 fillColor: color,
                 strokeOpacity: 1.0,
@@ -4578,6 +4578,7 @@ var App = {
         });
     },
     showStateMarker: function(position, label, scale, color, title, disco){
+
         var marker = new google.maps.Marker({
             position: position,
             icon: App.CONSTANTS.pathstate/* {
@@ -4651,11 +4652,12 @@ var App = {
             strokeColor: 'gold',
             strokeWeight: 2.0
         };*/
+        var mapImage=$("#mapImage").val();
         var marker = new google.maps.Marker({
             position: position,
-            //icon: goldStar,
-            icon: {
-                path: google.maps.SymbolPath.CIRCLE,
+            icon: mapImage,
+            /*icon: {
+                //path: google.maps.SymbolPath.CIRCLE,
                 //path: path,
                 fillOpacity: 1.0,
                 fillColor: color,
@@ -4663,7 +4665,7 @@ var App = {
                 strokeColor: 'yellow',
                 strokeWeight: 2.0,
                 scale: 10 //pixels
-            },
+            },*/
             title: title,
             draggable: false,
             map: App.CONSTANTS.map
