@@ -283,6 +283,7 @@ class AdminController extends Controller
 
                         }
                     },true);
+                    unlink($nowFile);
                     session()->flash('flash_message', 'Report uploaded successfully.');
                     return redirect()->back();
                 } catch (\Exception $e) {
