@@ -531,20 +531,20 @@ class BaseController extends Controller
             $bill = CustomerBill::discoFilter($disco);
         }
         else*/
-            $bill = EnergyAuditData::latest('id')->get();
+            $bill = CustomerNote::latest('id')->get();
 
         $dataList = array();
         foreach ($bill as $i => $item) {
             $data['mda_name'] = $item->mda_name;
-            $data['address'] = $item->address;
-            $data['acct_number'] = $item->acct_number;
-            $data['institution'] = $item->institution;
-            $data['num_of_years_at_location'] = $item->num_of_years_at_location;
-            $data['num_of_generators'] = $item->num_of_generators;
-            $data['generator_running'] = $item->generator_running;
-            $data['avg_electricity_bill_per_month'] = $item->avg_electricity_bill_per_month;
-            $data['latitude'] = $item->latitude;
-            $data['longitude'] = $item->longitude;
+            $data['address'] = $item->site_address;
+            $data['acct_number'] = $item->disco_acct_number;
+            $data['institution'] = $item->parent_fed_min_id;
+            $data['num_of_years_at_location'] = '';
+            $data['num_of_generators'] = '';
+            $data['generator_running'] = '';
+            $data['avg_electricity_bill_per_month'] = '';
+            $data['latitude'] = $item->site_latitude;
+            $data['longitude'] = $item->site_longitude;
 
             $dataList[] = $data;
         }
