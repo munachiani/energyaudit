@@ -55,11 +55,15 @@ $ministry = [];
 $ministryAmountTotal = 0;
 foreach ($mdaCapturedDistinct as $mdasDistinct) {
     $ministry[] = $mdasDistinct->parent_fed_ministry_name;
-    $totalCountM = \App\CustomerBill::where('parent_ministry', '=',$mdasDistinct->parent_fed_ministry_name)->get();
+    $customNotes = \App\CustomerNote::where('parent_fed_min_id', '=', $mdasDistinct->parent_fed_ministry_name)->get();
+    //$totalCountM = \App\CustomerBill::where('parent_ministry', '=',$mdasDistinct->parent_fed_ministry_name)->get();
     $totalM = 0;
 
-    foreach($totalCountM as $tm ){
-        $totalM += $tm->invoice_amt;
+    foreach ($customNotes as $tm) {
+        $totalCountM = \App\CustomerBill::where('disco_account_number', '=', $tm->disco_acct_number)->get();
+
+        foreach ($totalCountM as $tt)
+            $totalM += $tt->invoice_amt;
     }
 
     $ministryAmount[] = $totalM;
@@ -94,7 +98,8 @@ $ministryAmount = implode(",", $ministryAmount);
                                             </div>
                                             <div class="col-md-8">
                                                 <input autocomplete="off" class="form-control" id="datepick"
-                                                       name="datepick" placeholder="03/Nov/2016" type="text" value="01/01/2015" />
+                                                       name="datepick" placeholder="03/Nov/2016" type="text"
+                                                       value="01/01/2015"/>
                                             </div>
                                         </div>
 
@@ -104,7 +109,8 @@ $ministryAmount = implode(",", $ministryAmount);
                                             </div>
                                             <div class="col-md-8">
                                                 <input autocomplete="off" class="form-control" id="datepick2"
-                                                       name="datepick2" placeholder="03/Nov/2016" type="text" value="31/12/2016" />
+                                                       name="datepick2" placeholder="03/Nov/2016" type="text"
+                                                       value="31/12/2016"/>
                                             </div>
                                         </div>
                                     </div>
@@ -360,8 +366,8 @@ $ministryAmount = implode(",", $ministryAmount);
                 },
                 xAxis: {
                     categories: horMinistry,
-                    labels:{
-                        formatter: function() {
+                    labels: {
+                        formatter: function () {
                             return this.value.toString().substring(0, 40);
                         }
                     }
