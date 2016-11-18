@@ -538,13 +538,31 @@ class BaseController extends Controller
             $data['mda_name'] = $item->mda_name;
             $data['address'] = $item->site_address;
             $data['acct_number'] = $item->disco_acct_number;
-            $data['institution'] = $item->parent_fed_min_id;
+            $data['ministry'] = $item->parent_fed_min_id;
             $data['num_of_years_at_location'] = '';
             $data['num_of_generators'] = '';
             $data['generator_running'] = '';
             $data['avg_electricity_bill_per_month'] = '';
             $data['latitude'] = $item->site_latitude;
             $data['longitude'] = $item->site_longitude;
+            $data['government_level'] = $item->government_level;
+            $data['sector'] = $item->sector_id;
+            $data['coordinates'] = $item->site_latitude.'/'.$item->site_longitude;
+            $data['closet_landmark'] = $item->closet_landmark;
+            $data['city'] = $item->city;
+            $data['village'] = $item->village;
+            $data['town'] = $item->town;
+            $data['state_id'] = $item->state_id;
+            $data['lga_id'] = $item->lga_id;
+            $data['disco'] = $item->disco_id;
+            $data['business_unit'] = $item->business_unit;
+            $data['customer_type'] = $item->customer_type;
+            $data['customer_class'] = $item->customer_class;
+            $data['meter_installed'] = $item->meter_installed;
+            $data['meter_no'] = $item->meter_no;
+            $data['meter_type'] = $item->meter_type;
+            $data['meter_brand'] = $item->meter_brand;
+            $data['meter_model'] = $item->meter_model;
 
             $dataList[] = $data;
         }

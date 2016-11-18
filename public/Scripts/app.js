@@ -4259,7 +4259,8 @@ var App = {
     init: function () {
         this.computeHeight();
         this.initMap();
-        this.getData();
+        //this.getData();
+        this.showDataDisco();
         this.showLagData();
         setInterval(App.schedule, 1800000);
         this.schedule();
@@ -4455,14 +4456,32 @@ var App = {
      labelHTML = "<div style='margin-top: 10px;'><div class='panel panel-success'>" +
      "<div class='panel-heading'><h2 class='panel-title'>" + data[i].mda_name + "</h2></div>" +
      "<div class='panel-body'>" +
-         "<img src='" + buildingImageVal.value + "' alt='Building Image' width='100%'>" +
+         "<img src='" + buildingImageVal.value + "' alt='Building Image' width='240px'>" +
          "</div>" +
      "<div class='panel-heading'><h2 class='panel-title'>MDA Details</h2></div>" +
      "<div class='panel-body'>" +
      "<p>MDA Name: <b>" + data[i].mda_name + "</b></p>" +
      "<p>Address: <b>" + data[i].address + "</b></p>" +
      "<p>Account Number: <b>" + data[i].acct_number + "</b></p>" +
-     "<p>Institution: <b>" + data[i].institution + "</b></p>" +
+     "<p>Parent Fed Ministry: <b>" + data[i].institution + "</b></p>" +
+     "<p>Government Level: <b>" + data[i].government_level + "</b></p>" +
+     "<p>Sector: <b>" + data[i].sector + "</b></p>" +
+     "<p>Coordinates: <b>" + data[i].coordinates + "</b></p>" +
+     "<p>Closest Landmark: <b>" + data[i].closet_landmark + "</b></p>" +
+     "<p>City: <b>" + data[i].city + "</b></p>" +
+     "<p>Village: <b>" + data[i].village + "</b></p>" +
+     "<p>Town: <b>" + data[i].town + "</b></p>" +
+     "<p>State: <b>" + data[i].state_id + "</b></p>" +
+     "<p>LGA: <b>" + data[i].lga_id + "</b></p>" +
+     "<p>Distribution Company: <b>" + data[i].disco + "</b></p>" +
+     "<p>Business Unit: <b>" + data[i].business_unit + "</b></p>" +
+     "<p>Customer Type: <b>" + data[i].customer_type + "</b></p>" +
+     "<p>Customer Tarrif Class: <b>" + data[i].customer_class + "</b></p>" +
+     "<p>Meter Installed: <b>" + data[i].meter_installed + "</b></p>" +
+     "<p>Meter No: <b>" + data[i].meter_no + "</b></p>" +
+     "<p>Meter Type: <b>" + data[i].meter_type + "</b></p>" +
+     "<p>Meter Brand: <b>" + data[i].meter_brand + "</b></p>" +
+     "<p>Meter Model: <b>" + data[i].meter_model + "</b></p>" +
      "</div>" +
      "</div><div class='panel panel-warning'>" +
      "<div class='panel-heading'><h2 class='panel-title'>Audit Details</h2></div>" +
@@ -4551,6 +4570,21 @@ var App = {
         }
         //console.log(App.CONSTANTS.stateData.length);
     },
+    showDataDisco: function () {
+        if (App.CONSTANTS.limit === 0) {
+            for (var x = 0; x < App.CONSTANTS.stateData.length; x++) {
+                var obj = App.CONSTANTS.stateData[x];
+                labelHTML = "<p>" + App.CONSTANTS.stateData[x].name + "</p>";
+                positionz = {
+                    lat: obj.lat,
+                    lng: obj.long
+                };
+
+                App.showStateMarker(positionz, labelHTML, 7, "blue", App.CONSTANTS.stateData[x].name, App.CONSTANTS.stateData[x].disco);
+            }
+        }
+        //console.log(App.CONSTANTS.stateData.length);
+    },
     showInternationalAcceptance: function (position, label, scale, color, title) {
         var marker = new google.maps.Marker({
             position: position,
@@ -4581,7 +4615,8 @@ var App = {
 
         var marker = new google.maps.Marker({
             position: position,
-            icon: App.CONSTANTS.pathstate/* {
+            //icon: App.CONSTANTS.CIRCLE/* {
+            icon:{
              path: google.maps.SymbolPath.CIRCLE,
              fillOpacity: 0.3,
              fillColor: '#fff000',
@@ -4589,7 +4624,7 @@ var App = {
              strokeColor: '#ffff0',
              strokeWeight: 3.0,
              scale: 10 //pixels
-             }*/,
+             },
             title: title,
             draggable: false,
             map: App.CONSTANTS.map
