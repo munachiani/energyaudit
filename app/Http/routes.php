@@ -95,3 +95,5 @@ Route::get('admin/users/activate/{id}','AdminController@checkStatus');
 Route::get('Users/Profile/Edit/{id}','AdminController@updateProfile');
 Route::post('User/UpdatePassword','AdminController@updatePassword');
 
+Route::get('Users/Delete/{id}','AdminController@deleteUser');
+

@@ -649,5 +649,14 @@ class AdminController extends Controller
             ->with(compact('user'));
     }
 
+    public function deleteUser($id){
+        $user = User::find($id);
+        $user->delete();
+
+        session()->flash('flash_message', 'User deleted successfully.');
+        return redirect()->back();
+
+    }
+
 
 }

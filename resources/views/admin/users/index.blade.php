@@ -17,6 +17,12 @@
                 </div>
                 <div class="card-body">
 
+                    @if (Session::has('flash_message'))
+                        <div class="alert alert-callout alert-success">
+                            {{ session('flash_message') }}
+                        </div>
+                    @endif
+
 
                     <div class="row">
                         <div class="col-md-12">
@@ -74,10 +80,12 @@
                                             </td>
 
                                             <td>
-                                                <a class="btn btn-xs btn-raised ink-reaction btn-default"
+                                                <a class="btn btn-xs btn-raised ink-reaction btn-info"
                                                    href="{{url('Users/Edit/'.$user->id)}}">Edit</a> &nbsp;|&nbsp;
-                                                <a class="btn btn-xs btn-raised ink-reaction btn-default"
-                                                   href="{{url('Users/Activate/'.$user->IsActive.'/'.$user->id)}}">{{$user->isActive()?'Active':'Deactivated'}}</a>
+                                                <a class="btn btn-xs btn-raised ink-reaction btn-{{$user->isActive()?'success':'danger'}}"
+                                                   href="{{url('Users/Activate/'.$user->IsActive.'/'.$user->id)}}">{{$user->isActive()?'Deactivate ?':'Activate ?'}}</a>&nbsp;|&nbsp;
+                                                <a class="btn btn-xs btn-raised ink-reaction btn-danger"
+                                                   href="{{url('Users/Delete/'.$user->id)}}">Delete</a>
 
                                             </td>
                                         </tr>
