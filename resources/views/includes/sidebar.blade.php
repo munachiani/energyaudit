@@ -30,20 +30,19 @@ $user = auth()->user();
                     <span class="title">Dashboard</span>
                 </a>
             </li><!--end /menu-li -->
-            <li class="gui-folder">
-                <a>
-                    <div class="gui-icon"><i class="fa fa-users"></i></div>
-                    <span class="title">User Management</span>
-                </a>
-                <ul>
-                    <li><a href="{{url('Users/Index')}}" class=""><span class="title">Users</span></a></li>
-                    @if(($user->latestRole()->role->id) == 6)
-
+            @if(($user->latestRole()->role->id) == 6)
+                <li class="gui-folder">
+                    <a>
+                        <div class="gui-icon"><i class="fa fa-users"></i></div>
+                        <span class="title">User Management</span>
+                    </a>
+                    <ul>
+                        <li><a href="{{url('Users/Index')}}" class=""><span class="title">Users</span></a></li>
                         <li><a href="{{url('Users/Create')}}" class=""><span class="title">Add User</span></a></li>
-                    @endif
-                </ul>
-            </li><!--end /menu-li -->
 
+                    </ul>
+                </li><!--end /menu-li -->
+            @endif
 
 
             @if(($user->latestRole()->role->id) == 6)
@@ -100,12 +99,13 @@ $user = auth()->user();
                     <span class="title">Map</span>
                 </a>
             </li>
-            <li>
-                <a href="{{url('AuditTrail/Index')}}" class="">
-                    <div class="gui-icon"><i class="fa fa-paper-plane"></i></div>
-                    <span class="title"> View Audit Trail</span>
-                </a>
-            </li>
-
+            @if(($user->latestRole()->role->id) == 6)
+                <li>
+                    <a href="{{url('AuditTrail/Index')}}" class="">
+                        <div class="gui-icon"><i class="fa fa-paper-plane"></i></div>
+                        <span class="title"> View Audit Trail</span>
+                    </a>
+                </li>
+            @endif
         </ul><!--end .main-menu -->
         <!-- END MAIN MENU -->

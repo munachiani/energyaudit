@@ -74,12 +74,12 @@
                                                 </div>
                                                 <div class="col-md-4 form-group">
                                                     <label for="MiddleName">Middle Name</label>
-                                                    <span class="require">*</span>
+
                                                     <input class="form-control text-box single-line" data-val="true"
                                                            data-val-regex="Middle Name should contain only alphabets."
                                                            data-val-regex-pattern="^[a-zA-Z]+$" id="MiddleName"
                                                            name="MiddleName" type="text" value="{{old('MiddleName')}}"
-                                                           required/>
+                                                           />
                                                     <span class="field-validation-valid text-danger"
                                                           data-valmsg-for="MiddleName"
                                                           data-valmsg-replace="true">
@@ -163,9 +163,9 @@
                                             <div class="row">
                                                 <div class="col-md-8 form-group">
                                                     <label for="Address">Address</label>
-                                                    <span class="require">*</span>
+
                                             <textarea class="form-control" cols="20" id="Address" name="Address"
-                                                      rows="2" required>{{OLD('Address')}}
+                                                      rows="2" >{{OLD('Address')}}
 </textarea>
                                                     <span class="field-validation-valid text-danger"
                                                           data-valmsg-for="Address" data-valmsg-replace="true">
