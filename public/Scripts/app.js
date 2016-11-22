@@ -4453,44 +4453,45 @@ var App = {
      for (var i = 0; i < data.length; i++) {
 
 
-     labelHTML = "<div style='margin-top: 10px;'><div class='panel panel-success'>" +
+     //labelHTML = "<div style='margin-top: 10px;' class='col-md-9'><div class='panel panel-success'>" +
+     labelHTML = "<div style='margin-top: 10px;' class='col-md-9'><div class='panel panel-success'>" +
      "<div class='panel-heading'><h2 class='panel-title'>" + data[i].mda_name + "</h2></div>" +
      "<div class='panel-body'>" +
-         "<img src='" + buildingImageVal.value + "' alt='Building Image' width='240px'>" +
+         "<img src='" + buildingImageVal.value + "' alt='Building Image' width='100%'>" +
          "</div>" +
      "<div class='panel-heading'><h2 class='panel-title'>MDA Details</h2></div>" +
      "<div class='panel-body'>" +
-     "<p>MDA Name: <b>" + data[i].mda_name + "</b></p>" +
-     "<p>Address: <b>" + data[i].address + "</b></p>" +
-     "<p>Account Number: <b>" + data[i].acct_number + "</b></p>" +
-     "<p>Parent Fed Ministry: <b>" + data[i].institution + "</b></p>" +
-     "<p>Government Level: <b>" + data[i].government_level + "</b></p>" +
-     "<p>Sector: <b>" + data[i].sector + "</b></p>" +
-     "<p>Coordinates: <b>" + data[i].coordinates + "</b></p>" +
-     "<p>Closest Landmark: <b>" + data[i].closet_landmark + "</b></p>" +
-     "<p>City: <b>" + data[i].city + "</b></p>" +
-     "<p>Village: <b>" + data[i].village + "</b></p>" +
-     "<p>Town: <b>" + data[i].town + "</b></p>" +
-     "<p>State: <b>" + data[i].state_id + "</b></p>" +
-     "<p>LGA: <b>" + data[i].lga_id + "</b></p>" +
-     "<p>Distribution Company: <b>" + data[i].disco + "</b></p>" +
-     "<p>Business Unit: <b>" + data[i].business_unit + "</b></p>" +
-     "<p>Customer Type: <b>" + data[i].customer_type + "</b></p>" +
-     "<p>Customer Tarrif Class: <b>" + data[i].customer_class + "</b></p>" +
-     "<p>Meter Installed: <b>" + data[i].meter_installed + "</b></p>" +
-     "<p>Meter No: <b>" + data[i].meter_no + "</b></p>" +
-     "<p>Meter Type: <b>" + data[i].meter_type + "</b></p>" +
-     "<p>Meter Brand: <b>" + data[i].meter_brand + "</b></p>" +
-     "<p>Meter Model: <b>" + data[i].meter_model + "</b></p>" +
+         "<div class='col-md-6'><input type='checkbox' checked> Name</div><div class='col-md-6'> <b>" + data[i].mda_name + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Address</div><div class='col-md-6'><b>" + data[i].address + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Account Number</div><div class='col-md-6'><b>" + data[i].acct_number + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Parent Fed Ministry</div><div class='col-md-6'><b>" + data[i].institution + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Government Level</div><div class='col-md-6'><b>" + data[i].government_level + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Sector</div><div class='col-md-6'><b>" + data[i].sector + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Coordinates</div><div class='col-md-6'><b>" + data[i].coordinates + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Closest Landmark</div><div class='col-md-6'><b>" + data[i].closet_landmark + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>City</div><div class='col-md-6'><b>" + data[i].city + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Village</div><div class='col-md-6'><b>" + data[i].village + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Town</div><div class='col-md-6'><b>" + data[i].town + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>State</div><div class='col-md-6'><b>" + data[i].state_id + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>LGA</div><div class='col-md-6'><b>" + data[i].lga_id + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Distribution Company</div><div class='col-md-6'><b>" + data[i].disco + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Business Unit</div><div class='col-md-6'><b>" + data[i].business_unit + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Customer Type</div><div class='col-md-6'><b>" + data[i].customer_type + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Customer Tarrif Class</div><div class='col-md-6'><b>" + data[i].customer_class + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Meter Installed</div><div class='col-md-6'><b>" + data[i].meter_installed + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Meter No</div><div class='col-md-6'><b>" + data[i].meter_no + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Meter Type</div><div class='col-md-6'><b>" + data[i].meter_type + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Meter Brand</div><div class='col-md-6'><b>" + data[i].meter_brand + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Meter Model</div><div class='col-md-6'><b>" + data[i].meter_model + "</b></div>" +
      "</div>" +
      "</div><div class='panel panel-warning'>" +
      "<div class='panel-heading'><h2 class='panel-title'>Audit Details</h2></div>" +
      "<div class='panel-body'>" +
-     "<p>Address: <b>" + data[i].address + "</b></p>" +
-     "<p>No of Years at location: <b>" + data[i].num_of_years_at_location +" " + "</b></p>" +
-     "<p>No of generators: <b>" + data[i].num_of_generators + "</b></p>" +
-     "<p>Generator running per hours: <b>" + data[i].generator_running +" " + "</b></p>" +
-     "<p>Avg. Electricity Bill per month : <b>" + data[i].avg_electricity_bill_per_month + "</b></p>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Address</div><div class='col-md-6'><b>" + data[i].address + "&nbsp;</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>No of Years at location</div><div class='col-md-6'><b>" + data[i].num_of_years_at_location +" &nbsp;" + "</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>No of generators</div><div class='col-md-6'><b>" + data[i].num_of_generators + "&nbsp;</b></div>" +
+     "<div class='col-md-6'><input type='checkbox' checked>Generator running per hours</div><div class='col-md-6'><b>" + data[i].generator_running +"&nbsp; &nbsp;" + "</b></div>" +
+     "<div class='col-md-10'><input type='checkbox' checked>Avg. Electricity Bill per month </div><div class='col-md-6'><b>" + data[i].avg_electricity_bill_per_month + " &nbsp;</b></div>" +
      "</div></div></div>";
 
      position = {
@@ -4523,14 +4524,14 @@ var App = {
                 labelHTML = "<div style='margin-top: 10px;'><div class='panel panel-success'>" +
                     "<div class='panel-heading'><h2 class='panel-title'>MDA Details</h2></div>" +
                     "<div class='panel-body'>" +
-                    "<p>MDA Name: <b>" + data[i].mda_name + "</b></p>" +
-                    "<p>Address: <b>" + data[i].address + "</b></p>" +
-                    "<p>Distribution Company: <b>" + data[i].distribution_company + "</b></p>" +
-                    "<p>Sector: <b>" + data[i].sector_name + "</b></p>" +
-                    "<p>State: <b>" + data[i].state_name + "</b></p>" +
-                    "<p>LGA: <b>" + data[i].local_gov_name + "</b></p>" +
-                    "<p>MDA Head Contact: <b>" + data[i].contact_of_mda_head + "</b></p>" +
-                    "<p>Auditor: <b>" + data[i].auditor_name + "</b></p>" +
+                    "<div class='col-md-6'>MDA Name</div>div class='col-md-6 right'> <b>" + data[i].mda_name + "</b></div>" +
+                    "<div class='col-md-6'>Address</div>div class='col-md-6 right'> <b>" + data[i].address + "</b></div>" +
+                    "<div class='col-md-6'>Distribution Company</div>div class='col-md-6 right'> <b>" + data[i].distribution_company + "</b></div>" +
+                    "<div class='col-md-6'>Sector</div>div class='col-md-6 right'> <b>" + data[i].sector_name + "</b></div>" +
+                    "<div class='col-md-6'>State</div>div class='col-md-6 right'><b>" + data[i].state_name + "</b></div>" +
+                    "<div class='col-md-6'>LGA</div>div class='col-md-6 right'><b>" + data[i].local_gov_name + "</b></div>" +
+                    "<div class='col-md-6'>MDA Head Contact</div>div class='col-md-6 right'> <b>" + data[i].contact_of_mda_head + "</b></div>" +
+                    "<div class='col-md-6'>Auditor</div>div class='col-md-6 right'><b>" + data[i].auditor_name + "</b></div>" +
                     "</div>" +
                     "</div><div class='panel panel-warning'>" +
                     "<div class='panel-heading'><h2 class='panel-title'>Customer Details</h2></div>" +

@@ -545,11 +545,11 @@ class AdminController extends Controller
         $rules = [
             'LastName' => 'required',
             'FirstName' => 'required',
-            'MiddleName' => 'required',
+//            'MiddleName' => 'required',
             'Gender' => 'required',
             'PhoneNumber' => 'required',
             'Email' => 'required|string|unique:users',
-            'Address' => 'required',
+//            'Address' => 'required',
             'UserRole' => 'required',
             'password' => 'required|max:14|min:6',
             'confirmPassword' => 'required|same:password|max:14|min:6',
