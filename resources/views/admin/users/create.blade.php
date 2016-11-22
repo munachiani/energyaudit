@@ -379,7 +379,7 @@
                 $("#Region").val('');
                 $("#Region").removeProp("required");
             }
-            else if (role != "General Supervisor" && role != "Super Admin" && role != "General User" && role !="") {
+            else if (role != "General Supervisor" && role != "Super Admin" && role != "Admin" && role != "General User" && role !="") {
                 $("#reg").removeAttr("hidden");
                 $("#State").attr("required", true);
                 $("#Region").attr("required", true);
