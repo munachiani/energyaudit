@@ -89,7 +89,7 @@
 
                                         </select>
                                     </div>
-                                    <div class="col-md-2 form-group">
+                                    <div class="col-md-3 form-group">
                                         <label class="block">&nbsp;</label>
 
                                         <div class="info-box-report">

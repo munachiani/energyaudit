@@ -50,7 +50,7 @@
                                     </div>
 
 
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label class="block">&nbsp;</label>
                                         <div class="info-box-report">
                                             <span class="info-box-report-icon"><i
