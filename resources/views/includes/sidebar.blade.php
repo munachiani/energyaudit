@@ -65,15 +65,15 @@ $user = auth()->user();
                     <span class="title">Audit Report</span>
                 </a>
                 <ul>
-                    <li class="{{substr(Request::path(),0,17) == 'ReportInfo/Energy'? 'active':''}}">
-                        <a href="{{url('ReportInfo/Energy')}}" >
+                    <li>
+                        <a href="{{url('ReportInfo/Energy')}}" class="{{substr(Request::path(),0,17) == 'ReportInfo/Energy'? 'active':''}}">
                             <span class="title">View Audit Report</span>
                         </a>
                     </li>
                     @if(($user->latestRole()->role->id) == 6)
 
-                        <li class="{{substr(Request::path(),0,22) == 'ReportInfo/UploadSheet'? 'active':''}}">
-                            <a href="{{url('ReportInfo/UploadSheet')}}" class="">
+                        <li class="">
+                            <a href="{{url('ReportInfo/UploadSheet')}}" class="{{substr(Request::path(),0,22) == 'ReportInfo/UploadSheet'? 'active':''}}">
                                 <span class="title"> Upload Audit Report</span>
                             </a>
                         </li>
