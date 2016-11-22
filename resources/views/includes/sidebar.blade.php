@@ -24,21 +24,21 @@ $user = auth()->user();
         </div>
         <!-- BEGIN MAIN MENU -->
         <ul id="main-menu" class="gui-controls">
-            <li>
-                <a href="{{url('dashboard')}}" class="active">
+            <li class="{{substr(Request::path(),0,10) == 'dashboard'? 'active':''}}">
+                <a href="{{url('dashboard')}}" >
                     <div class="gui-icon"><i class="fa fa-dashboard"></i></div>
                     <span class="title">Dashboard</span>
                 </a>
             </li><!--end /menu-li -->
             @if(($user->latestRole()->role->id) == 6)
-                <li class="gui-folder">
+                <li class="gui-folder ">
                     <a>
                         <div class="gui-icon"><i class="fa fa-users"></i></div>
                         <span class="title">User Management</span>
                     </a>
                     <ul>
-                        <li><a href="{{url('Users/Index')}}" class=""><span class="title">Users</span></a></li>
-                        <li><a href="{{url('Users/Create')}}" class=""><span class="title">Add User</span></a></li>
+                        <li><a href="{{url('Users/Index')}}" class="{{substr(Request::path(),0,11) == 'Users/Index'? 'active':''}}"><span class="title">Users</span></a></li>
+                        <li><a href="{{url('Users/Create')}}" class="{{substr(Request::path(),0,12) == 'Users/Create'? 'active':''}}"><span class="title">Add User</span></a></li>
 
                     </ul>
                 </li><!--end /menu-li -->
@@ -52,9 +52,9 @@ $user = auth()->user();
                         <span class="title">MDA Customer Details</span>
                     </a>
                     <ul>
-                        <li><a href="{{url('Customer/UploadCustomerNote')}}" class=""><span class="title">Upload Customer Profile</span></a>
+                        <li><a href="{{url('Customer/UploadCustomerNote')}}" class="{{substr(Request::path(),0,27) == 'Customer/UploadCustomerNote'? 'active':''}}"><span class="title">Upload Customer Profile</span></a>
                         </li>
-                        <li><a href="{{url('Customer/UploadCustomerBill')}}" class=""><span class="title">Upload Customer Bill</span></a>
+                        <li><a href="{{url('Customer/UploadCustomerBill')}}" class="{{substr(Request::path(),0,27) == 'Customer/UploadCustomerBill'? 'active':''}}"><span class="title">Upload Customer Bill</span></a>
                         </li>
                     </ul>
                 </li>
@@ -65,14 +65,14 @@ $user = auth()->user();
                     <span class="title">Audit Report</span>
                 </a>
                 <ul>
-                    <li>
-                        <a href="{{url('ReportInfo/Energy')}}" class="">
+                    <li class="{{substr(Request::path(),0,17) == 'ReportInfo/Energy'? 'active':''}}">
+                        <a href="{{url('ReportInfo/Energy')}}" >
                             <span class="title">View Audit Report</span>
                         </a>
                     </li>
                     @if(($user->latestRole()->role->id) == 6)
 
-                        <li>
+                        <li class="{{substr(Request::path(),0,22) == 'ReportInfo/UploadSheet'? 'active':''}}">
                             <a href="{{url('ReportInfo/UploadSheet')}}" class="">
                                 <span class="title"> Upload Audit Report</span>
                             </a>
@@ -87,21 +87,21 @@ $user = auth()->user();
                     <span class="title">View DisCo Report</span>
                 </a>
                 <ul>
-                    <li><a href="{{url('Customer/CustomerData')}}" class=""><span class="title">MDA Customer Data</span></a>
+                    <li><a href="{{url('Customer/CustomerData')}}" class="{{substr(Request::path(),0,21) == 'Customer/CustomerData'? 'active':''}}"><span class="title">MDA Customer Data</span></a>
                     </li>
-                    <li><a href="{{url('Customer/CustomerBilling')}}" class=""><span class="title">MDA Customer Billing Data</span></a>
+                    <li><a href="{{url('Customer/CustomerBilling')}}" class="{{substr(Request::path(),0,24) == 'Customer/CustomerBilling'? 'active':''}}"><span class="title">MDA Customer Billing Data</span></a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="{{url('Map/Index')}}" class="">
+                <a href="{{url('Map/Index')}}" class="{{substr(Request::path(),0,9) == 'Map/Index'? 'active':''}}">
                     <div class="gui-icon"><i class="fa fa-map-marker text-center"></i></div>
                     <span class="title">Map</span>
                 </a>
             </li>
             @if(($user->latestRole()->role->id) == 6)
                 <li>
-                    <a href="{{url('AuditTrail/Index')}}" class="">
+                    <a href="{{url('AuditTrail/Index')}}" class="{{substr(Request::path(),0,16) == 'AuditTrail/Index'? 'active':''}}">
                         <div class="gui-icon"><i class="fa fa-paper-plane"></i></div>
                         <span class="title"> View Audit Trail</span>
                     </a>
