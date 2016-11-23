@@ -203,7 +203,7 @@
 
                             <p class="col-md-12">
                                         <span>
-                                            &copy; Copyright 2016 - Advisory Power Team. All rights reserved.
+                                             &copy; Copyright 2016 - Advisory Power Team. All rights reserved.<br>                                             For more information please contact mdadebts@aptovp.org | 07089090000
                                         </span>
                             </p>
                         </div>
