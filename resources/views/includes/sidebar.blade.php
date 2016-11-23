@@ -45,7 +45,7 @@ $user = auth()->user();
             @endif
 
 
-            @if(($user->latestRole()->role->id) == 6)
+            @if(($user->latestRole()->role->id) == 6 || $user->latestRole()->role->id == 8)
                 <li class="gui-folder">
                     <a>
                         <div class="gui-icon"><i class="fa fa-users"></i></div>
@@ -70,7 +70,7 @@ $user = auth()->user();
                             <span class="title">View Audit Report</span>
                         </a>
                     </li>
-                    @if(($user->latestRole()->role->id) == 6)
+                    @if(($user->latestRole()->role->id) == 6 || $user->latestRole()->role->id== 8)
 
                         <li class="">
                             <a href="{{url('ReportInfo/UploadSheet')}}" class="{{substr(Request::path(),0,22) == 'ReportInfo/UploadSheet'? 'active':''}}">

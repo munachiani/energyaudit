@@ -292,7 +292,7 @@ class BaseController extends Controller
                 });
 
                 $sheet->row(2, array(
-                    'S/N', 'STATE', 'LGA', 'Distribution Company', 'ADDRESS', 'MDA NAME', 'PARENT FEDERAL MINISTRY',
+                    'S/N', 'Distribution Company','STATE', 'LGA',  'ADDRESS', 'MDA NAME', 'PARENT FEDERAL MINISTRY',
                     'Average Monthly Electricity Bill (NGN)', 'No of Generators', 'Generator Running Hrs/Month',
                     'No of Years at Location', 'Contact details of MDA Head', 'Telephone'
                 ));
@@ -314,9 +314,9 @@ class BaseController extends Controller
                 foreach ($energies as $energy) {
                     $sheet->row($i, array(
                         $c++,
+                        $energy->disco_id,
                         $energy->state_id,
                         $energy->local_gov_id,
-                        $energy->disco_id,
                         $energy->address,
                         $energy->mda_name,
                         $energy->parent_fed_min_id,
@@ -365,8 +365,8 @@ class BaseController extends Controller
                 });
 
                 $sheet->row(2, array(
-                    'SN', 'MDA name', 'Government Level', 'Parent Ministry ', 'Sector ', 'Site Address', 'Site Address Coordinates (Longitude/Latitude)',
-                    'Closest Landmark', 'Village ', 'Town ', 'City ', 'State', 'LGA', 'DisCo', 'Business Unit ', 'Disco Account Number ', 'Customer Type',
+                    'SN', 'DisCo', 'MDA name', 'Government Level', 'Parent Ministry ', 'Sector ', 'Site Address', 'Site Address Coordinates (Longitude/Latitude)',
+                    'Closest Landmark', 'Village ', 'Town ', 'City ', 'State', 'LGA',  'Business Unit ', 'Disco Account Number ', 'Customer Type',
                     'Customer Tariff Class', 'Meter Installed ', 'Meter No', 'Meter Type', 'Meter Brand', 'Meter Model'
 
                 ));
@@ -388,6 +388,7 @@ class BaseController extends Controller
                 foreach ($customers as $customer) {
                     $sheet->row($i, array(
                         $sn++,
+                        $customer->disco_id,
                         $customer->mda_name,
                         $customer->government_level,
                         $customer->parent_fed_min_id,
@@ -400,7 +401,6 @@ class BaseController extends Controller
                         $customer->city,
                         $customer->state_id,
                         $customer->lga_id,
-                        $customer->disco_id,
                         $customer->business_unit,
                         $customer->disco_acct_number,
                         $customer->customer_type,
@@ -471,8 +471,8 @@ class BaseController extends Controller
                 foreach ($customers as $customer) {
                     $sheet->row($i, array(
                         $sn++,
-                        $customer->mda_name,
                         $customer->disco,
+                        $customer->mda_name,
                         $customer->disco_account_number,
                         $customer->invoice_date,
                         $customer->account_month,

@@ -21,6 +21,7 @@ class RoleSeeder extends Seeder
             ['id'=>5,'name'=>'Regional Supervisor','created_at'=>\Carbon\Carbon::now(),'updated_at'=>\Carbon\Carbon::now()],
             ['id'=>6,'name'=>'Super Admin','created_at'=>\Carbon\Carbon::now(),'updated_at'=>\Carbon\Carbon::now()],
             ['id'=>7,'name'=>'General User','created_at'=>\Carbon\Carbon::now(),'updated_at'=>\Carbon\Carbon::now()],
+            ['id'=>8,'name'=>'Admin','created_at'=>\Carbon\Carbon::now(),'updated_at'=>\Carbon\Carbon::now()],
         ];
 
         DB::table('roles')->insert($roles);

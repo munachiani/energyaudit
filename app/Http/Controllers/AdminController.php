@@ -41,10 +41,10 @@ class AdminController extends Controller
         $mdasUploaded = CustomerBill::all()->count();
 //        $mdasCaptured = CustomerNote::distinct('mda_name')->count('mda_name');
         $mdasCaptured = CustomerNote::all()->count('mda_name');
-        $mdaCapturedDistinct = ParentFederalMinistry::all();
+        $mdaCapturedDistinct = ParentFederalMinistry::orderBy('parent_fed_ministry_name', 'asc')->get();
 //        dd($mdaCapturedDistinct);
-        $customerNotes = CustomerNote::all();
-        $disco = DistributionCompany::all();
+        $customerNotes = CustomerNote::orderBy('parent_fed_min_id', 'asc')->get();
+        $disco = DistributionCompany::orderBy('disco_name', 'asc')->get();
         return view('admin.dashboard')
             ->with(compact('mdasUploaded', 'mdasCaptured', 'customerNotes', 'disco', 'mdaCapturedDistinct'));
     }
