@@ -21,7 +21,7 @@ var par_name = "";
 var keypage = true;
 var dataexcel = [];
 var table = "";
-//var user_role = document.getElementById('user_role').innerHTML;
+var user_role = document.getElementById('user_role').value;
 
 function getCustomerBill() {
     url = $("#getCustomerBill").val();
@@ -43,7 +43,7 @@ function getCustomerBill() {
                  for (var x = 0; x < data.length; x++) {
                     table.row.add(["<a class='btn btn-danger' data-value='" +
                     data[x].customer_bill_id +
-                    "' onclick='delBill(" +  data[x].customer_bill_id +")'>Delete</a>",
+                    (user_role ==6?"' onclick='delBill(" +  data[x].customer_bill_id +")'>Delete</a>":""),
                         data[x].mda_name,
                         data[x].disco_name,
                         data[x].disco_acct_number,
@@ -79,7 +79,7 @@ function daterange() {
         //console.log("cool");
         limdate = 0;
         status1 = true;
-        $('#datatables-4').DataTable().clear().draw();
+        $('#datatables-5').DataTable().clear().draw();
         start_date = $("#datepick").val();
         end_date = $("#datepick2").val();
 
@@ -535,7 +535,7 @@ $(document).ready(function () {
 
     $("#Disco").change(function () {
         status4 = true;
-        $('#datatables-4').DataTable().clear().draw();
+        $('#datatables-5').DataTable().clear().draw();
         state_name = $("#State").val();
         loc_gov_name = $("#Region").val();
         par_name = $("#Minis").val();
@@ -556,5 +556,4 @@ $(document).ready(function () {
     })
 
     //resetButton.onclick = reloadPage;
-
 });

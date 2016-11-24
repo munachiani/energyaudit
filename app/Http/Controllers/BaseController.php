@@ -78,18 +78,18 @@ class BaseController extends Controller
 
         $dataList = array();
         foreach ($energy as $i => $item) {
-            $data['state_name'] = $item->state_id;
-            $data['local_gov_name'] = $item->local_gov_id;
-            $data['distribution_company'] = $item->disco_id;
-            $data['address'] = $item->address;
-            $data['mda_name'] = $item->mda_name;
-            $data['parent_federal_ministry'] = $item->parent_fed_min_id;
-            $data['avg_electricity_bill_per_month'] = $item->avg_electricity_bill_per_month;
-            $data['num_of_generators'] = $item->num_of_generators;
-            $data['generator_running'] = $item->generator_running;
-            $data['num_of_years_at_location'] = $item->num_of_years_at_location;
-            $data['contact_of_mda_head'] = $item->contact_of_mda_head;
-            $data['telephone'] = $item->telephone;
+            $data['state_name'] = $this->checkNull($item->state_id);
+            $data['local_gov_name'] = $this->checkNull($item->local_gov_id);
+            $data['distribution_company'] = $this->checkNull($item->disco_id);
+            $data['address'] = $this->checkNull($item->address);
+            $data['mda_name'] = $this->checkNull($item->mda_name);
+            $data['parent_federal_ministry'] = $this->checkNull($item->parent_fed_min_id);
+            $data['avg_electricity_bill_per_month'] = $this->checkNull($item->avg_electricity_bill_per_month);
+            $data['num_of_generators'] = $this->checkNull($item->num_of_generators);
+            $data['generator_running'] = $this->checkNull($item->generator_running);
+            $data['num_of_years_at_location'] = $this->checkNull($item->num_of_years_at_location);
+            $data['contact_of_mda_head'] = $this->checkNull($item->contact_of_mda_head);
+            $data['telephone'] = $this->checkNull($item->telephone);
 
             $dataList[] = $data;
         }
@@ -156,30 +156,30 @@ class BaseController extends Controller
 
         $dataList = array();
         foreach ($customer as $i => $item) {
-            $data['site_latitude'] = $item->site_latitude;
-            $data['site_longitude'] = $item->site_longitude;
-            $data['customer_note_id'] = $item->id;
-            $data['mda_name'] = $item->mda_name;
-            $data['government_level'] = $item->government_level;
-            $data['parent_fed_minis_name'] = $item->parent_fed_min_id;
-            $data['sector_name'] = $item->sector_id;
-            $data['site_address'] = $item->site_address;
-            $data['closet_landmark'] = $item->closet_landmark;
-            $data['village'] = $item->village;
-            $data['town'] = $item->town;
-            $data['city'] = $item->city;
-            $data['lga_name'] = $item->lga_id;
-            $data['state_name'] = $item->state_id;
-            $data['disco_name'] = $item->disco_id;
-            $data['business_unit'] = $item->business_unit;
-            $data['disco_acct_number'] = $item->disco_acct_number;
-            $data['customer_type'] = $item->customer_type;
-            $data['customer_class'] = $item->customer_class;
-            $data['meter_installed'] = $item->meter_installed == 'METERED';
-            $data['meter_no'] = $item->meter_no;
-            $data['meter_type'] = $item->meter_type;
-            $data['meter_brand'] = $item->meter_brand;
-            $data['meter_model'] = $item->meter_model;
+            $data['site_latitude'] = $this->checkNull($item->site_latitude);
+            $data['site_longitude'] = $this->checkNull($item->site_longitude);
+            $data['customer_note_id'] = $this->checkNull($item->id);
+            $data['mda_name'] = $this->checkNull($item->mda_name);
+            $data['government_level'] = $this->checkNull($item->government_level);
+            $data['parent_fed_minis_name'] = $this->checkNull($item->parent_fed_min_id);
+            $data['sector_name'] = $this->checkNull($item->sector_id);
+            $data['site_address'] = $this->checkNull($item->site_address);
+            $data['closet_landmark'] = $this->checkNull($item->closet_landmark);
+            $data['village'] = $this->checkNull($item->village);
+            $data['town'] = $this->checkNull($item->town);
+            $data['city'] = $this->checkNull($item->city);
+            $data['lga_name'] = $this->checkNull($item->lga_id);
+            $data['state_name'] = $this->checkNull($item->state_id);
+            $data['disco_name'] = $this->checkNull($item->disco_id);
+            $data['business_unit'] = $this->checkNull($item->business_unit);
+            $data['disco_acct_number'] = $this->checkNull($item->disco_acct_number);
+            $data['customer_type'] = $this->checkNull($item->customer_type);
+            $data['customer_class'] = $this->checkNull($item->customer_class);
+            $data['meter_installed'] = $this->checkNull($item->meter_installed == 'METERED');
+            $data['meter_no'] = $this->checkNull($item->meter_no);
+            $data['meter_type'] = $this->checkNull($item->meter_type);
+            $data['meter_brand'] = $this->checkNull($item->meter_brand);
+            $data['meter_model'] = $this->checkNull($item->meter_model);
 
             $dataList[] = $data;
         }
@@ -535,34 +535,34 @@ class BaseController extends Controller
 
         $dataList = array();
         foreach ($bill as $i => $item) {
-            $data['mda_name'] = $item->mda_name;
-            $data['address'] = $item->site_address;
-            $data['acct_number'] = $item->disco_acct_number;
-            $data['ministry'] = $item->parent_fed_min_id;
+            $data['mda_name'] = $this->checkNull($item->mda_name);
+            $data['address'] = $this->checkNull($item->site_address);
+            $data['acct_number'] = $this->checkNull($item->disco_acct_number);
+            $data['ministry'] = $this->checkNull($item->parent_fed_min_id);
             $data['num_of_years_at_location'] = '';
             $data['num_of_generators'] = '';
             $data['generator_running'] = '';
             $data['avg_electricity_bill_per_month'] = '';
-            $data['latitude'] = $item->site_latitude;
-            $data['longitude'] = $item->site_longitude;
-            $data['government_level'] = $item->government_level;
-            $data['sector'] = $item->sector_id;
-            $data['coordinates'] = $item->site_latitude.'/'.$item->site_longitude;
-            $data['closet_landmark'] = $item->closet_landmark;
-            $data['city'] = $item->city;
-            $data['village'] = $item->village;
-            $data['town'] = $item->town;
-            $data['state_id'] = $item->state_id;
-            $data['lga_id'] = $item->lga_id;
-            $data['disco'] = $item->disco_id;
-            $data['business_unit'] = $item->business_unit;
-            $data['customer_type'] = $item->customer_type;
-            $data['customer_class'] = $item->customer_class;
-            $data['meter_installed'] = $item->meter_installed;
-            $data['meter_no'] = $item->meter_no;
-            $data['meter_type'] = $item->meter_type;
-            $data['meter_brand'] = $item->meter_brand;
-            $data['meter_model'] = $item->meter_model;
+            $data['latitude'] = $this->checkNull($item->site_latitude);
+            $data['longitude'] = $this->checkNull($item->site_longitude);
+            $data['government_level'] = $this->checkNull($item->government_level);
+            $data['sector'] = $this->checkNull($item->sector_id);
+            $data['coordinates'] = $this->checkNull($item->site_latitude.'/'.$item->site_longitude);
+            $data['closet_landmark'] = $this->checkNull($item->closet_landmark);
+            $data['city'] = $this->checkNull($item->city);
+            $data['village'] = $this->checkNull($item->village);
+            $data['town'] = $this->checkNull($item->town);
+            $data['state_id'] = $this->checkNull($item->state_id);
+            $data['lga_id'] = $this->checkNull($item->lga_id);
+            $data['disco'] = $this->checkNull($item->disco_id);
+            $data['business_unit'] = $this->checkNull($item->business_unit);
+            $data['customer_type'] = $this->checkNull($item->customer_type);
+            $data['customer_class'] = $this->checkNull($item->customer_class);
+            $data['meter_installed'] = $this->checkNull($item->meter_installed);
+            $data['meter_no'] = $this->checkNull($item->meter_no);
+            $data['meter_type'] = $this->checkNull($item->meter_type);
+            $data['meter_brand'] = $this->checkNull($item->meter_brand);
+            $data['meter_model'] = $this->checkNull($item->meter_model);
 
             $dataList[] = $data;
         }
@@ -582,6 +582,7 @@ class BaseController extends Controller
         }
         return view('admin.login');
     }
+
 
 
 }

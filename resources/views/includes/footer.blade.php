@@ -1,6 +1,6 @@
 <div class="menubar-foot-panel">
     <small class="no-linebreak hidden-folded">
-        <span ><!--Powered by PowerTech--></span>
+        <span></span>
     </small>
 </div>
 </div><!--end .menubar-scroll-panel-->
@@ -65,6 +65,7 @@
                     }
                 });
             });
+//    $.fn.dataTableExt.sErrMode = 'none';
 </script>
 
 

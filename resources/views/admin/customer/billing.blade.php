@@ -1,5 +1,10 @@
 @extends('layout.master')
 @section('contents')
+    <?php
+    $user = auth()->user();
+
+    ?>
+
     <section>
         <div class="section-body">
 
@@ -83,7 +88,7 @@
                                 <table id="datatables-5" class="table table-banded table-hover">
                                     <thead>
                                     <tr>
-                                        <th></th>
+                                        <th>SN</th>
                                         <th>MDA Name</th>
 
                                         <th>Distribution Company</th>
@@ -113,8 +118,8 @@
                             </div>
 
 
-                            <div id="user_id" class="hidden">ca0bc69c-6df6-43ea-b2f5-b4ae3b01855b</div>
-                            <div id="user_role" class="hidden">Super Admin</div>
+                            <div id="user_id" class="hidden">{{$user->id}}</div>
+                            <input id="user_role" type="hidden" value="{{$user->latestRole()->role->id}}"/>
                             <script src="{{url('Scripts/customerbill.js')}}"></script>
 
 
@@ -129,7 +134,7 @@
 
                                             <p class="col-md-12">
                                         <span>
-                                            &copy; Copyright 2016 - Advisory Power Team. All rights reserved.
+                                             &copy; Copyright 2016 - Advisory Power Team. All rights reserved.<br>                                             For more information please contact mdadebts@aptovp.org | 07089090000
                                         </span>
                                             </p>
                                         </div>

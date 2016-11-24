@@ -318,7 +318,8 @@
 
                             <p class="col-md-12">
                                         <span>
-                                            &copy; Copyright {{date('Y')}} - Advisory Power Team. All rights reserved.
+                                            &copy; Copyright {{date('Y')}} - Advisory Power Team. All rights reserved.<br>
+                                            For more information please contact mdadebts@aptovp.org | 07089090000
                                         </span>
                             </p>
                         </div>
