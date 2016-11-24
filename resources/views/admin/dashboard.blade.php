@@ -251,9 +251,30 @@ $ministryAmount = implode(",", $ministryAmount);
                 title: {
                     text: ''
                 },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                legend: {
+                    labelFormatter: function () {
+                        var total = 0;
+                        for (var i = this.yData.length; i--; ) {
+                            total += this.yData[i];
+                        }
+                        ;
+                        return 'Total MDA-Premises Captured: ' + total;
+                    }
+
+                },
+                plotOptions: {column: {pointPadding: 0.2, borderWidth: 0, dataLabels: {enabled: true}}, },
 
                 xAxis: {
-                    categories: hor
+                    categories: hor,
+                    crosshair: true
                 },
 
                 yAxis: {
