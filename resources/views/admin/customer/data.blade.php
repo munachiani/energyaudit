@@ -10,6 +10,7 @@
             <input type="hidden" id="getCustomerNote" value="{{url('ReportInfo/getCustomerNote')}}">
             <input id="user_role" type="hidden" value="{{$user->latestRole()->role->id}}"/>
             <input type="hidden" id="deleteCustomerData" value="{{url('Customer/DeleteCustomerData')}}">
+            <input type="hidden" id="viewCustomerBill" value="{{url('Customer/Bill/')}}">
 
             <div class="card">
                 <div class="card-head card-head-sm style-custom">
@@ -17,6 +18,11 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <div class="progress" id="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" id="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 1%">
+                                <span class="sr-only">45% Complete</span>
+                            </div>
+                        </div>
                         <div class="col-md-12">
 
                             <form id="customerform">

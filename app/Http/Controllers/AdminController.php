@@ -442,6 +442,20 @@ class AdminController extends Controller
             ->with(compact('user'));
     }
 
+    public function viewCustomerBills($id)
+    {
+        $customer=CustomerNote::find($id);
+
+        if(is_null($customer))
+            return redirect()->back();
+
+        $bills=$customer->customerBill;
+//     dd($customer->customerBill);
+
+        return view('admin.customer.customerBill')
+            ->with(compact('customer','bills'));
+    }
+
     /**
      * @param Request $request
      * @return $this|\Illuminate\Http\RedirectResponse

@@ -46,7 +46,7 @@ class Controller extends BaseController
 
     public function checkNull($str)
     {
-        if (strpos($str, 'undefined') <= 0 && strpos($str, 'NULL') <= 0 && strpos($str, 'nil') <= 0)
+        if (strpos($str, 'undefined') <= 0 && strpos($str, 'NULL') <= 0 && strpos($str, 'nil') <= 0 && strpos($str, 'Nil') <= 0)
             return $str;
         return "&nbsp;";
     }

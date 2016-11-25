@@ -142,7 +142,11 @@ class BaseController extends Controller
             //$start = Carbon::parse($request['start_date'])->format('Y-m-d H:i:s');
             //$end = Carbon::parse($request['end_date'])->format('Y-m-d H:i:s');
             $state = State::find($request['state_name'])->name;
+            $lg = Region::find($request['local_gov_name']);
+            if(!is_null($lg))
             $lga = Region::find($request['local_gov_name'])->region_name;
+            else
+                $lga = "";
 //            $customer = EnergyAuditData::regionRange($start, $end,$state,$lga);
             $customer = CustomerNote::regionRange($state, $lga);
 
