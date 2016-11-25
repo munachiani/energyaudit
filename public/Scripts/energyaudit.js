@@ -20,6 +20,45 @@ var disco_name = "";
 var par_name = "";
 var keypage = true;
 var table = "";
+var dataCount=0;
+var lastCount=0;
+var nextCount=0;
+var dataLim=10;
+
+function setAudit(data) {
+    dataCount=data.length;
+    lastCount= nextCount;
+    nextCount=lastCount + dataLim;
+    for (var x = lastCount; x < nextCount; x++) {
+        if(x<dataCount){
+            table.row.add([data[x].state_name,
+                data[x].local_gov_name,
+                data[x].distribution_company,
+                data[x].address,
+                data[x].mda_name,
+                data[x].parent_federal_ministry,
+                data[x].avg_electricity_bill_per_month,
+                data[x].num_of_generators,
+                data[x].generator_running,
+                data[x].num_of_years_at_location,
+                data[x].contact_of_mda_head,
+                data[x].telephone
+            ]).draw();
+
+        }
+
+    }
+
+    if(lastCount<dataCount){
+        setTimeout(function(){setData(data)},1);
+    }
+}
+function resetCount(){
+    dataCount=0;
+    lastCount=0;
+    nextCount=0;
+    dataLim=10;
+}
 function getEneryAudit() {
     url = $("#getEneryAuditUrl").val();
     $.ajax({
@@ -36,13 +75,7 @@ function getEneryAudit() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                for (var x = 0; x < data.length; x++) {
-                    table.row.add([data[x].state_name, data[x].local_gov_name, data[x].distribution_company, data[x].address,
-                        data[x].mda_name, data[x].parent_federal_ministry, data[x].avg_electricity_bill_per_month, data[x].num_of_generators,
-                        data[x].generator_running, data[x].num_of_years_at_location,
-                        data[x].contact_of_mda_head, data[x].telephone
-                    ]).draw();
-                }
+                resetCount(); setAudit(data);
 
             }
         },
@@ -128,13 +161,7 @@ function filterByDate() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                for (var x = 0; x < data.length; x++) {
-                    table.row.add([data[x].state_name, data[x].local_gov_name, data[x].distribution_company, data[x].address,
-                        data[x].mda_name, data[x].parent_federal_ministry, data[x].avg_electricity_bill_per_month, data[x].num_of_generators,
-                        data[x].generator_running, data[x].num_of_years_at_location,
-                        data[x].contact_of_mda_head, data[x].telephone
-                    ]).draw();
-                }
+                setAudit(data);
 
             }
         },
@@ -211,13 +238,7 @@ function filterByRegion() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                for (var x = 0; x < data.length; x++) {
-                    table.row.add([data[x].state_name, data[x].local_gov_name, data[x].distribution_company, data[x].address,
-                        data[x].mda_name, data[x].parent_federal_ministry, data[x].avg_electricity_bill_per_month, data[x].num_of_generators,
-                        data[x].generator_running, data[x].num_of_years_at_location,
-                        data[x].contact_of_mda_head, data[x].telephone
-                    ]).draw();
-                }
+                setAudit(data);
 
             }
         },
@@ -299,13 +320,7 @@ function filterByDisco() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                for (var x = 0; x < data.length; x++) {
-                    table.row.add([data[x].state_name, data[x].local_gov_name, data[x].distribution_company, data[x].address,
-                        data[x].mda_name, data[x].parent_federal_ministry, data[x].avg_electricity_bill_per_month, data[x].num_of_generators,
-                        data[x].generator_running, data[x].num_of_years_at_location,
-                        data[x].contact_of_mda_head, data[x].telephone
-                    ]).draw();
-                }
+                setAudit(data);
 
             }
         },
@@ -339,14 +354,7 @@ function filterByMinistry() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                for (var x = 0; x < data.length; x++) {
-                    table.row.add([data[x].state_name, data[x].local_gov_name, data[x].distribution_company, data[x].address,
-                        data[x].mda_name, data[x].parent_federal_ministry, data[x].avg_electricity_bill_per_month, data[x].num_of_generators,
-                        data[x].generator_running, data[x].num_of_years_at_location,
-                        data[x].contact_of_mda_head, data[x].telephone
-                    ]).draw();
-                }
-
+                setAudit(data);
             }
         },
         error: function (data) {
