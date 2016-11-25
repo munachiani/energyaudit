@@ -33,7 +33,9 @@
                                     <tr>
                                         <th>SN</th>
 
-                                        <th>Account Month</th>
+                                        <th>Invoice Date</th>
+
+                                        <th>Invoice Month</th>
 
                                         <th>Invoice Number</th>
 
@@ -59,7 +61,8 @@
                                     @foreach($bills as $bill)
                                         <tr>
                                             <td>{{++$c}}</td>
-                                            <td>{{$bill->account_month}}</td>
+                                            <td>{{Carbon\Carbon::parse($bill->invoice_date)->format('jS M, Y')}}</td>
+                                            <td>{{Carbon\Carbon::parse($bill->invoice_date)->format('F')}}</td>
                                             <td>{{$bill->invoice_number}}</td>
                                             <td>{{$bill->monthly_energy_consumption}}</td>
                                             <td>{{$bill->actual_estimated_billing}}</td>
