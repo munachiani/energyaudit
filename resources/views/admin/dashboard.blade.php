@@ -301,7 +301,7 @@ console.log(dataId);
                     point: {
                         events: {
                             click: function () {
-                                window.open('premesis/captured/' + dataId[this.x]);
+                                window.open('premesis/captured/' + dataId[this.x],'_top');
                             }
                         }
                     }
