@@ -678,10 +678,17 @@ class AdminController extends Controller
     {
         $disco = DistributionCompany::find($id);
         $notes = CustomerNote::where('disco_id', '=', $disco->disco_name)->get();
-//                dd($notes);
         return view('admin.singleDistribution')
             ->with(compact('notes', 'disco'));
 
+    }
+
+    public function owedDisco($id)
+    {
+        $disco = DistributionCompany::find($id);
+        $bills = CustomerBill::where('disco', '=', $disco->disco_name)->get();
+        return view('admin.discoBilling')
+            ->with(compact('disco','bills'));
     }
 
 
