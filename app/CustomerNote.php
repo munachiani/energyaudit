@@ -44,9 +44,15 @@ class CustomerNote extends Model
     }
 
     public static function regionRange($state,$lga){
+         if($lga=="")
         $eg = DB::table('customer_notes')
-            ->whereRaw('state_id=? OR lga_id=?', array($state,$lga))
+            ->whereRaw('state_id=?', array($state))
             ->get();
+        else
+            $eg = DB::table('customer_notes')
+                ->whereRaw('state_id=? AND lga_id=?', array($state,$lga))
+                ->get();
+
         return $eg === null ? '' : $eg;
     }
     public static function discoFilter($disco){
