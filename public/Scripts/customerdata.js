@@ -15,7 +15,7 @@ var start_date = "";
 var end_date = "";
 var by_pick = "";
 var state_name = "";
-var loc_gov_name = "";
+var loc_gov_name = 0;
 var disco_name = "";
 var par_name = "";
 var keypage = true;
@@ -27,16 +27,18 @@ var dataCount=0;
 var lastCount=0;
 var nextCount=0;
 var dataLim=10;
+var progress=document.getElementById('progress');
+var progressbar=document.getElementById('progressbar');
+var perc=0;
 function setData(data) {
-    dataCount=data.length;
+     dataCount=data.length;
     lastCount= nextCount;
     nextCount=lastCount + dataLim;
     for (var x = lastCount; x < nextCount; x++) {
         if(x<dataCount){
             var addr = data[x].site_latitude + ", " + data[x].site_longitude;
             table.row.add(["<a class='btn btn-primary' data-value='" +
-            data[x].customer_note_id + "' href='/Customer/ViewBill/" +
-            data[x].customer_note_id + "'>View Bills</a>",
+            data[x].customer_note_id + "' onclick='viewBillData(" + data[x].customer_note_id + ")'>View Bills</a>",
                 (user_role == 6 ? "<a class='btn btn-danger' onclick='delData(" + data[x].customer_note_id + ")'>Delete</a>" : ""),
                 data[x].mda_name,
                 data[x].government_level,
@@ -62,12 +64,22 @@ function setData(data) {
                 data[x].meter_model
             ]).draw();
 
+            perc=(nextCount/dataCount*100).toFixed(2);
+            if(perc<90){
+                progressbar.style.width=perc +"%";
+                progress.style.display="";
+            }
+            else{
+                progress.style.display="none";
+            }
+
         }
 
     }
 
     if(lastCount<dataCount){
-        setTimeout(function(){setData(data)},1);
+        setTimeout(function(){setData(data)},0);
+        //setData(data);
     }
 }
 function resetCount(){
@@ -75,6 +87,7 @@ function resetCount(){
     lastCount=0;
     nextCount=0;
     dataLim=10;
+    perc=1;
 }
 function getCustomerNote() {
     url = $("#getCustomerNote").val();
@@ -178,7 +191,7 @@ function filterByDate() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                setData(data);
+                resetCount();setData(data);
 
             }
         },
@@ -229,7 +242,11 @@ function getRegion(selectedItem, ddlLgas) {
             } else {
                 ddlLgas.append($('<option></option>').val('-1').html("N/A"));
             }
-
+            setTimeout(function(){
+                state_name = $("#State").val();
+                loc_gov_name = 0;
+                filterByRegion()
+            },10);
         },
         error: function (xhr, ajaxOptions, thrownError) {
             //alert('Failed to retrieve Local Governments. ' + thrownError );
@@ -246,6 +263,7 @@ function filterByRegion() {
         dataType: 'json',
         beforeSend: function () {
             $("#message").show();
+            $('#datatables-5').DataTable().clear().draw();
         },
         success: function (data) {
             $("#message").hide();
@@ -254,7 +272,7 @@ function filterByRegion() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                setData(data);
+                resetCount();setData(data);
 
             }
         },
@@ -287,7 +305,7 @@ function filterByMinistry() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                setData(data);
+                resetCount();setData(data);
 
             }
         },
@@ -320,7 +338,7 @@ function filterByDisco() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                setData(data);
+                resetCount();setData(data);
 
             }
         },
@@ -336,7 +354,11 @@ function filterByDisco() {
     });
 }
 
-
+function viewBillData(id){
+    url = $("#viewCustomerBill").val();
+    url = url + "/" + id;
+    window.location=url;
+}
 function delData(id) {
     url = $("#deleteCustomerData").val();
     url = url + "/" + id;
@@ -381,7 +403,7 @@ $(document).ready(function () {
         //$("#Region option[value='" + region + "']").attr('selected', true);
         getRegion($("#State").val(), ddlLgas);
     }
-    $("#State").click(function () {
+    $("#State").change(function () {
         var selectedItem = $(this).val();
         var ddlLgas = $("#Region");
         localStorage.removeItem("region");

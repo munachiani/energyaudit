@@ -26,6 +26,9 @@ var dataCount=0;
 var lastCount=0;
 var nextCount=0;
 var dataLim=10;
+var progress=document.getElementById('progress');
+var progressbar=document.getElementById('progressbar');
+var perc=0;
 function setBill(data) {
     dataCount=data.length;
     lastCount= nextCount;
@@ -48,6 +51,14 @@ function setBill(data) {
                 data[x].invoice_amt
             ]).draw();
 
+            perc=(nextCount/dataCount*100).toFixed(2);
+            if(perc<90){
+                progressbar.style.width=perc +"%";
+                progress.style.display="";
+            }
+            else{
+                progress.style.display="none";
+            }
         }
 
     }
@@ -61,6 +72,7 @@ function resetCount(){
      lastCount=0;
      nextCount=0;
      dataLim=10;
+     perc=0;
 }
 function getCustomerBill() {
     url = $("#getCustomerBill").val();
@@ -166,7 +178,7 @@ function filterByDate() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                setBill(data);
+                resetCount(); setBill(data);
 
             }
         },
@@ -200,7 +212,7 @@ function filterByDisco() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                setBill(data);
+                resetCount(); setBill(data);
 
 
             }
@@ -249,6 +261,7 @@ function getRegion(selectedItem, ddlLgas) {
             } else {
                 ddlLgas.append($('<option></option>').val('-1').html("N/A"));
             }
+
 
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -302,9 +315,9 @@ function filterByRegion() {
         }
     }).done(function () {
         if (status2 === true) {
-            filterByRegion();
+            //filterByRegion();
         } else {
-            dataToExcel();
+            //dataToExcel();
         }
 
     });
@@ -495,11 +508,12 @@ $(document).ready(function () {
         //$("#Region option[value='" + region + "']").attr('selected', true);
         getRegion($("#State").val(), ddlLgas);
     }
-    $("#State").click(function () {
+    $("#State").change(function () {
         var selectedItem = $(this).val();
         var ddlLgas = $("#Region");
         localStorage.removeItem("region");
         getRegion(selectedItem, ddlLgas);
+
 
     });
     $("#Region").change(function () {

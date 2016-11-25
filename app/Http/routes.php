@@ -93,6 +93,8 @@ Route::post('Users/ChangeAvatar','AdminController@ChangeAvatar');
 Route::get('Users/Activate/{status}/{id}','AdminController@changeStatus');
 Route::get('admin/users/activate/{id}','AdminController@checkStatus');
 
+Route::get('Customer/Bill/{id}','AdminController@viewCustomerBills');
+
 Route::get('Users/Profile/Edit/{id}','AdminController@updateProfile');
 Route::post('User/UpdatePassword','AdminController@updatePassword');
 

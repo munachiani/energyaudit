@@ -24,7 +24,9 @@ var dataCount=0;
 var lastCount=0;
 var nextCount=0;
 var dataLim=10;
-
+var progress=document.getElementById('progress');
+var progressbar=document.getElementById('progressbar');
+var perc=0;
 function setAudit(data) {
     dataCount=data.length;
     lastCount= nextCount;
@@ -45,12 +47,23 @@ function setAudit(data) {
                 data[x].telephone
             ]).draw();
 
+            perc=(nextCount/dataCount*100).toFixed(2);
+            if(perc<90){
+                progressbar.style.width=perc +"%";
+                progress.style.display="";
+            }
+            else{
+                progress.style.display="none";
+            }
+
         }
+
+
 
     }
 
     if(lastCount<dataCount){
-        setTimeout(function(){setData(data)},1);
+        setTimeout(function(){setAudit(data)},0);
     }
 }
 function resetCount(){
@@ -58,6 +71,7 @@ function resetCount(){
     lastCount=0;
     nextCount=0;
     dataLim=10;
+    perc=0;
 }
 function getEneryAudit() {
     url = $("#getEneryAuditUrl").val();
@@ -73,6 +87,8 @@ function getEneryAudit() {
             console.log(data);
             if (data.length == 0) {
                 status = false;
+                progress.style.display="none";
+
             }
             else if ((data !== undefined || data.length != 0) && status) {
                 resetCount(); setAudit(data);
@@ -159,6 +175,7 @@ function filterByDate() {
             console.log(data);
             if (data.length == 0) {
                 status = false;
+                progress.style.display="none";
             }
             else if ((data !== undefined || data.length != 0) && status) {
                 setAudit(data);
@@ -236,6 +253,7 @@ function filterByRegion() {
             console.log(data);
             if (data.length == 0) {
                 status = false;
+                progress.style.display="none";
             }
             else if ((data !== undefined || data.length != 0) && status) {
                 setAudit(data);
@@ -318,6 +336,7 @@ function filterByDisco() {
             console.log(data);
             if (data.length == 0) {
                 status = false;
+                progress.style.display="none";
             }
             else if ((data !== undefined || data.length != 0) && status) {
                 setAudit(data);
@@ -352,6 +371,7 @@ function filterByMinistry() {
             console.log(data);
             if (data.length == 0) {
                 status = false;
+                progress.style.display="none";
             }
             else if ((data !== undefined || data.length != 0) && status) {
                 setAudit(data);
@@ -386,7 +406,7 @@ $(document).ready(function () {
         //$("#Region option[value='" + region + "']").attr('selected', true);
         getRegion($("#State").val(), ddlLgas);
     }
-    $("#State").click(function () {
+    $("#State").change(function () {
         var selectedItem = $(this).val();
         var ddlLgas = $("#Region");
         localStorage.removeItem("region");

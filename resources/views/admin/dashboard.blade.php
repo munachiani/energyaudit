@@ -344,7 +344,7 @@ console.log(dataId);
                             total += this.yData[i];
                         }
 
-                        return 'Total Dept owed to Discos: ' + '₦' + total;
+                        return 'Total Dept owed to Discos: ' + '₦' + total.toFixed(2);
                     }
 
                 },

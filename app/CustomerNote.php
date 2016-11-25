@@ -44,9 +44,15 @@ class CustomerNote extends Model
     }
 
     public static function regionRange($state,$lga){
+         if($lga=="")
         $eg = DB::table('customer_notes')
-            ->whereRaw('state_id=? OR lga_id=?', array($state,$lga))
+            ->whereRaw('state_id=?', array($state))
             ->get();
+        else
+            $eg = DB::table('customer_notes')
+                ->whereRaw('state_id=? AND lga_id=?', array($state,$lga))
+                ->get();
+
         return $eg === null ? '' : $eg;
     }
     public static function discoFilter($disco){
@@ -60,5 +66,16 @@ class CustomerNote extends Model
             ->whereRaw('parent_fed_min_id=?', array($ministryFilter))
             ->get();
         return $eg === null ? '' : $eg;
+    }
+
+
+    /*public function customerBill(){
+        return DB::table('customer_bills')
+            ->whereRaw('disco_account_number=?', array($this->disco_acct_number))
+            ->get();
+
+    }*/
+    public function customerBill(){
+        return $this->hasMany('App\CustomerBill','disco_account_number','disco_acct_number');
     }
 }
