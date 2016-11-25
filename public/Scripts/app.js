@@ -4673,7 +4673,7 @@ console.log(positionz);
         mapLabel = new MapLabel({
             text: disco,
             position: postN,
-            fontSize: 14,
+            fontSize: 12,
             align: 'center',
             map: App.CONSTANTS.map,
             fillColor: '#000000',
@@ -4692,65 +4692,6 @@ console.log(positionz);
             App.CONSTANTS.infoWindow.setContent(label);
             App.CONSTANTS.infoWindow.open(App.CONSTANTS.map, this);
         });
-        /* ltt=parseFloat(positionz.lat);
-         lnn=parseFloat(positionz.long);
-
-         postn=new google.maps.LatLng(ltt,lnn);*/
-       /* mapLabel = new MapLabel({
-            text: disco,
-            position: postn,
-            fontSize: 14,
-            align: 'center',
-            map: App.CONSTANTS.map,
-            fillColor: '#000000',
-            filOpacity: 1,
-            strokeColor: '#000000',
-            strokeOpacity: 1,
-            strokeWeight: 1,
-            zIndex: 501
-        });*/
-     /*  var marker = new google.maps.Marker({
-            position: postn,
-            icon: stateImage,
-            title: title,
-            draggable: false,
-            map: App.CONSTANTS.map
-        });
-
-           // mapLabel.set('position', postn);
-             google.maps.event.addListener(marker, 'click', function () {
-
-            //console.log(label);
-            App.CONSTANTS.map.setZoom(7);
-            App.CONSTANTS.map.setCenter(marker.getPosition());
-            App.CONSTANTS.infoWindow.setContent(label);
-            App.CONSTANTS.infoWindow.open(App.CONSTANTS.map, this);
-        });*/
-
-
-/*
-
-        var stateImage = $("#stateImage").val();
-        var marker = new google.maps.Marker({
-            position: position,
-            icon: stateImage,
-            title: title,
-            draggable: false,
-            map: App.CONSTANTS.map
-        });
-
-        App.CONSTANTS.infoWindow = new google.maps.InfoWindow();
-        //var service = new google.maps.places.PlacesService(App.CONSTANTS.map);
-
-        google.maps.event.addListener(marker, 'click', function () {
-            //console.log(label);
-            App.CONSTANTS.map.setZoom(7);
-            App.CONSTANTS.map.setCenter(marker.getPosition());
-            App.CONSTANTS.infoWindow.setContent(label);
-            App.CONSTANTS.infoWindow.open(App.CONSTANTS.map, this);
-        });
-
-*/
 
     },
 
@@ -4786,7 +4727,3 @@ $(document).ready(function () {
 /**
  * Created by hp on 11/3/2016.
  */
-
-function formatCurrency(n, currency) {
-    return currency + " " + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
-}

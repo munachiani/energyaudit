@@ -21,8 +21,61 @@ var par_name = "";
 var keypage = true;
 var dataexcel = [];
 var table = "";
-//var user_role = document.getElementById('user_role').innerHTML;
+var user_role = document.getElementById('user_role').value;
 //var user_id = document.getElementById('user_id').innerHTML;
+var dataCount=0;
+var lastCount=0;
+var nextCount=0;
+var dataLim=10;
+function setData(data) {
+    dataCount=data.length;
+    lastCount= nextCount;
+    nextCount=lastCount + dataLim;
+    for (var x = lastCount; x < nextCount; x++) {
+        if(x<dataCount){
+            var addr = data[x].site_latitude + ", " + data[x].site_longitude;
+            table.row.add(["<a class='btn btn-primary' data-value='" +
+            data[x].customer_note_id + "' href='/Customer/ViewBill/" +
+            data[x].customer_note_id + "'>View Bills</a>",
+                (user_role == 6 ? "<a class='btn btn-danger' onclick='delData(" + data[x].customer_note_id + ")'>Delete</a>" : ""),
+                data[x].mda_name,
+                data[x].government_level,
+                data[x].parent_fed_minis_name,
+                data[x].sector_name,
+                data[x].site_address,
+                addr,
+                data[x].closet_landmark,
+                data[x].village,
+                data[x].town,
+                data[x].city,
+                data[x].lga_name,
+                data[x].state_name,
+                data[x].disco_name,
+                data[x].business_unit,
+                data[x].disco_acct_number,
+                data[x].customer_type,
+                data[x].customer_class,
+                data[x].meter_installed ? "Yes" : "No",
+                data[x].meter_no,
+                data[x].meter_type,
+                data[x].meter_brand,
+                data[x].meter_model
+            ]).draw();
+
+        }
+
+    }
+
+    if(lastCount<dataCount){
+        setTimeout(function(){setData(data)},1);
+    }
+}
+function resetCount(){
+    dataCount=0;
+    lastCount=0;
+    nextCount=0;
+    dataLim=10;
+}
 function getCustomerNote() {
     url = $("#getCustomerNote").val();
     $.ajax({
@@ -30,50 +83,17 @@ function getCustomerNote() {
         url: url,
         dataType: 'json',
         beforeSend: function () {
+            $('#datatables-4').DataTable().clear().draw();
             $("#message").show();
         },
         success: function (data) {
             $("#message").hide();
-            console.log(data);
+            //console.log(data);
             if (data.length == 0) {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                for (var x = 0; x < data.length; x++) {
-                    var addr = data[x].site_latitude + ", " + data[x].site_longitude;
-                    table.row.add(["<a class='btn btn-primary' data-value='" +
-                    data[x].customer_note_id + "' href='/Customer/ViewBill/" +
-                    data[x].customer_note_id + "'>View Bills</a>",
-                     "<a class='btn btn-danger' data-value='" +
-                    data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
-                    data[x].customer_note_id + "'>Delete</a>",
-                        /*user_role == "Disco"?"":"<a class='btn btn-danger' data-value='" +
-                    data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
-                    data[x].customer_note_id + "'>Delete</a>",*/
-                        data[x].mda_name,
-                        data[x].government_level,
-                        data[x].parent_fed_minis_name,
-                        data[x].sector_name,
-                        data[x].site_address,
-                        addr,
-                        data[x].closet_landmark,
-                        data[x].village,
-                        data[x].town,
-                        data[x].city,
-                        data[x].lga_name,
-                        data[x].state_name,
-                        data[x].disco_name,
-                        data[x].business_unit,
-                        data[x].disco_acct_number,
-                        data[x].customer_type,
-                        data[x].customer_class,
-                        data[x].meter_installed ? "Yes" : "No",
-                        data[x].meter_no,
-                        data[x].meter_type,
-                        data[x].meter_brand,
-                        data[x].meter_model
-                    ]).draw();
-                }
+                 resetCount();setData(data);
 
             }
         },
@@ -158,41 +178,7 @@ function filterByDate() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                for (var x = 0; x < data.length; x++) {
-                    var addr = data[x].site_latitude + ", " + data[x].site_longitude;
-                    table.row.add(["<a class='btn btn-primary' data-value='" +
-                    data[x].customer_note_id + "' href='/Customer/ViewBill/" +
-                    data[x].customer_note_id + "'>View Bills</a>",
-                        "<a class='btn btn-danger' data-value='" +
-                        data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
-                        data[x].customer_note_id + "'>Delete</a>",
-                        /*user_role == "Disco"?"":"<a class='btn btn-danger' data-value='" +
-                         data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
-                         data[x].customer_note_id + "'>Delete</a>",*/
-                        data[x].mda_name,
-                        data[x].government_level,
-                        data[x].parent_fed_minis_name,
-                        data[x].sector_name,
-                        data[x].site_address,
-                        addr,
-                        data[x].closet_landmark,
-                        data[x].village,
-                        data[x].town,
-                        data[x].city,
-                        data[x].lga_name,
-                        data[x].state_name,
-                        data[x].disco_name,
-                        data[x].business_unit,
-                        data[x].disco_acct_number,
-                        data[x].customer_type,
-                        data[x].customer_class,
-                        data[x].meter_installed ? "Yes" : "No",
-                        data[x].meter_no,
-                        data[x].meter_type,
-                        data[x].meter_brand,
-                        data[x].meter_model
-                    ]).draw();
-                }
+                setData(data);
 
             }
         },
@@ -268,41 +254,7 @@ function filterByRegion() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                for (var x = 0; x < data.length; x++) {
-                    var addr = data[x].site_latitude + ", " + data[x].site_longitude;
-                    table.row.add(["<a class='btn btn-primary' data-value='" +
-                    data[x].customer_note_id + "' href='/Customer/ViewBill/" +
-                    data[x].customer_note_id + "'>View Bills</a>",
-                        "<a class='btn btn-danger' data-value='" +
-                        data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
-                        data[x].customer_note_id + "'>Delete</a>",
-                        /*user_role == "Disco"?"":"<a class='btn btn-danger' data-value='" +
-                         data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
-                         data[x].customer_note_id + "'>Delete</a>",*/
-                        data[x].mda_name,
-                        data[x].government_level,
-                        data[x].parent_fed_minis_name,
-                        data[x].sector_name,
-                        data[x].site_address,
-                        addr,
-                        data[x].closet_landmark,
-                        data[x].village,
-                        data[x].town,
-                        data[x].city,
-                        data[x].lga_name,
-                        data[x].state_name,
-                        data[x].disco_name,
-                        data[x].business_unit,
-                        data[x].disco_acct_number,
-                        data[x].customer_type,
-                        data[x].customer_class,
-                        data[x].meter_installed ? "Yes" : "No",
-                        data[x].meter_no,
-                        data[x].meter_type,
-                        data[x].meter_brand,
-                        data[x].meter_model
-                    ]).draw();
-                }
+                setData(data);
 
             }
         },
@@ -335,41 +287,7 @@ function filterByMinistry() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                for (var x = 0; x < data.length; x++) {
-                    var addr = data[x].site_latitude + ", " + data[x].site_longitude;
-                    table.row.add(["<a class='btn btn-primary' data-value='" +
-                    data[x].customer_note_id + "' href='/Customer/ViewBill/" +
-                    data[x].customer_note_id + "'>View Bills</a>",
-                        "<a class='btn btn-danger' data-value='" +
-                        data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
-                        data[x].customer_note_id + "'>Delete</a>",
-                        /*user_role == "Disco"?"":"<a class='btn btn-danger' data-value='" +
-                         data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
-                         data[x].customer_note_id + "'>Delete</a>",*/
-                        data[x].mda_name,
-                        data[x].government_level,
-                        data[x].parent_fed_minis_name,
-                        data[x].sector_name,
-                        data[x].site_address,
-                        addr,
-                        data[x].closet_landmark,
-                        data[x].village,
-                        data[x].town,
-                        data[x].city,
-                        data[x].lga_name,
-                        data[x].state_name,
-                        data[x].disco_name,
-                        data[x].business_unit,
-                        data[x].disco_acct_number,
-                        data[x].customer_type,
-                        data[x].customer_class,
-                        data[x].meter_installed ? "Yes" : "No",
-                        data[x].meter_no,
-                        data[x].meter_type,
-                        data[x].meter_brand,
-                        data[x].meter_model
-                    ]).draw();
-                }
+                setData(data);
 
             }
         },
@@ -402,41 +320,7 @@ function filterByDisco() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                for (var x = 0; x < data.length; x++) {
-                    var addr = data[x].site_latitude + ", " + data[x].site_longitude;
-                    table.row.add(["<a class='btn btn-primary' data-value='" +
-                    data[x].customer_note_id + "' href='/Customer/ViewBill/" +
-                    data[x].customer_note_id + "'>View Bills</a>",
-                        "<a class='btn btn-danger' data-value='" +
-                        data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
-                        data[x].customer_note_id + "'>Delete</a>",
-                        /*user_role == "Disco"?"":"<a class='btn btn-danger' data-value='" +
-                         data[x].customer_note_id + "' href='/Customer/DeleteCustomerNote/" +
-                         data[x].customer_note_id + "'>Delete</a>",*/
-                        data[x].mda_name,
-                        data[x].government_level,
-                        data[x].parent_fed_minis_name,
-                        data[x].sector_name,
-                        data[x].site_address,
-                        addr,
-                        data[x].closet_landmark,
-                        data[x].village,
-                        data[x].town,
-                        data[x].city,
-                        data[x].lga_name,
-                        data[x].state_name,
-                        data[x].disco_name,
-                        data[x].business_unit,
-                        data[x].disco_acct_number,
-                        data[x].customer_type,
-                        data[x].customer_class,
-                        data[x].meter_installed ? "Yes" : "No",
-                        data[x].meter_no,
-                        data[x].meter_type,
-                        data[x].meter_brand,
-                        data[x].meter_model
-                    ]).draw();
-                }
+                setData(data);
 
             }
         },
@@ -452,105 +336,34 @@ function filterByDisco() {
     });
 }
 
-function dataToExcel() {
-    // Test script to generate a file from JavaScript such
-    // that MS Excel will honor non-ASCII characters.
 
-    testJson = dataexcel;
-
-    // Simple type mapping; dates can be hard
-    // and I would prefer to simply use `datevalue`
-    // ... you could even add the formula in here.
-    testTypes = {
-        "customer_note_id": "String",
-        "mda_name": "String",
-        "government_level": "String",
-        "parent_fed_minis_name": "String",
-        "sector_name": "String",
-        "site_address": "String",
-        "site_address_coordinate": "String",
-        "closet_landmark": "String",
-        "village": "String",
-        "town": "String",
-        "city": "String",
-        "lga_name": "String",
-        "state_name": "String",
-        "disco_name": "String",
-        "business_unit": "String",
-        "disco_acct_number": "String",
-        "customer_type": "String",
-        "customer_class": "String",
-        "meter_installed": "String",
-        "meter_no": "String",
-        "meter_type": "String",
-        "meter_brand": "String",
-        "meter_model": "String",
-        "site_latitude": "String",
-        "site_longitude": "String",
-        "created_date": "String",
-    };
-
-    emitXmlHeader = function () {
-        var headerRow = '<ss:Row>\n';
-        for (var colName in testTypes) {
-            headerRow += '  <ss:Cell>\n';
-            headerRow += '    <ss:Data ss:Type="String">';
-            headerRow += colName.replace(/_/g, ' ').toUpperCase() + '</ss:Data>\n';
-            headerRow += '  </ss:Cell>\n';
+function delData(id) {
+    url = $("#deleteCustomerData").val();
+    url = url + "/" + id;
+    $.ajax({
+        type: 'GET',
+        url: url,
+        dataType: 'json',
+        beforeSend: function () {
+            $("#message").show();
+        },
+        success: function () {
+            $("#message").hide();
+            getCustomerNote();
+        },
+        error: function (data) {
+            console.log(data);
+            $("#message").hide();
+            getCustomerNote();
         }
-        headerRow += '</ss:Row>\n';
-        return '<?xml version="1.0"?>\n' +
-            '<ss:Workbook xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">\n' +
-            '<ss:Worksheet ss:Name="Sheet1">\n' +
-            '<ss:Table>\n\n' + headerRow;
-    };
+    }).done(function () {
 
-    emitXmlFooter = function () {
-        return '\n</ss:Table>\n' +
-            '</ss:Worksheet>\n' +
-            '</ss:Workbook>\n';
-    };
-
-    jsonToSsXml = function (jsonObject) {
-        var row;
-        var col;
-        var xml;
-        var data = typeof jsonObject != "object" ? JSON.parse(jsonObject) : jsonObject;
-
-        xml = emitXmlHeader();
-
-        for (row = 0; row < data.length; row++) {
-            xml += '<ss:Row>\n';
-
-            for (col in data[row]) {
-                xml += '  <ss:Cell>\n';
-                xml += '    <ss:Data ss:Type="' + testTypes[col] + '">';
-                xml += data[row][col] + '</ss:Data>\n';
-                xml += '  </ss:Cell>\n';
-            }
-
-            xml += '</ss:Row>\n';
+        if (status === true) {
+            // getEneryAudit();
         }
 
-        xml += emitXmlFooter();
-        return xml;
-    };
-
-
-    //console.log(jsonToSsXml(testJson));
-    download = function (content, filename, contentType) {
-        if (!contentType) contentType = 'application/octet-stream';
-        var a = document.getElementById('test');
-        var blob = new Blob([content], {
-            'type': contentType
-        });
-        a.href = window.URL.createObjectURL(blob);
-        a.download = filename;
-    };
-
-    download(jsonToSsXml(testJson), 'customernotedata.xls', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    });
 }
-
 
 function reloadPage() {
     window.location.reload();
@@ -558,7 +371,7 @@ function reloadPage() {
 
 
 $(document).ready(function () {
-    table = $('#datatables-4').DataTable({ "ordering": false });
+    table = $('#datatables-4').DataTable({"ordering": false});
     getCustomerNote();
     daterange();
     $("#message").hide();

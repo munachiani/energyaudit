@@ -22,7 +22,46 @@ var keypage = true;
 var dataexcel = [];
 var table = "";
 var user_role = document.getElementById('user_role').value;
+var dataCount=0;
+var lastCount=0;
+var nextCount=0;
+var dataLim=10;
+function setBill(data) {
+    dataCount=data.length;
+    lastCount= nextCount;
+    nextCount=lastCount + dataLim;
+    for (var x = lastCount; x < nextCount; x++) {
+        if(x<dataCount){
+            table.row.add(["<a class='btn btn-danger' data-value='" +
+            data[x].customer_bill_id +
+            (user_role ==6?"' onclick='delBill(" +  data[x].customer_bill_id +")'>Delete</a>":""),
+                data[x].mda_name,
+                data[x].disco_name,
+                data[x].disco_acct_number,
+                data[x].acct_month,
+                data[x].invoice_number,
+                data[x].monthly_energy_consumptn,
+                data[x].actual_estimated_billing,
+                data[x].meter_reading,
+                data[x].tariff_rate,
+                data[x].fixed_charge,
+                data[x].invoice_amt
+            ]).draw();
 
+        }
+
+    }
+
+    if(lastCount<dataCount){
+        setTimeout(function(){setBill(data)},1);
+    }
+}
+function resetCount(){
+     dataCount=0;
+     lastCount=0;
+     nextCount=0;
+     dataLim=10;
+}
 function getCustomerBill() {
     url = $("#getCustomerBill").val();
     $.ajax({
@@ -40,23 +79,8 @@ function getCustomerBill() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                 for (var x = 0; x < data.length; x++) {
-                    table.row.add(["<a class='btn btn-danger' data-value='" +
-                    data[x].customer_bill_id +
-                    (user_role ==6?"' onclick='delBill(" +  data[x].customer_bill_id +")'>Delete</a>":""),
-                        data[x].mda_name,
-                        data[x].disco_name,
-                        data[x].disco_acct_number,
-                        data[x].acct_month,
-                        data[x].invoice_number,
-                        data[x].monthly_energy_consumptn,
-                        data[x].actual_estimated_billing,
-                        data[x].meter_reading,
-                        data[x].tariff_rate,
-                        data[x].fixed_charge,
-                        data[x].invoice_amt
-                    ]).draw();
-                }
+                  resetCount();
+                setBill(data);
 
             }
         },
@@ -142,23 +166,7 @@ function filterByDate() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                for (var x = 0; x < data.length; x++) {
-                    table.row.add(["<a class='btn btn-danger' data-value='" +
-                    data[x].customer_bill_id +
-                    "' onclick='delBill(" +  data[x].customer_bill_id +")'>Delete</a>",
-                        data[x].mda_name,
-                        data[x].disco_name,
-                        data[x].disco_acct_number,
-                        data[x].acct_month,
-                        data[x].invoice_number,
-                        data[x].monthly_energy_consumptn,
-                        data[x].actual_estimated_billing,
-                        data[x].meter_reading,
-                        data[x].tariff_rate,
-                        data[x].fixed_charge,
-                        data[x].invoice_amt
-                    ]).draw();
-                }
+                setBill(data);
 
             }
         },
@@ -192,23 +200,7 @@ function filterByDisco() {
                 status = false;
             }
             else if ((data !== undefined || data.length != 0) && status) {
-                for (var x = 0; x < data.length; x++) {
-                    table.row.add(["<a class='btn btn-danger' data-value='" +
-                    data[x].customer_bill_id +
-                    "' onclick='delBill(" +  data[x].customer_bill_id +")'>Delete</a>",
-                        data[x].mda_name,
-                        data[x].disco_name,
-                        data[x].disco_acct_number,
-                        data[x].acct_month,
-                        data[x].invoice_number,
-                        data[x].monthly_energy_consumptn,
-                        data[x].actual_estimated_billing,
-                        data[x].meter_reading,
-                        data[x].tariff_rate,
-                        data[x].fixed_charge,
-                        data[x].invoice_amt
-                    ]).draw();
-                }
+                setBill(data);
 
 
             }

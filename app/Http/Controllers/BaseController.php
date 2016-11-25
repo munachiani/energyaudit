@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Maatwebsite\Excel\Facades\Excel;
 use PHPExcel_Worksheet_PageSetup;
+use TijsVerkoyen\CssToInlineStyles\Exception;
 
 class BaseController extends Controller
 {
@@ -258,7 +259,20 @@ class BaseController extends Controller
     public function deleteCustomerBill($id)
     {
 
-        return CustomerBill::find($id)->delete();
+        $bill = CustomerBill::find($id);
+        if (!is_null($bill))
+            return json_encode($bill->delete());
+        return json_encode(true);
+
+    }
+
+    public function deleteCustomerData($id)
+    {
+
+        $note = CustomerNote::find($id);
+        if (!is_null($note))
+            return json_encode($note->delete());
+        return json_encode(true);
 
     }
 
@@ -292,7 +306,7 @@ class BaseController extends Controller
                 });
 
                 $sheet->row(2, array(
-                    'S/N', 'Distribution Company','STATE', 'LGA',  'ADDRESS', 'MDA NAME', 'PARENT FEDERAL MINISTRY',
+                    'S/N', 'Distribution Company', 'STATE', 'LGA', 'ADDRESS', 'MDA NAME', 'PARENT FEDERAL MINISTRY',
                     'Average Monthly Electricity Bill (NGN)', 'No of Generators', 'Generator Running Hrs/Month',
                     'No of Years at Location', 'Contact details of MDA Head', 'Telephone'
                 ));
@@ -366,7 +380,7 @@ class BaseController extends Controller
 
                 $sheet->row(2, array(
                     'SN', 'DisCo', 'MDA name', 'Government Level', 'Parent Ministry ', 'Sector ', 'Site Address', 'Site Address Coordinates (Longitude/Latitude)',
-                    'Closest Landmark', 'Village ', 'Town ', 'City ', 'State', 'LGA',  'Business Unit ', 'Disco Account Number ', 'Customer Type',
+                    'Closest Landmark', 'Village ', 'Town ', 'City ', 'State', 'LGA', 'Business Unit ', 'Disco Account Number ', 'Customer Type',
                     'Customer Tariff Class', 'Meter Installed ', 'Meter No', 'Meter Type', 'Meter Brand', 'Meter Model'
 
                 ));
@@ -520,18 +534,18 @@ class BaseController extends Controller
          * };
          * ]
          */
-       /* if (!is_null($request['start_date']) && !is_null($request['end_date'])) {
-            $start = Carbon::parse($request['start_date'])->format('Y-m-d H:i:s');
-            $end = Carbon::parse($request['end_date'])->format('Y-m-d H:i:s');
-            $bill = CustomerBill::dateRange($start, $end);
+        /* if (!is_null($request['start_date']) && !is_null($request['end_date'])) {
+             $start = Carbon::parse($request['start_date'])->format('Y-m-d H:i:s');
+             $end = Carbon::parse($request['end_date'])->format('Y-m-d H:i:s');
+             $bill = CustomerBill::dateRange($start, $end);
 
-            //dd($bill);
-        } elseif (!is_null($request['disco_name'])) {
-            $disco = $request['disco_name'];
-            $bill = CustomerBill::discoFilter($disco);
-        }
-        else*/
-            $bill = CustomerNote::latest('id')->get();
+             //dd($bill);
+         } elseif (!is_null($request['disco_name'])) {
+             $disco = $request['disco_name'];
+             $bill = CustomerBill::discoFilter($disco);
+         }
+         else*/
+        $bill = CustomerNote::latest('id')->get();
 
         $dataList = array();
         foreach ($bill as $i => $item) {
@@ -547,7 +561,7 @@ class BaseController extends Controller
             $data['longitude'] = $this->checkNull($item->site_longitude);
             $data['government_level'] = $this->checkNull($item->government_level);
             $data['sector'] = $this->checkNull($item->sector_id);
-            $data['coordinates'] = $this->checkNull($item->site_latitude.'/'.$item->site_longitude);
+            $data['coordinates'] = $this->checkNull($item->site_latitude . '/' . $item->site_longitude);
             $data['closet_landmark'] = $this->checkNull($item->closet_landmark);
             $data['city'] = $this->checkNull($item->city);
             $data['village'] = $this->checkNull($item->village);
@@ -582,7 +596,6 @@ class BaseController extends Controller
         }
         return view('admin.login');
     }
-
 
 
 }
