@@ -30,9 +30,11 @@ $discoCount = [];
 foreach ($disco as $item) {
     $count = \App\CustomerNote::where('disco_id', '=', $item->disco_name)->count();
     $discoData[] = $item->disco_name;
+    $discoId[] = $item->id;
     $discoCount[] = $count;
 }
 $discoData = implode(",", $discoData);
+$discoId = implode(",", $discoId);
 $discoCount = implode(',', $discoCount);
 
 $discoNames = [];
@@ -79,6 +81,7 @@ $ministryAmount = implode(",", $ministryAmount);
             ﻿﻿<input type="hidden" id="discoData" value="{{$discoData}}">
             ﻿﻿<input type="hidden" id="ministry" value="{{$ministry}}">
             ﻿﻿<input type="hidden" id="discoCount" value="{{$discoCount}}">
+            ﻿﻿<input type="hidden" id="discoId" value="{{$discoId}}">
             <input id="startdate" name="startdate" type="hidden" value="01/01/2015"/>
             <input id="enddate" name="enddate" type="hidden" value="31/12/2016"/>
             <input id="userid" name="userid" type="hidden" value="{{auth()->user()->id}}"/>
@@ -235,11 +238,13 @@ $ministryAmount = implode(",", $ministryAmount);
         $('.counter').counterUp();
         //        dataVert = $("#discoCount").val();
         dataHor = $("#discoData").val();
+        dataDiscoId = $("#discoId").val();
         //alert(dataVert);
         //alert(dataHor);
         //        vert=dataVert.split(',');
         hor = dataHor.split(',');
-
+        dataId = dataDiscoId.split(',');
+console.log(dataId);
 
         $(function () {
             $('#container1').highcharts({
@@ -250,6 +255,18 @@ $ministryAmount = implode(",", $ministryAmount);
 
                 title: {
                     text: ''
+                },
+
+                legend: {
+                    labelFormatter: function () {
+                        var total = 0;
+                        for (var i = this.yData.length; i--; ) {
+                            total += this.yData[i];
+                        }
+
+                        return 'Total MDA-Premises Captured: ' + total;
+                    }
+
                 },
 
                 xAxis: {
@@ -268,18 +285,26 @@ $ministryAmount = implode(",", $ministryAmount);
                     headerFormat: '<b>{point.key}</b><br>',
                     pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}'
                 },
-
                 plotOptions: {
                     column: {
                         stacking: 'normal',
                         depth: 40
+
                     }
                 },
+
 
                 series: [{
                     name: 'Total MDA-Premises Captured',
                     data: [{{$discoCount}}],
-                    color: '#2a532a'
+                    color: '#2a532a', cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function () {
+                                window.open('premesis/captured/' + dataId[this.x]);
+                            }
+                        }
+                    }
 
                 }]
             });
