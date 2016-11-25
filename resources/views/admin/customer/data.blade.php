@@ -10,6 +10,7 @@
             <input type="hidden" id="getCustomerNote" value="{{url('ReportInfo/getCustomerNote')}}">
             <input id="user_role" type="hidden" value="{{$user->latestRole()->role->id}}"/>
             <input type="hidden" id="deleteCustomerData" value="{{url('Customer/DeleteCustomerData')}}">
+            <input type="hidden" id="viewCustomerBill" value="{{url('Customer/Bill/')}}">
 
             <div class="card">
                 <div class="card-head card-head-sm style-custom">

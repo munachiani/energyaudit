@@ -46,4 +46,7 @@ class CustomerBill extends Model
         return $array;
     }
 
+    public function customerNote(){
+        return $this->belongsTo("CustomerNote","disco_acct_number");
+    }
 }

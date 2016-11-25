@@ -67,4 +67,15 @@ class CustomerNote extends Model
             ->get();
         return $eg === null ? '' : $eg;
     }
+
+
+    /*public function customerBill(){
+        return DB::table('customer_bills')
+            ->whereRaw('disco_account_number=?', array($this->disco_acct_number))
+            ->get();
+
+    }*/
+    public function customerBill(){
+        return $this->hasMany('App\CustomerBill','disco_account_number','disco_acct_number');
+    }
 }

@@ -130,7 +130,7 @@ class AdminController extends Controller
                                 $energyAudit->telephone = $row[$key[12]];
                                 $energyAudit->acct_number = $row[$key[13]];
 
-                                $latlong = explode('/',$row[$key[14]]);
+                                $latlong = explode('/', $row[$key[14]]);
 
                                 $energyAudit->latitude = $latlong[0];
                                 $energyAudit->longitude = $latlong[1];
@@ -244,8 +244,8 @@ class AdminController extends Controller
             else {
                 $filename = 'mda_' . '.' . $extension;
 
-           $file->move($destinationPath, $filename);
-                $nowFile=$destinationPath.$filename;
+                $file->move($destinationPath, $filename);
+                $nowFile = $destinationPath . $filename;
 //                dd($nowFile);
                 try {
                     Excel::selectSheetsByIndex(2)->filter('chunk')->load($nowFile)->chunk(150, function ($reader) {
@@ -282,7 +282,7 @@ class AdminController extends Controller
                             }
 
                         }
-                    },true);
+                    }, true);
                     unlink($nowFile);
                     session()->flash('flash_message', 'Report uploaded successfully.');
                     return redirect()->back();
@@ -442,6 +442,20 @@ class AdminController extends Controller
             ->with(compact('user'));
     }
 
+    public function viewCustomerBills($id)
+    {
+        $customer=CustomerNote::find($id);
+
+        if(is_null($customer))
+            return redirect()->back();
+
+        $bills=$customer->customerBill;
+//     dd($customer->customerBill);
+
+        return view('admin.customer.customerBill')
+            ->with(compact('customer','bills'));
+    }
+
     /**
      * @param Request $request
      * @return $this|\Illuminate\Http\RedirectResponse
@@ -561,7 +575,7 @@ class AdminController extends Controller
         if ($validator->fails()) {
             return redirect()->back()
                 ->withInput()
-            ->withErrors($validator);
+                ->withErrors($validator);
         } else {
             $LastName = $request['LastName'];
             $FirstName = $request['FirstName'];
@@ -650,7 +664,8 @@ class AdminController extends Controller
             ->with(compact('user'));
     }
 
-    public function deleteUser($id){
+    public function deleteUser($id)
+    {
         $user = User::find($id);
         $user->delete();
 
@@ -659,12 +674,13 @@ class AdminController extends Controller
 
     }
 
-    public function premesis($id){
+    public function premesis($id)
+    {
         $disco = DistributionCompany::find($id);
-        $notes = CustomerNote::where('disco_id','=',$disco->disco_name)->get();
+        $notes = CustomerNote::where('disco_id', '=', $disco->disco_name)->get();
 //                dd($notes);
         return view('admin.singleDistribution')
-            ->with(compact('notes','disco'));
+            ->with(compact('notes', 'disco'));
 
     }
 

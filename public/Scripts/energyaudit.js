@@ -87,6 +87,8 @@ function getEneryAudit() {
             console.log(data);
             if (data.length == 0) {
                 status = false;
+                progress.style.display="none";
+
             }
             else if ((data !== undefined || data.length != 0) && status) {
                 resetCount(); setAudit(data);
@@ -173,6 +175,7 @@ function filterByDate() {
             console.log(data);
             if (data.length == 0) {
                 status = false;
+                progress.style.display="none";
             }
             else if ((data !== undefined || data.length != 0) && status) {
                 setAudit(data);
@@ -250,6 +253,7 @@ function filterByRegion() {
             console.log(data);
             if (data.length == 0) {
                 status = false;
+                progress.style.display="none";
             }
             else if ((data !== undefined || data.length != 0) && status) {
                 setAudit(data);
@@ -332,6 +336,7 @@ function filterByDisco() {
             console.log(data);
             if (data.length == 0) {
                 status = false;
+                progress.style.display="none";
             }
             else if ((data !== undefined || data.length != 0) && status) {
                 setAudit(data);
@@ -366,6 +371,7 @@ function filterByMinistry() {
             console.log(data);
             if (data.length == 0) {
                 status = false;
+                progress.style.display="none";
             }
             else if ((data !== undefined || data.length != 0) && status) {
                 setAudit(data);

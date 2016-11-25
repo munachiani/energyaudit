@@ -38,8 +38,7 @@ function setData(data) {
         if(x<dataCount){
             var addr = data[x].site_latitude + ", " + data[x].site_longitude;
             table.row.add(["<a class='btn btn-primary' data-value='" +
-            data[x].customer_note_id + "' href='/Customer/ViewBill/" +
-            data[x].customer_note_id + "'>View Bills</a>",
+            data[x].customer_note_id + "' onclick='viewBillData(" + data[x].customer_note_id + ")'>View Bills</a>",
                 (user_role == 6 ? "<a class='btn btn-danger' onclick='delData(" + data[x].customer_note_id + ")'>Delete</a>" : ""),
                 data[x].mda_name,
                 data[x].government_level,
@@ -355,7 +354,11 @@ function filterByDisco() {
     });
 }
 
-
+function viewBillData(id){
+    url = $("#viewCustomerBill").val();
+    url = url + "/" + id;
+    window.location=url;
+}
 function delData(id) {
     url = $("#deleteCustomerData").val();
     url = url + "/" + id;
