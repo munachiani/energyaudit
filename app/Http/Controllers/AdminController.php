@@ -658,5 +658,14 @@ class AdminController extends Controller
 
     }
 
+    public function premesis($id){
+        $disco = DistributionCompany::find($id);
+        $notes = CustomerNote::where('disco_id','=',$disco->disco_name)->get();
+//                dd($notes);
+        return view('admin.singleDistribution')
+            ->with(compact('notes','disco'));
+
+    }
+
 
 }
