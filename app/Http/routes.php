@@ -50,6 +50,7 @@ Route::get('CustomerData/ExportCustomerNote','BaseController@exportCustomerNote'
 Route::get('ReportInfo/getCustomerBill','BaseController@getCustomerBill');
 Route::get('CustomerData/ExportCustomerBill','BaseController@exportCustomerBill');
 Route::get('Customer/DeleteCustomerBill/{id}','BaseController@deleteCustomerBill');
+Route::get('Customer/DeleteCustomerData/{id}','BaseController@deleteCustomerData');
 
 /* route to create user*/
 Route::get('ReportInfo/Energy','AdminController@reportInfo');

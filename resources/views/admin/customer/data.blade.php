@@ -1,10 +1,17 @@
 @extends('layout.master')
 @section('contents')
+    <?php
+    $user = auth()->user();
+
+    ?>
     <section>
         <div class="section-body">
             <input type="hidden" id="stateRegionUrl" value="{{url('ReportInfo/GetRegionbyStateId')}}">
             <input type="hidden" id="getCustomerNote" value="{{url('ReportInfo/getCustomerNote')}}">
-       <div class="card">
+            <input id="user_role" type="hidden" value="{{$user->latestRole()->role->id}}"/>
+            <input type="hidden" id="deleteCustomerData" value="{{url('Customer/DeleteCustomerData')}}">
+
+            <div class="card">
                 <div class="card-head card-head-sm style-custom">
                     <header>MDA Customer Data</header>
                 </div>
