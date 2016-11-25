@@ -165,4 +165,5 @@ Route::get('Users/Delete/{id}','AdminController@deleteUser');
 
 
 Route::get('premesis/captured/{id}','AdminController@premesis');
+Route::get('disco/amount/owed/{id}','AdminController@owedDisco');
 

@@ -42,6 +42,7 @@ $discoAmount = [];
 foreach ($disco as $item) {
     $discoNames[] = $item->disco_name;
     $totalCount = \App\CustomerBill::where('disco', '=', $item->disco_name)->get();
+    $itemAmount[] = $item->id;
     $total = 0;
     foreach ($totalCount as $tt) {
         $total += $tt->invoice_amt;
@@ -49,6 +50,7 @@ foreach ($disco as $item) {
     $discoAmount[] = $total;
 }
 $discoNames = implode(",", $discoNames);
+$itemAmount = implode(",", $itemAmount);
 $discoAmount = implode(',', $discoAmount);
 
 
@@ -81,6 +83,7 @@ $ministryAmount = implode(",", $ministryAmount);
             ﻿﻿<input type="hidden" id="discoData" value="{{$discoData}}">
             ﻿﻿<input type="hidden" id="ministry" value="{{$ministry}}">
             ﻿﻿<input type="hidden" id="discoCount" value="{{$discoCount}}">
+            ﻿﻿<input type="hidden" id="itemId" value="{{$itemAmount}}">
             ﻿﻿<input type="hidden" id="discoId" value="{{$discoId}}">
             <input id="startdate" name="startdate" type="hidden" value="01/01/2015"/>
             <input id="enddate" name="enddate" type="hidden" value="31/12/2016"/>
@@ -297,7 +300,8 @@ console.log(dataId);
                 series: [{
                     name: 'Total MDA-Premises Captured',
                     data: [{{$discoCount}}],
-                    color: '#2a532a', cursor: 'pointer',
+                    color: '#2a532a',
+                    cursor: 'pointer',
                     point: {
                         events: {
                             click: function () {
@@ -314,7 +318,9 @@ console.log(dataId);
     </script>
     <script type="text/javascript">
         dataHorDebt = $("#discoNames").val();
+        dataItemId = $("#itemId").val();
         horDebt = dataHor.split(',');
+        ItemIds = dataItemId.split(',');
         Highcharts.setOptions({
             lang: {
 
@@ -330,6 +336,17 @@ console.log(dataId);
 
                 title: {
                     text: ''
+                },
+                legend: {
+                    labelFormatter: function () {
+                        var total = 0;
+                        for (var i = this.yData.length; i--; ) {
+                            total += this.yData[i];
+                        }
+
+                        return 'Total Dept owed to Discos: ' + '₦' + total;
+                    }
+
                 },
 
                 xAxis: {
@@ -364,7 +381,15 @@ console.log(dataId);
                 series: [{
                     name: 'Total Dept owed to Discos',
                     data: [{{$discoAmount}}],
-                    color: '#2a532a'
+                    color: '#2a532a',
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function () {
+                                window.open('disco/amount/owed/' + ItemIds[this.x],'_top');
+                            }
+                        }
+                    }
 
                 }]
             });
