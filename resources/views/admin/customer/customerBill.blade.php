@@ -23,6 +23,7 @@
                             <h4>DISCO: {{$customer->disco_id}}</h4>
                             <h4>DISCO ACC. NO: {{$customer->disco_acct_number}}</h4>
                             <h4>PARENT FEDERAL MINISTRY: {{$customer->parent_fed_min_id}}</h4>
+                            <h4>TOTAL BILLS FOUND: {{$bills->count()}}</h4>
                         </div>
                     </div>
                     <div class="row">
