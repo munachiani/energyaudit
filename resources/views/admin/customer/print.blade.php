@@ -7,6 +7,7 @@
             background-size: contain !important;
             background-size: 100% 100% !important;
             margin-bottom:30px;
+            font-weight: bolder !important;
 
 
         }
@@ -17,6 +18,8 @@
             background-size: contain !important;
             background-size: 100% 100% !important;
             height:1000px;
+            font-weight: bolder !important;
+
 
 
         }
@@ -75,6 +78,8 @@
                 background-size: contain !important;
                 background-size: 100% 100% !important;
                 margin-top: 900px !important;
+                font-weight: bolder !important;
+
             }
 
             #containerColor1 {
@@ -84,6 +89,8 @@
                 background-size: 100% 90% !important;
                 margin-top: 900px !important;
                 height: 1000px !important;
+                font-weight: bolder !important;
+
             }
 
             #inputStyle {
@@ -173,7 +180,7 @@
                                     <div class="col-md-12" id="mda">
                                         <h1>Ministries Department And Agencies Energy Audit</h1>
 
-                                        <h3>{{$bill->disco}}</h3>
+                                        <h1 class="alert alert-success">{{$bill->customerNote->disco_id}}</h1>
                                     </div>
 
                                 </div>
@@ -223,7 +230,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="col-md-3" id="acctNumber">ADC</div>
-                                        <div class="col-md-6 inputStyle" id="inputStyletext">bacdbvskjgs</div>
+                                        <div class="col-md-6 inputStyle" id="inputStyletext">111.545</div>
                                     </div>
                                 </div>
                                 <div class="row rowStyle1">
@@ -288,7 +295,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="col-md-3" id="acctNumber">Amount</div>
-                                        <div class="col-md-6 inputStyle" id="inputStyletext">bacdbvskjgs</div>
+                                        <div class="col-md-6 inputStyle" id="inputStyletext">{{(is_null($prevBill)?"N/A":$prevBill->invoice_amt)}}</div>
                                     </div>
                                 </div>
                                 <hr>
@@ -317,7 +324,7 @@
 
                                     <div class="col-md-4">
                                         <div class="col-md-6" id="acctNumber2">VAT number</div>
-                                        <div class="col-md-6 inputStyle" id="inputStyletext">smnvdhsvj</div>
+                                        <div class="col-md-6 inputStyle" id="inputStyletext">{{'MDA'.rand(23456778,56789076)}}</div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="col-md-6">LAR Date</div>
@@ -327,7 +334,7 @@
                                     <div class="col-md-4">
                                         <div class="col-md-5" id="acctNumber">LAR</div>
                                         <div class="col-md-6 inputStyle"
-                                             id="inputStyletext">{{(is_null($prevBill)?"N/A":$prevBill->meter_reading)}}</div>
+                                             id="inputStyletext">{{(is_null($prevBill)?"N/A":$prevBill->meter_reading)}}&nbsp;</div>
                                     </div>
                                 </div>
                                 <div class="row rowStyle2">
@@ -337,7 +344,7 @@
                                         PAY TOTAL DUE NOW
                                     </div>
 
-                                    <div class="col-md-3 inputStyle1" id="inputStyletext1">bacdbvskjgs</div>
+                                    <div class="col-md-3 inputStyle1" id="inputStyletext1">NGN {{number_format($bill->invoice_amt,2,'.',',')}}</div>
 
                                 </div>
                                 <div class="row rowStyle3">
