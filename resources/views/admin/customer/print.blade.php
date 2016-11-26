@@ -2,9 +2,25 @@
 @section('pageStyles')
     <style>
         .containerColor {
-            background:#C5C5C5;
+            background: #C5C5C5;
+            background: url('{{url('Content/img/FedRepNig1.png')}}') no-repeat !important;
+            background-size: contain !important;
+            background-size: 100% 100% !important;
+            margin-bottom:30px;
+
 
         }
+
+        .containerColor1 {
+            background: #C5C5C5;
+            background: url('{{url('Content/img/FedRepNig1.png')}}') no-repeat !important;
+            background-size: contain !important;
+            background-size: 100% 100% !important;
+            height:1000px;
+
+
+        }
+
         .logoStyle {
             text-align: center;
         }
@@ -28,7 +44,9 @@
         .rowStyle1 {
             margin-top: 8px;
 
-        } .rowStyle3 {
+        }
+
+        .rowStyle3 {
             padding: 20px;
 
         }
@@ -45,59 +63,82 @@
         .rowStyletable table {
             width: 100%;
         }
-        @media print{
-            .no-print{
+
+        @media print {
+            .no-print {
                 display: none;
             }
-            #containerColor{
-                webkit-print-color-adjust: exact !important;
+
+            #containerColor {
+                -webkit-print-color-adjust: exact !important;
+                background: url('{{url('Content/img/FedRepNig1.png')}}') no-repeat !important;
+                background-size: contain !important;
                 background-size: 100% 100% !important;
                 margin-top: 900px !important;
-                background:#C5C5C5 !important;
-
-
             }
-            #inputStyle{
-                width:35%;
+
+            #containerColor1 {
+                -webkit-print-color-adjust: exact !important;
+                background: url('{{url('Content/img/FedRepNig1.png')}}') no-repeat !important;
+                background-size: contain !important;
+                background-size: 100% 90% !important;
+                margin-top: 900px !important;
+                height: 1000px !important;
             }
-            #inputStyletext{
-                width:35%;
+
+            #inputStyle {
+                width: 35%;
+            }
+
+            #inputStyletext {
+                width: 35%;
                 margin-left: 400px;
 
             }
-            #inputStyletext1{
-                width:35%;
+
+            #inputStyletext1 {
+                width: 35%;
                 margin-left: 400px;
-                margin-top:-20px;
+                margin-top: -20px;
                 background-color: #C0DAB7 !important;
 
-
             }
-            #inputStyletextColor{
-                width:35%;
+
+            #inputStyletextColor {
+                width: 35%;
                 margin-left: 450px;
                 background-color: #C0DAB7 !important;
 
             }
-            #acctNumber{
+
+            #acctNumber {
                 margin-top: -50px;
                 padding-left: 400px;
             }
-            #acctNumber1{
+
+            #acctNumber1 {
                 margin-top: -100px;
                 padding-left: 400px;
             }
+            #acctNumber2{
+                margin-top: -200px;
+                padding-left: 400px;
+            }
+
             #logoStyle img {
                 width: 60px;
             }
-            #mda h1{
-                font-size:25px;
+
+            #mda h1 {
+                font-size: 25px;
             }
+
             #rowStyle {
                 margin-top: -30px;
             }
-            #footerContainer{
-                padding-top:550px;
+
+            #footerContainer {
+                padding-top: 550px;
             }
 
         }
@@ -140,11 +181,13 @@
 
                                     <div class="col-md-6">
                                         <div class="col-md-3">Account Number</div>
-                                        <div class="col-md-6 inputStyle" id="inputStyle">{{$bill->disco_account_number}}</div>
+                                        <div class="col-md-6 inputStyle"
+                                             id="inputStyle">{{$bill->disco_account_number}}</div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="col-md-3"  id="acctNumber">Due Date</div>
-                                        <div class="col-md-6 inputStyle" id="inputStyletext">{{$bill->invoice_date}}</div>
+                                        <div class="col-md-3" id="acctNumber">Due Date</div>
+                                        <div class="col-md-6 inputStyle"
+                                             id="inputStyletext">{{$bill->invoice_date}}</div>
                                     </div>
                                 </div>
                                 <div class="row rowStyle1">
@@ -155,18 +198,21 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="col-md-3" id="acctNumber">Meter Number</div>
-                                        <div class="col-md-6 inputStyle" id="inputStyletext">{{$bill->customerNote->meter_no}}</div>
+                                        <div class="col-md-6 inputStyle"
+                                             id="inputStyletext">{{$bill->customerNote->meter_no}}</div>
                                     </div>
                                 </div>
                                 <div class="row rowStyle1">
 
                                     <div class="col-md-6">
                                         <div class="col-md-3">Service Address</div>
-                                        <div class="col-md-6 inputStyle" id="inputStyle">{{$bill->customerNote->site_address}}</div>
+                                        <div class="col-md-6 inputStyle"
+                                             id="inputStyle">{{$bill->customerNote->site_address}}</div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="col-md-3" id="acctNumber">Dials</div>
-                                        <div class="col-md-6 inputStyle" id="inputStyletext">{{$bill->customerNote->id}}</div>
+                                        <div class="col-md-6 inputStyle"
+                                             id="inputStyletext">{{$bill->customerNote->id}}</div>
                                     </div>
                                 </div>
                                 <div class="row rowStyle1">
@@ -183,9 +229,10 @@
                                 <div class="row rowStyle1">
 
                                     <div class="col-md-6">
-                                        <div class="col-md-3" >Previous Bal</div>
+                                        <div class="col-md-3">Previous Bal</div>
 
-                                        <div class="col-md-6 inputStyle" id="inputStyle">{{(is_null($prevBill)?"N/A":$prevBill->invoice_amt)}}</div>
+                                        <div class="col-md-6 inputStyle"
+                                             id="inputStyle">{{(is_null($prevBill)?"N/A":$prevBill->invoice_amt)}}</div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="col-md-3" id="acctNumber">Payments</div>
@@ -196,7 +243,8 @@
 
                                     <div class="col-md-6">
                                         <div class="col-md-3">Net Arrears</div>
-                                        <div class="col-md-6 inputStyle" id="inputStyle">{{(is_null($prevBill)?"N/A":$prevBill->invoice_amt)}}</div>
+                                        <div class="col-md-6 inputStyle"
+                                             id="inputStyle">{{(is_null($prevBill)?"N/A":$prevBill->invoice_amt)}}</div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="col-md-3" id="acctNumber">Adjustment</div>
@@ -234,8 +282,9 @@
                                 <div class="row rowStyle1">
 
                                     <div class="col-md-6">
-                                        <div class="col-md-3" >Last Pay. Date</div>
-                                        <div class="col-md-6 inputStyle" id="inputStyle">{{(is_null($prevBill)?"N/A":$prevBill->invoice_date)}}</div>
+                                        <div class="col-md-3">Last Pay. Date</div>
+                                        <div class="col-md-6 inputStyle"
+                                             id="inputStyle">{{(is_null($prevBill)?"N/A":$prevBill->invoice_date)}}</div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="col-md-3" id="acctNumber">Amount</div>
@@ -246,31 +295,39 @@
                                 <div class="row rowStyle1">
 
                                     <div class="col-md-4">
-                                        <div class="col-md-6" >Net Arrears</div>
-                                        <div class="col-md-6 inputStyle" id="inputStyle">{{(is_null($prevBill)?"N/A":$prevBill->invoice_amt)}}</div>
+                                        <div class="col-md-6">Net Arrears</div>
+                                        <div class="col-md-6 inputStyle"
+                                             id="inputStyle">{{(is_null($prevBill)?"N/A":$prevBill->invoice_amt)}}</div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="col-md-6" id="acctNumber">Current Charges</div>
-                                        <div class="col-md-6 inputStyle" id="inputStyletext">{{$bill->invoice_amt}}</div>
+                                        <div class="col-md-6 inputStyle"
+                                             id="inputStyletext">{{$bill->invoice_amt}}</div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="col-md-5" >VAT</div>
+                                        <div class="col-md-5">VAT</div>
                                         <div class="col-md-6 inputStyle" id="inputStyle">{{$bill->fixed_charge}}</div>
                                     </div>
                                 </div>
+
+                            </div>
+
+                            <div class="row containerColor1" id="containerColor1">
                                 <div class="row rowStyle1">
 
                                     <div class="col-md-4">
-                                        <div class="col-md-6" id="acctNumber">VAT number</div>
+                                        <div class="col-md-6" id="acctNumber2">VAT number</div>
                                         <div class="col-md-6 inputStyle" id="inputStyletext">smnvdhsvj</div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="col-md-6">LAR Date</div>
-                                        <div class="col-md-6 inputStyle" id="inputStyle">{{(is_null($prevBill)?"N/A":$prevBill->invoice_date)}}</div>
+                                        <div class="col-md-6 inputStyle"
+                                             id="inputStyle">{{(is_null($prevBill)?"N/A":$prevBill->invoice_date)}}</div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="col-md-5" id="acctNumber">LAR</div>
-                                        <div class="col-md-6 inputStyle" id="inputStyletext">{{(is_null($prevBill)?"N/A":$prevBill->meter_reading)}}</div>
+                                        <div class="col-md-6 inputStyle"
+                                             id="inputStyletext">{{(is_null($prevBill)?"N/A":$prevBill->meter_reading)}}</div>
                                     </div>
                                 </div>
                                 <div class="row rowStyle2">
@@ -286,18 +343,22 @@
                                 <div class="row rowStyle3">
 
                                     <div class="col-md-12 inputStyle">
-                                        <p>PLEASE PAY AT ANY CASH OFFICE OR DESIGNATED  BANK IN BIRNIN KEBBI BUSIN</p>
+                                        <p>PLEASE PAY AT ANY CASH OFFICE OR DESIGNATED BANK IN BIRNIN KEBBI BUSIN</p>
+
                                         <p>ENC2 - Rate = =N= 31.27 per unit</p>
+
                                         <p>(LAR = Last Actual Reading)</p>
 
                                     </div>
                                 </div>
-                                <div class="row"><div class="col-md-12" style="font-weight: bolder;">
-                                        <p>Customers whose complaints are not statisfactory addresssed by the Customer Complaints Unit of the Distribution License
+                                <div class="row">
+                                    <div class="col-md-12" style="font-weight: bolder;">
+                                        <p>Customers whose complaints are not statisfactory addresssed by the Customer
+                                            Complaints Unit of the Distribution License
                                             may approach the Forum established for Customer Complaints</p>
 
-                                    </div></div>
-
+                                    </div>
+                                </div>
                             </div>
 
 
@@ -307,10 +368,10 @@
 
                         </div><!--end .section-body -->
                     </div>
-                    <div class="row">
+                    <div class="row no-print">
                         <div class="col-md-12">
                             <div class="footer">
-                                <div class="container-fluid" id="footerContainer">
+                                <div class="container-fluid" >
                                     <div class="row">
                                         <img src="{{url('Content/img/FedRepNig.png')}}" class="footer-logo"/>
                                         <br/>
