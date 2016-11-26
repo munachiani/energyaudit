@@ -45,6 +45,8 @@ Route::get('ReportInfo/GetEnergyAudit','BaseController@getEnergyAudit');
 Route::get('ReportInfo/Exporttoexcel','BaseController@exportEnergyAudit');
 
 Route::get('ReportInfo/getCustomerNote','BaseController@getCustomerNote');
+Route::get('ReportInfo/getCustomerNote/{id}','BaseController@getCustomerNoteByDisco');
+
 Route::get('CustomerData/ExportCustomerNote','BaseController@exportCustomerNote');
 
 Route::get('ReportInfo/getCustomerBill','BaseController@getCustomerBill');

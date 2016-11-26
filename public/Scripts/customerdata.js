@@ -22,6 +22,8 @@ var keypage = true;
 var dataexcel = [];
 var table = "";
 var user_role = document.getElementById('user_role').value;
+var disco_id = document.getElementById('disco_id').value;
+var discoName = document.getElementById('disco_name').value;
 //var user_id = document.getElementById('user_id').innerHTML;
 var dataCount=0;
 var lastCount=0;
@@ -263,7 +265,7 @@ function filterByRegion() {
         dataType: 'json',
         beforeSend: function () {
             $("#message").show();
-            $('#datatables-5').DataTable().clear().draw();
+            $('#datatables-4').DataTable().clear().draw();
         },
         success: function (data) {
             $("#message").hide();
@@ -394,8 +396,7 @@ function reloadPage() {
 
 $(document).ready(function () {
     table = $('#datatables-4').DataTable({"ordering": false});
-    getCustomerNote();
-    daterange();
+
     $("#message").hide();
     if ($("#State").val()) {
         var ddlLgas = $("#Region");
@@ -443,9 +444,19 @@ $(document).ready(function () {
         par_name = $("#Minis").val();
         disco_name = $("#Disco").val();
         limdisco = 0;
-        console.log(limdisco);
         filterByDisco();
     });
+ if(parseInt(disco_id)>0) {
+        status4 = true;
+        $('#datatables-4').DataTable().clear().draw();
+         disco_name = discoName;
+        limdisco = 0;
+        filterByDisco();
+    }
+    else{
+     getCustomerNote();
+     daterange();
+ }
 
     $("#reloadenergy").click(function () {
         //alert("cool");

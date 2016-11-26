@@ -11,10 +11,12 @@
             <input id="user_role" type="hidden" value="{{$user->latestRole()->role->id}}"/>
             <input type="hidden" id="deleteCustomerData" value="{{url('Customer/DeleteCustomerData')}}">
             <input type="hidden" id="viewCustomerBill" value="{{url('Customer/Bill/')}}">
+            <input type="hidden" id="disco_id" value="{{isset($disco_id)?$disco_id:0}}">
+            <input type="hidden" id="disco_name" value="{{isset($disco)?$disco->disco_name:''}}">
 
             <div class="card">
                 <div class="card-head card-head-sm style-custom">
-                    <header>MDA Customer Data</header>
+                    <header>MDA Customer Data {{isset($disco)?' - '.$disco->disco_name:''}}</header>
                 </div>
                 <div class="card-body">
                     <div class="row">

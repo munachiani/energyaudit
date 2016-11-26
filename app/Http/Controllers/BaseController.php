@@ -163,7 +163,7 @@ class BaseController extends Controller
 
         $dataList = array();
         foreach ($customer as $i => $item) {
-            $bills=$item->customerBill;
+            $bills=(!empty($item->customerBill)?$item->customerBill:false);
             $data['site_latitude'] = $this->checkNull($item->site_latitude);
             $data['site_longitude'] = $this->checkNull($item->site_longitude);
             $data['customer_note_id'] = $this->checkNull($item->id);
@@ -188,7 +188,7 @@ class BaseController extends Controller
             $data['meter_type'] = $this->checkNull($item->meter_type);
             $data['meter_brand'] = $this->checkNull($item->meter_brand);
             $data['meter_model'] = $this->checkNull($item->meter_model);
-            $data['bill_count'] = $bills->count();
+            $data['bill_count'] = $bills?$bills->count():0;
 
             $dataList[] = $data;
         }
