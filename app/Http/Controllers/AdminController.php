@@ -444,16 +444,16 @@ class AdminController extends Controller
 
     public function viewCustomerBills($id)
     {
-        $customer=CustomerNote::find($id);
+        $customer = CustomerNote::find($id);
 
-        if(is_null($customer))
+        if (is_null($customer))
             return redirect()->back();
 
-        $bills=$customer->customerBill;
+        $bills = $customer->customerBill;
 //     dd($customer->customerBill);
 
         return view('admin.customer.customerBill')
-            ->with(compact('customer','bills'));
+            ->with(compact('customer', 'bills'));
     }
 
     /**
@@ -689,7 +689,16 @@ class AdminController extends Controller
         $disco = DistributionCompany::find($id);
         $bills = CustomerBill::where('disco', '=', $disco->disco_name)->get();
         return view('admin.discoBilling')
-            ->with(compact('disco','bills'));
+            ->with(compact('disco', 'bills'));
+    }
+
+    public function printBill($id, $prev)
+    {
+        $bill = CustomerBill::find($id);
+        $prevBill = CustomerBill::find($prev);
+
+        return view('admin.customer.print')
+            ->with(compact('bill', 'prevBill'));
     }
 
 

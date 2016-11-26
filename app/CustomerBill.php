@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\CustomerNote;
 
 class CustomerBill extends Model
 {
@@ -47,6 +48,6 @@ class CustomerBill extends Model
     }
 
     public function customerNote(){
-        return $this->belongsTo("CustomerNote","disco_acct_number");
+        return $this->belongsTo('\App\CustomerNote','disco_account_number','disco_acct_number');
     }
 }

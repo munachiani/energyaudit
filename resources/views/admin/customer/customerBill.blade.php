@@ -29,7 +29,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table-responsive">
-                                <table id="datatables-1" class="table table-banded table-hover">
+                                <table id="datatables-7" class="table table-banded table-hover">
                                     <thead>
                                     <tr>
                                         <th>SN</th>
@@ -58,10 +58,10 @@
                                     </thead>
 
                                     <tbody>
-                                    <?php $c=0 ?>
+                                    <?php $c=1;$arr=0; $billsList=$bills->toArray(); ?>
                                     @foreach($bills as $bill)
                                         <tr>
-                                            <td>{{++$c}}</td>
+                                            <td>{{$c}}</td>
                                             <td>{{Carbon\Carbon::parse($bill->invoice_date)->format('jS M, Y')}}</td>
                                             <td>{{Carbon\Carbon::parse($bill->invoice_date)->format('F')}}</td>
                                             <td>{{$bill->invoice_number}}</td>
@@ -71,8 +71,21 @@
                                             <td>{{$bill->tariff_rate}}</td>
                                             <td>{{$bill->fixed_charge}}</td>
                                             <td>{{$bill->invoice_amt}}</td>
-                                            <td><button class="btn-default">Print</button></td>
+                                            <?php
+
+                                                if(array_key_exists($arr-1,$billsList))
+                                                {
+                                                    $prev= $billsList[($arr-1)]['id'];
+                                                }
+                                                else
+                                                {
+                                                    $prev= 0;
+                                                }
+
+                                                ?>
+                                            <td><a href="{{url('Customer/Bill/Print/'.$bill->id.'/'.$prev)}}" class="btn btn-default">Print</a></td>
                                         </tr>
+                                        <?php $c++;$arr++;?>
                                     @endforeach
                                     </tbody>
                                 </table>
