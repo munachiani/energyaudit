@@ -2,7 +2,7 @@
 $user = auth()->user();
 ?>
         <!-- BEGIN HEADER-->
-<header id="header">
+<header id="header" class="no-print">
     <div class="headerbar">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="headerbar-left">

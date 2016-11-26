@@ -108,6 +108,10 @@
         "order": [[4, "desc"]],
         searchHighlight: true
     });
+$('#datatables-7').DataTable({
+        "order": [[1, "asc"]],
+        searchHighlight: true
+    });
 
     //$('#datepicker').datepicker({ autoclose: true, format: 'yyyy-mm-dd', todayHighlight: true });
     //$('#datepicker2').datepicker({ autoclose: true, format: 'yyyy-mm-dd', todayHighlight: true });
