@@ -159,8 +159,11 @@ class BaseController extends Controller
         } else
             $customer = CustomerNote::latest('id')->get();
 
+
+
         $dataList = array();
         foreach ($customer as $i => $item) {
+            $bills=$item->customerBill;
             $data['site_latitude'] = $this->checkNull($item->site_latitude);
             $data['site_longitude'] = $this->checkNull($item->site_longitude);
             $data['customer_note_id'] = $this->checkNull($item->id);
@@ -185,6 +188,7 @@ class BaseController extends Controller
             $data['meter_type'] = $this->checkNull($item->meter_type);
             $data['meter_brand'] = $this->checkNull($item->meter_brand);
             $data['meter_model'] = $this->checkNull($item->meter_model);
+            $data['bill_count'] = $bills->count();
 
             $dataList[] = $data;
         }
