@@ -11,4 +11,8 @@ class ParentFederalMinistry extends Model
         'parent_fed_ministry_addr',
         'parent_fed_ministry_info',
     ];
+
+  public function customerNote(){
+      return $this->hasMany('App\CustomerNote','parent_fed_min_id','parent_fed_ministry_name');
+  }
 }
