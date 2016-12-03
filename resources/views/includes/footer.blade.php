@@ -27,6 +27,8 @@
 {{ HTML::script("Content/js/core/source/AppVendor.js") }}
 {{ HTML::script("Scripts/Highcharts-5.0.2/code/highcharts.js") }}
 {{ HTML::script("Scripts/Highcharts-5.0.2/code/highcharts-3d.js") }}
+{{ HTML::script("Scripts/Highcharts-5.0.2/code/modules/data.js") }}
+{{ HTML::script("Scripts/Highcharts-5.0.2/code/modules/drilldown.js") }}
 
 
 
