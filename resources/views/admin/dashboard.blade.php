@@ -57,23 +57,72 @@ $discoAmount = implode(',', $discoAmount);
 $ministryAmount = [];
 $ministry = [];
 $ministryAmountTotal = 0;
+$distinctCustomer = [];
+$totalDistinctCustomerBill = [];
+        //Iterating through mdaCaptured
 foreach ($mdaCapturedDistinct as $mdasDistinct) {
-    $ministry[] = $mdasDistinct->parent_fed_ministry_name;
+    $ministry[] = $mdasDistinct->parent_fed_ministry_name;//list of ministries
+
+    //Get All customerNotes belonging to selected ministry
     $customNotes = \App\CustomerNote::where('parent_fed_min_id', '=', $mdasDistinct->parent_fed_ministry_name)->get();
+
     //$totalCountM = \App\CustomerBill::where('parent_ministry', '=',$mdasDistinct->parent_fed_ministry_name)->get();
     $totalM = 0;
-
+    $data=[];
     foreach ($customNotes as $tm) {
+        //fetch all customer bills belonging to the selected customer profile
         $totalCountM = \App\CustomerBill::where('disco_account_number', '=', $tm->disco_acct_number)->get();
+
+       // if (!in_array($tm->mda_name, $distinctCustomer)) {
+            $nowTotal=0;
+            foreach($totalCountM as $dtt){
+                   $nowTotal += $dtt->invoice_amt;
+            }
+        $data[]=[trim($tm->mda_name),$nowTotal];
+        /**
+         * [
+        {
+        name: 'Total debt',
+        id: 'Minister for Youth and Sports',
+        data: [
+        [
+        'v12.x',
+        0.34
+        ],
+        [
+        'v28',
+        0.24
+        ],
+        [
+        'v27',
+        0.17
+        ],
+        [
+        'v29',
+        0.16
+        ]
+        ]
+        }]
+         */
+
 
         foreach ($totalCountM as $tt)
             $totalM += $tt->invoice_amt;
-}
+    }
 
     $ministryAmount[] = $totalM;
+
+    $distinctCustomer[] = ['name'=>'Total Debt','id'=>$mdasDistinct->parent_fed_ministry_name,
+            'data'=>$data];
+    // }
 }
-$ministry = implode(", ", $ministry);
+        $series=[];
+        for($i=0;$i<count($ministry);$i++)
+            $series[]=['name'=>$ministry[$i],'y'=>$ministryAmount[$i],'drilldown'=>$ministry[$i]];
+//dd(json_encode($distinctCustomer));
+$ministry = implode(",", $ministry);
 $ministryAmount = implode(",", $ministryAmount);
+
 
 ?>
 @section('contents')
@@ -85,6 +134,7 @@ $ministryAmount = implode(",", $ministryAmount);
             ﻿﻿<input type="hidden" id="discoCount" value="{{$discoCount}}">
             ﻿﻿<input type="hidden" id="itemId" value="{{$itemAmount}}">
             ﻿﻿<input type="hidden" id="discoId" value="{{$discoId}}">
+            ﻿﻿<input type="hidden" id="ministryAmount" value="{{$ministryAmount}}">
             <input id="startdate" name="startdate" type="hidden" value="01/01/2015"/>
             <input id="enddate" name="enddate" type="hidden" value="31/12/2016"/>
             <input id="userid" name="userid" type="hidden" value="{{auth()->user()->id}}"/>
@@ -205,7 +255,7 @@ $ministryAmount = implode(",", $ministryAmount);
                             </header>
                         </div>
                         <div class="card-body height-12" style="height: 640px;">
-                           <!-- <div id="container2" style="height: 400px;"></div> -->
+                            <!-- <div id="container2" style="height: 400px;"></div> -->
                             <div id="container3" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
                         </div>
@@ -225,7 +275,8 @@ $ministryAmount = implode(",", $ministryAmount);
 
                             <p class="col-md-12">
                                         <span>
-                                             &copy; Copyright 2016 - Advisory Power Team. All rights reserved.<br>                                             For more information please contact mdadebts@aptovp.org | 07089090000
+                                             &copy; Copyright 2016 - Advisory Power Team. All rights reserved.<br>                                             For more information please contact mdadebts@aptovp
+                                            .org | 07089090000
                                         </span>
                             </p>
                         </div>
@@ -241,16 +292,13 @@ $ministryAmount = implode(",", $ministryAmount);
     <script type="text/javascript">
 
         $('.counter').counterUp();
-        //        dataVert = $("#discoCount").val();
         dataHor = $("#discoData").val();
         dataDiscoId = $("#discoId").val();
-        //alert(dataVert);
-        //alert(dataHor);
-        //        vert=dataVert.split(',');
+        var aSeries = <?php echo json_encode($series)?>;
         hor = dataHor.split(',');
         dataId = dataDiscoId.split(',');
-console.log(dataId);
-
+        var distinctCustomer=<?php echo json_encode($distinctCustomer)?>;
+            //console.log(distinctCustomer);
         $(function () {
             $('#container1').highcharts({
                 chart: {
@@ -265,7 +313,7 @@ console.log(dataId);
                 legend: {
                     labelFormatter: function () {
                         var total = 0;
-                        for (var i = this.yData.length; i--; ) {
+                        for (var i = this.yData.length; i--;) {
                             total += this.yData[i];
                         }
 
@@ -307,7 +355,7 @@ console.log(dataId);
                     point: {
                         events: {
                             click: function () {
-                                window.open('premesis/captured/' + dataId[this.x],'_top');
+                                window.open('premesis/captured/' + dataId[this.x], '_top');
                             }
                         }
                     }
@@ -325,7 +373,6 @@ console.log(dataId);
         ItemIds = dataItemId.split(',');
         Highcharts.setOptions({
             lang: {
-
                 thousandsSep: ","
             }
         });
@@ -333,7 +380,6 @@ console.log(dataId);
             $('#container').highcharts({
                 chart: {
                     type: 'column'
-
                 },
 
                 title: {
@@ -342,7 +388,7 @@ console.log(dataId);
                 legend: {
                     labelFormatter: function () {
                         var total = 0;
-                        for (var i = this.yData.length; i--; ) {
+                        for (var i = this.yData.length; i--;) {
                             total += this.yData[i];
                         }
 
@@ -388,7 +434,7 @@ console.log(dataId);
                     point: {
                         events: {
                             click: function () {
-                                window.open('disco/amount/owed/' + ItemIds[this.x],'_top');
+                                window.open('disco/amount/owed/' + ItemIds[this.x], '_top');
                             }
                         }
                     }
@@ -461,26 +507,27 @@ console.log(dataId);
 
 
     </script>
+
     {{--dummy content starts here--}}
     <script>
-        $(function () {
+         $(function () {
             // Create the chart
             Highcharts.chart('container3', {
                 chart: {
                     type: 'column'
                 },
                 title: {
-                    text: 'Browser market shares. January, 2015 to May, 2015'
+                    text: 'TOTAL DEBT PER MINISTRY'
                 },
                 subtitle: {
-                    text: 'Click the columns to view versions. Source: <a href="http://netmarketshare.com">netmarketshare.com</a>.'
+                    text: 'Click the columns to view DrillDown of Individual MDAs'
                 },
                 xAxis: {
                     type: 'category'
                 },
                 yAxis: {
                     title: {
-                        text: 'Total percent market share'
+                        text: 'Total Debt Owed'
                     }
 
                 },
@@ -491,229 +538,25 @@ console.log(dataId);
                     series: {
                         borderWidth: 0,
                         dataLabels: {
-                            enabled: true,
-                            format: '{point.y:.1f}%'
+                            enabled: false,
+                            format: '₦{point.y:.1f}'
                         }
                     }
                 },
 
                 tooltip: {
-                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                    headerFormat: '<b>{point.key}</b><br>',
+                    pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: ₦{point.y}'
                 },
 
-                series: [{
-                    name: 'Brands',
+                series: [
+                    {
+                    name: 'Total Debt',
                     colorByPoint: true,
-                    data: [{
-                        name: 'Microsoft Internet Explorer',
-                        y: 56.33,
-                        drilldown: 'Microsoft Internet Explorer'
-                    }, {
-                        name: 'Chrome',
-                        y: 24.03,
-                        drilldown: 'Chrome'
-                    }, {
-                        name: 'Firefox',
-                        y: 10.38,
-                        drilldown: 'Firefox'
-                    }, {
-                        name: 'Safari',
-                        y: 4.77,
-                        drilldown: 'Safari'
-                    }, {
-                        name: 'Opera',
-                        y: 0.91,
-                        drilldown: 'Opera'
-                    }, {
-                        name: 'Proprietary or Undetectable',
-                        y: 0.2,
-                        drilldown: null
-                    }]
+                    data: aSeries
                 }],
                 drilldown: {
-                    series: [{
-                        name: 'Microsoft Internet Explorer',
-                        id: 'Microsoft Internet Explorer',
-                        data: [
-                            [
-                                'v11.0',
-                                24.13
-                            ],
-                            [
-                                'v8.0',
-                                17.2
-                            ],
-                            [
-                                'v9.0',
-                                8.11
-                            ],
-                            [
-                                'v10.0',
-                                5.33
-                            ],
-                            [
-                                'v6.0',
-                                1.06
-                            ],
-                            [
-                                'v7.0',
-                                0.5
-                            ]
-                        ]
-                    }, {
-                        name: 'Chrome',
-                        id: 'Chrome',
-                        data: [
-                            [
-                                'v40.0',
-                                5
-                            ],
-                            [
-                                'v41.0',
-                                4.32
-                            ],
-                            [
-                                'v42.0',
-                                3.68
-                            ],
-                            [
-                                'v39.0',
-                                2.96
-                            ],
-                            [
-                                'v36.0',
-                                2.53
-                            ],
-                            [
-                                'v43.0',
-                                1.45
-                            ],
-                            [
-                                'v31.0',
-                                1.24
-                            ],
-                            [
-                                'v35.0',
-                                0.85
-                            ],
-                            [
-                                'v38.0',
-                                0.6
-                            ],
-                            [
-                                'v32.0',
-                                0.55
-                            ],
-                            [
-                                'v37.0',
-                                0.38
-                            ],
-                            [
-                                'v33.0',
-                                0.19
-                            ],
-                            [
-                                'v34.0',
-                                0.14
-                            ],
-                            [
-                                'v30.0',
-                                0.14
-                            ]
-                        ]
-                    }, {
-                        name: 'Firefox',
-                        id: 'Firefox',
-                        data: [
-                            [
-                                'v35',
-                                2.76
-                            ],
-                            [
-                                'v36',
-                                2.32
-                            ],
-                            [
-                                'v37',
-                                2.31
-                            ],
-                            [
-                                'v34',
-                                1.27
-                            ],
-                            [
-                                'v38',
-                                1.02
-                            ],
-                            [
-                                'v31',
-                                0.33
-                            ],
-                            [
-                                'v33',
-                                0.22
-                            ],
-                            [
-                                'v32',
-                                0.15
-                            ]
-                        ]
-                    }, {
-                        name: 'Safari',
-                        id: 'Safari',
-                        data: [
-                            [
-                                'v8.0',
-                                2.56
-                            ],
-                            [
-                                'v7.1',
-                                0.77
-                            ],
-                            [
-                                'v5.1',
-                                0.42
-                            ],
-                            [
-                                'v5.0',
-                                0.3
-                            ],
-                            [
-                                'v6.1',
-                                0.29
-                            ],
-                            [
-                                'v7.0',
-                                0.26
-                            ],
-                            [
-                                'v6.2',
-                                0.17
-                            ]
-                        ]
-                    }, {
-                        name: 'Opera',
-                        id: 'Opera',
-                        data: [
-                            [
-                                'v12.x',
-                                0.34
-                            ],
-                            [
-                                'v28',
-                                0.24
-                            ],
-                            [
-                                'v27',
-                                0.17
-                            ],
-                            [
-                                'v29',
-                                0.16
-                            ]
-                        ]
-                    }]
+                    series: distinctCustomer
                 }
             });
         });
