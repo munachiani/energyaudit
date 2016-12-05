@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CustomerBill;
 use App\CustomerNote;
+use App\DiscoState;
 use App\DistributionCompany;
 use App\EnergyAudit;
 use App\EnergyAuditData;
@@ -34,6 +35,30 @@ class BaseController extends Controller
             $option[] = ['Value' => $region->id, 'Text' => $region->region_name];
         }
         return json_encode($option, $state_id);
+    }
+ public function getStatesInDisco()
+    {
+        $disco_id = Input::get('id');
+        $option = array();
+
+        if(!empty($disco_id)&&!is_null($disco_id)&&$disco_id!='') {
+            $disco = DistributionCompany::byName($disco_id);
+            $states = DiscoState::inDisco($disco->id);
+
+            foreach ($states as $state) {
+                $option[] = ['Value' => $state->state_id, 'Text' => State::find($state->state_id)->name];
+            }
+        }
+        else {
+            $states = State::all();
+            foreach ($states as $state) {
+                $option[] = ['Value' => $state->id, 'Text' => $state->name];
+            }
+        }
+
+
+
+        return json_encode($option,1);
     }
 
     public function getRegionsByName()

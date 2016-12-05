@@ -10,4 +10,10 @@ class DiscoState extends Model
         'disco_id',
         'state_id',
     ];
+
+    public function ScopeInDisco($query, $id){
+
+        return $query->where('disco_id', '=', $id)->get();
+
+    }
 }

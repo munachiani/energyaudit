@@ -256,7 +256,51 @@ function getRegion(selectedItem, ddlLgas) {
         }
     });
 };
+function getDiscoState(selectedItem, ddStates) {
+    var region = localStorage.getItem('region');
+    var procemessage = "<option value=''>Please wait...</option>";
+    $("#State").html(procemessage).show();
+    url = $("#getStateUrl").val();
+    $.ajax({
+        cache: false,
+        type: "GET",
+        url: url,
+        dataType: "json",
+        data: {"id": selectedItem},
+        beforeSend: function () {
 
+            $("#message").show();
+            //alert(url);
+            //ddlLgas.val("Select LGA");
+        },
+        success: function (data) {
+            ddStates.html('');
+            $("#message").hide();
+            if (data.length > 0) {
+
+                ddStates.append($('<option></option>').val(null).html("Select State"));
+                //ddStates.append($('<option></option>').val("All").html("All"));
+                localStorage.setItem("data", JSON.stringify(data));
+                $.each(data, function (id, option) {
+                    ddStates.append($('<option></option>').val(option.Value).html(option.Text));
+                    //ddStates.val(region);
+                });
+                //$("#Region").removeAttr("disabled");
+
+            } else {
+                ddStates.append($('<option></option>').val('-1').html("N/A"));
+            }
+            /*setTimeout(function(){
+                state_name = $("#State").val();
+                loc_gov_name = 0;
+                filterByRegion()
+            },10);*/
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //alert('Failed to retrieve Local Governments. ' + thrownError );
+        }
+    });
+};
 function filterByRegion() {
     url = $("#getCustomerNote").val();
     $.ajax({
@@ -336,7 +380,7 @@ function filterByDisco() {
         },
         success: function (data) {
             $("#message").hide();
-            console.log(data);
+            //console.log(data);
             if (data.length == 0) {
                 status = false;
             }
@@ -435,17 +479,22 @@ $(document).ready(function () {
         limparent = 0;
         //console.log(limparent);
         filterByMinistry();
+
     });
 
     $("#Disco").change(function () {
         status4 = true;
         $('#datatables-4').DataTable().clear().draw();
-        state_name = $("#State").val();
+        var ddStates = $("#State");
+        state_name =ddStates.val();
         loc_gov_name = $("#Region").val();
         par_name = $("#Minis").val();
         disco_name = $("#Disco").val();
         limdisco = 0;
+        var selectedItem = $(this).val();
+
         filterByDisco();
+        getDiscoState(selectedItem,ddStates);
     });
  if(parseInt(disco_id)>0) {
         status4 = true;

@@ -39,6 +39,7 @@ Route::get('logout','Auth\AuthController@logout');
 /* retrieve regions of a state*/
 Route::get('Users/GetRegionByStateId','BaseController@getRegions');
 Route::get('ReportInfo/GetRegionbyStateId','BaseController@getRegions');
+Route::get('ReportInfo/getStateById','BaseController@getStatesInDisco');
 
 
 Route::get('ReportInfo/GetEnergyAudit','BaseController@getEnergyAudit');
