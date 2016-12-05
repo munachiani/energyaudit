@@ -38,9 +38,13 @@ $discoId = implode(",", $discoId);
 $discoCount = implode(',', $discoCount);
 
 $discoNames = [];
+$discoNamesD = [];
 $discoAmount = [];
+$discoAmountD = [];
+$distinctCustomerD = [];
 foreach ($disco as $item) {
     $discoNames[] = $item->disco_name;
+    $discoNamesD[] = $item->disco_name;
     $totalCount = \App\CustomerBill::where('disco', '=', $item->disco_name)->get();
     $itemAmount[] = $item->id;
     $total = 0;
@@ -48,6 +52,29 @@ foreach ($disco as $item) {
         $total += $tt->invoice_amt;
     }
     $discoAmount[] = $total;
+    $discoAmountD[] = $total;
+//Get All customerNotes belonging to selected ministry
+    $customNotesD = \App\CustomerNote::where('disco_id', '=', $item->disco_name)->get();
+    $totalMD = 0;
+    $dataD = [];
+    foreach ($customNotesD as $tmD) {
+        //fetch all customer bills belonging to the selected customer profile
+        $totalCountMD = \App\CustomerBill::where('disco_account_number', '=', $tmD->disco_acct_number)->get();
+
+        // if (!in_array($tm->mda_name, $distinctCustomer)) {
+        $nowTotalD = 0;
+        foreach ($totalCountMD as $dttD) {
+            $nowTotalD += $dttD->invoice_amt;
+        }
+        $dataD[] = [trim($tmD->mda_name), $nowTotalD];
+
+
+        foreach ($totalCountMD as $ttD)
+            $totalMD += $ttD->invoice_amt;
+    }
+
+    $distinctCustomerD[] = ['name' => 'Total Debt', 'id' => $item->disco_name,
+            'data' => $dataD];
 }
 $discoNames = implode(",", $discoNames);
 $itemAmount = implode(",", $itemAmount);
@@ -59,7 +86,7 @@ $ministry = [];
 $ministryAmountTotal = 0;
 $distinctCustomer = [];
 $totalDistinctCustomerBill = [];
-        //Iterating through mdaCaptured
+//Iterating through mdaCaptured
 foreach ($mdaCapturedDistinct as $mdasDistinct) {
     $ministry[] = $mdasDistinct->parent_fed_ministry_name;//list of ministries
 
@@ -67,17 +94,17 @@ foreach ($mdaCapturedDistinct as $mdasDistinct) {
     $customNotes = \App\CustomerNote::where('parent_fed_min_id', '=', $mdasDistinct->parent_fed_ministry_name)->get();
     //$totalCountM = \App\CustomerBill::where('parent_ministry', '=',$mdasDistinct->parent_fed_ministry_name)->get();
     $totalM = 0;
-    $data=[];
+    $data = [];
     foreach ($customNotes as $tm) {
         //fetch all customer bills belonging to the selected customer profile
         $totalCountM = \App\CustomerBill::where('disco_account_number', '=', $tm->disco_acct_number)->get();
 
-       // if (!in_array($tm->mda_name, $distinctCustomer)) {
-            $nowTotal=0;
-            foreach($totalCountM as $dtt){
-                   $nowTotal += $dtt->invoice_amt;
-            }
-        $data[]=[trim($tm->mda_name),$nowTotal];
+        // if (!in_array($tm->mda_name, $distinctCustomer)) {
+        $nowTotal = 0;
+        foreach ($totalCountM as $dtt) {
+            $nowTotal += $dtt->invoice_amt;
+        }
+        $data[] = [trim($tm->mda_name), $nowTotal];
         /**
          * [
         {
@@ -111,14 +138,19 @@ foreach ($mdaCapturedDistinct as $mdasDistinct) {
 
     $ministryAmount[] = $totalM;
 
-    $distinctCustomer[] = ['name'=>'Total Debt','id'=>$mdasDistinct->parent_fed_ministry_name,
-            'data'=>$data];
+    $distinctCustomer[] = ['name' => 'Total Debt', 'id' => $mdasDistinct->parent_fed_ministry_name,
+            'data' => $data];
     // }
 }
-        $series=[];
-        for($i=0;$i<count($ministry);$i++)
-            $series[]=['name'=>$ministry[$i],'y'=>$ministryAmount[$i],'drilldown'=>$ministry[$i]];
-//dd(json_encode($distinctCustomer));
+$series = [];
+$seriesD = [];
+
+for ($i = 0; $i < count($ministry); $i++)
+    $series[] = ['name' => $ministry[$i], 'y' => $ministryAmount[$i], 'drilldown' => $ministry[$i]];
+
+for ($j = 0; $j < count($discoNamesD); $j++)
+    $seriesD[] = ['name' => $discoNamesD[$j], 'y' => $discoAmountD[$j], 'drilldown' => $discoNamesD[$j]];
+//dd(json_encode($seriesD));
 $ministry = implode(",", $ministry);
 $ministryAmount = implode(",", $ministryAmount);
 
@@ -294,10 +326,12 @@ $ministryAmount = implode(",", $ministryAmount);
         dataHor = $("#discoData").val();
         dataDiscoId = $("#discoId").val();
         var aSeries = <?php echo json_encode($series)?>;
+        var aSeriesD = <?php echo json_encode($seriesD)?>;
         hor = dataHor.split(',');
         dataId = dataDiscoId.split(',');
-        var distinctCustomer=<?php echo json_encode($distinctCustomer)?>;
-            //console.log(distinctCustomer);
+        var distinctCustomer =<?php echo json_encode($distinctCustomer)?>;
+        var distinctCustomerD =<?php echo json_encode($distinctCustomerD)?>;
+        //console.log(distinctCustomer);
         $(function () {
             $('#container1').highcharts({
                 chart: {
@@ -509,7 +543,7 @@ $ministryAmount = implode(",", $ministryAmount);
 
     {{--dummy content starts here--}}
     <script>
-         $(function () {
+        $(function () {
             // Create the chart
             Highcharts.chart('container3', {
                 chart: {
@@ -550,10 +584,10 @@ $ministryAmount = implode(",", $ministryAmount);
 
                 series: [
                     {
-                    name: 'Total Debt',
-                    colorByPoint: true,
-                    data: aSeries
-                }],
+                        name: 'Total Debt',
+                        colorByPoint: true,
+                        data: aSeries
+                    }],
                 drilldown: {
                     series: distinctCustomer
                 }
@@ -570,17 +604,17 @@ $ministryAmount = implode(",", $ministryAmount);
                     type: 'column'
                 },
                 title: {
-                    text: 'Browser market shares. January, 2015 to May, 2015'
+                    text: 'Total Debt owed per Disco'
                 },
                 subtitle: {
-                    text: 'Click the columns to view versions. Source: <a href="http://netmarketshare.com">netmarketshare.com</a>.'
+                    text: 'Click the columns to view DrillDown of Individual MDAs.'
                 },
                 xAxis: {
                     type: 'category'
                 },
                 yAxis: {
                     title: {
-                        text: 'Total percent market share'
+                        text: 'Total Debt Owed'
                     }
 
                 },
@@ -591,229 +625,24 @@ $ministryAmount = implode(",", $ministryAmount);
                     series: {
                         borderWidth: 0,
                         dataLabels: {
-                            enabled: true,
+                            enabled: false,
                             format: '{point.y:.1f}%'
                         }
                     }
                 },
 
                 tooltip: {
-                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                    headerFormat: '<b>{point.key}</b><br>',
+                    pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: ₦{point.y}'
                 },
 
-                series: [{
-                    name: 'Brands',
+                series:[{
+                    name: 'Total Disco Debt',
                     colorByPoint: true,
-                    data: [{
-                        name: 'Microsoft Internet Explorer',
-                        y: 56.33,
-                        drilldown: 'Microsoft Internet Explorer'
-                    }, {
-                        name: 'Chrome',
-                        y: 24.03,
-                        drilldown: 'Chrome'
-                    }, {
-                        name: 'Firefox',
-                        y: 10.38,
-                        drilldown: 'Firefox'
-                    }, {
-                        name: 'Safari',
-                        y: 4.77,
-                        drilldown: 'Safari'
-                    }, {
-                        name: 'Opera',
-                        y: 0.91,
-                        drilldown: 'Opera'
-                    }, {
-                        name: 'Proprietary or Undetectable',
-                        y: 0.2,
-                        drilldown: null
-                    }]
+                    data: aSeriesD
                 }],
                 drilldown: {
-                    series: [{
-                        name: 'Microsoft Internet Explorer',
-                        id: 'Microsoft Internet Explorer',
-                        data: [
-                            [
-                                'v11.0',
-                                24.13
-                            ],
-                            [
-                                'v8.0',
-                                17.2
-                            ],
-                            [
-                                'v9.0',
-                                8.11
-                            ],
-                            [
-                                'v10.0',
-                                5.33
-                            ],
-                            [
-                                'v6.0',
-                                1.06
-                            ],
-                            [
-                                'v7.0',
-                                0.5
-                            ]
-                        ]
-                    }, {
-                        name: 'Chrome',
-                        id: 'Chrome',
-                        data: [
-                            [
-                                'v40.0',
-                                5
-                            ],
-                            [
-                                'v41.0',
-                                4.32
-                            ],
-                            [
-                                'v42.0',
-                                3.68
-                            ],
-                            [
-                                'v39.0',
-                                2.96
-                            ],
-                            [
-                                'v36.0',
-                                2.53
-                            ],
-                            [
-                                'v43.0',
-                                1.45
-                            ],
-                            [
-                                'v31.0',
-                                1.24
-                            ],
-                            [
-                                'v35.0',
-                                0.85
-                            ],
-                            [
-                                'v38.0',
-                                0.6
-                            ],
-                            [
-                                'v32.0',
-                                0.55
-                            ],
-                            [
-                                'v37.0',
-                                0.38
-                            ],
-                            [
-                                'v33.0',
-                                0.19
-                            ],
-                            [
-                                'v34.0',
-                                0.14
-                            ],
-                            [
-                                'v30.0',
-                                0.14
-                            ]
-                        ]
-                    }, {
-                        name: 'Firefox',
-                        id: 'Firefox',
-                        data: [
-                            [
-                                'v35',
-                                2.76
-                            ],
-                            [
-                                'v36',
-                                2.32
-                            ],
-                            [
-                                'v37',
-                                2.31
-                            ],
-                            [
-                                'v34',
-                                1.27
-                            ],
-                            [
-                                'v38',
-                                1.02
-                            ],
-                            [
-                                'v31',
-                                0.33
-                            ],
-                            [
-                                'v33',
-                                0.22
-                            ],
-                            [
-                                'v32',
-                                0.15
-                            ]
-                        ]
-                    }, {
-                        name: 'Safari',
-                        id: 'Safari',
-                        data: [
-                            [
-                                'v8.0',
-                                2.56
-                            ],
-                            [
-                                'v7.1',
-                                0.77
-                            ],
-                            [
-                                'v5.1',
-                                0.42
-                            ],
-                            [
-                                'v5.0',
-                                0.3
-                            ],
-                            [
-                                'v6.1',
-                                0.29
-                            ],
-                            [
-                                'v7.0',
-                                0.26
-                            ],
-                            [
-                                'v6.2',
-                                0.17
-                            ]
-                        ]
-                    }, {
-                        name: 'Opera',
-                        id: 'Opera',
-                        data: [
-                            [
-                                'v12.x',
-                                0.34
-                            ],
-                            [
-                                'v28',
-                                0.24
-                            ],
-                            [
-                                'v27',
-                                0.17
-                            ],
-                            [
-                                'v29',
-                                0.16
-                            ]
-                        ]
-                    }]
+                    series: distinctCustomerD
                 }
             });
         });
