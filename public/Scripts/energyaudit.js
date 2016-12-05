@@ -237,6 +237,51 @@ function getRegion(selectedItem, ddlLgas) {
     });
 };
 
+function getDiscoState(selectedItem, ddStates) {
+    var region = localStorage.getItem('region');
+    var procemessage = "<option value=''>Please wait...</option>";
+    $("#State").html(procemessage).show();
+    url = $("#getStateUrl").val();
+    $.ajax({
+        cache: false,
+        type: "GET",
+        url: url,
+        dataType: "json",
+        data: {"id": selectedItem},
+        beforeSend: function () {
+
+            $("#message").show();
+            //alert(url);
+            //ddlLgas.val("Select LGA");
+        },
+        success: function (data) {
+            ddStates.html('');
+            $("#message").hide();
+            if (data.length > 0) {
+
+                ddStates.append($('<option></option>').val(null).html("Select State"));
+                //ddStates.append($('<option></option>').val("All").html("All"));
+                localStorage.setItem("data", JSON.stringify(data));
+                $.each(data, function (id, option) {
+                    ddStates.append($('<option></option>').val(option.Value).html(option.Text));
+                    //ddStates.val(region);
+                });
+                //$("#Region").removeAttr("disabled");
+
+            } else {
+                ddStates.append($('<option></option>').val('-1').html("N/A"));
+            }
+            /*setTimeout(function(){
+             state_name = $("#State").val();
+             loc_gov_name = 0;
+             filterByRegion()
+             },10);*/
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //alert('Failed to retrieve Local Governments. ' + thrownError );
+        }
+    });
+};
 
 function filterByRegion() {
     url = $("#getEneryAuditUrl").val();
@@ -444,14 +489,17 @@ $(document).ready(function () {
     $("#Disco").change(function () {
         status4 = true;
         $('#datatables-3').DataTable().clear().draw();
-        state_name = $("#State").val();
+        var ddStates = $("#State");
+        state_name =ddStates.val();
         loc_gov_name = $("#Region").val();
         by_pick = $("#By_pick").val();
         disco_name = $("#Disco").val();
         par_name = $("#Minis").val();
         limdisco = 0;
 
+        var selectedItem = $(this).val();
         filterByDisco();
+        getDiscoState(selectedItem,ddStates);
     });
 
     $("#Minis").change(function () {

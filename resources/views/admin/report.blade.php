@@ -4,7 +4,7 @@
         <div class="section-body">
             <input type="hidden" id="stateRegionUrl" value="{{url('ReportInfo/GetRegionbyStateId')}}">
             <input type="hidden" id="getEneryAuditUrl" value="{{url('ReportInfo/GetEnergyAudit')}}">
-
+            <input type="hidden" id="getStateUrl" value="{{url('ReportInfo/getStateById')}}">
             <div class="card">
                 <div class="card-head card-head-sm style-custom">
                     <header>Audit Report</header>
