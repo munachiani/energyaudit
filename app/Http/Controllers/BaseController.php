@@ -662,15 +662,13 @@ class BaseController extends Controller
     {
         //Prepare mailer
         $subject = "Password Reset for MDAUDIT";
-        $receiver = $user->UserName;
+        $to = $user->UserName;
+        $name = $user->FirstName;
+        $nameFrom = 'MDAdebts APTOVP';
+        $from ='mdadebts@gmail.com';
+        $text = $password;
 
-        $text = 'Hi ' . $user->FirstName . ',<br>';
-        $text .= 'Your password has been reset.<br>Your new password is <b>' . $password . '</b>';
-        $text .= '<br>Please endeavor to change your password once you login.<br>Thank you.';
-        $this->send_this_message($receiver, $subject, $text);
-
-        return redirect()->back()
-            ->withErrors(['success' => 'Password Reset Successful. Please check your mail for the new password [' . $password . ']']);
+        return redirect()->to('sendresetemail?to='.$to.'&subject='.$subject.'&name='.$name.'&from='.$from.'&text='.$text.'&namefrom='.$nameFrom);
     }
 
     /**
