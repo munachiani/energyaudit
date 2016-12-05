@@ -49,6 +49,14 @@
                         <div class="alert alert-callout alert-danger">
                             {{$errors->first('loginError')}}
                         </div>
+                      @elseif($errors->has('email'))
+                        <div class="alert alert-callout alert-danger">
+                            {{$errors->first('email')}}
+                        </div>
+                     @elseif($errors->has('success'))
+                        <div class="alert alert-callout alert-success">
+                            {{$errors->first('success')}}
+                        </div>
                         @endif
                     <div class="tab-pane active" id="login">
                         <div class="row">
@@ -108,13 +116,13 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
                                 <section id="resetForm">
-                                    <form action="{{url('/')}}" class="" method="post" role="form">
+                                    <form id="resetSubmit" action="{{url('auth/resetPassword')}}" class="" method="post" role="form">
                                         <input name="_token" type="hidden" value="{{csrf_token()}}">
                                         <div class="row">
                                             <div class="form-group col-md-12">
                                                 <div style="position:relative" class="form-group">
                                                     <i class="fa fa-envelope"></i>
-                                                    <input class="form-control" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="Email" name="Email" placeholder="Email" type="text" value="" >
+                                                    <input class="form-control" data-val="true"  data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="EmailReset" name="email" placeholder="Email" type="email" value="" >
                                                 </div>
                                                 <p data-toggle="tabs" class="pull-right form-group">
                                                     <a href="#login" class="loginLink">
@@ -126,7 +134,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12 form-group">
-                                                <button type="submit" class="btn btn-raised ink-reaction style-custom">Submit</button>
+                                                <button type="submit" id="resetMe" class="btn btn-raised ink-reaction style-custom">Submit</button><span id="logloader2" style="display: none;" ><img src="{{url('userimages/loader.gif')}}"></span>
                                             </div>
                                         </div>
                                     </form>                    </section>
@@ -164,7 +172,16 @@
             $('#loginLink').addClass('active');
             $('#resetLink').removeClass('active');
         });
+        $('#resetSubmit').submit(function () {
+            $('#logloader2').css('display','');
+        });
+
+        /*form.onsubmit = function(event) {
+            event.preventDefault();
+            return false;
+        }*/
     });
+
 </script>
 </body>
 

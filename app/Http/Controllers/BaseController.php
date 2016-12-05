@@ -9,12 +9,15 @@ use App\EnergyAudit;
 use App\EnergyAuditData;
 use App\Region;
 use App\State;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use PHPExcel_Worksheet_PageSetup;
 use TijsVerkoyen\CssToInlineStyles\Exception;
@@ -605,5 +608,88 @@ class BaseController extends Controller
         return view('admin.login');
     }
 
+    /**
+     * Reset the given user's password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postReset(Request $request)
+    {
+        return $this->reset($request);
+    }
+
+    /**
+     * Reset the given user's password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function reset(Request $request)
+    {
+        $rules=[
+            'email' => 'required|email'
+        ];
+        $validator=Validator::make($request->all(),$rules);
+
+        if($validator->fails()){
+            return redirect()->back()
+                ->withErrors(['email' => 'Invalid email entry']);
+        }
+        else{
+            $password=$this->newPassword();
+            $user = User::where('UserName','=',$request['email'])->first();
+
+            if(is_null($user)) {
+                return redirect()->back()
+                    ->withErrors(['email' => 'Email address not found in our database']);
+            }
+
+            $response =  $this->resetPassword($user, $password);
+
+            switch ($response) {
+                case Password::PWD_RESET:
+                return $this->getResetSuccessResponse($user, $password);
+//                    return $this->getResetFailureResponse($request, $response);
+
+                default:
+                    return $this->getResetFailureResponse($request, $response);
+            }
+        }
+    }
+
+    /**
+     * Get the response for after a successful password reset.
+     *
+     * @param  string  $response
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function getResetSuccessResponse($user, $password)
+    {
+        //Prepare mailer
+        $subject="Password Reset for MDAUDIT";
+        $receiver=$user->UserName;
+
+        $text='Hi '.$user->FirstName.',<br>';
+        $text.='Your password has been reset.<br>Your new password is <b>'.$password.'</b>';
+        $text.='<br>Please endeavor to change your password once you login.<br>Thank you.';
+        $this->send_this_message($receiver,$subject,$text);
+
+        return redirect()->back()
+            ->withErrors(['success' => 'Password Reset Successful. Please check your mail for the new password ['.$password.']']);
+    }
+
+    /**
+     * Get the response for after a failing password reset.
+     *
+     * @param  Request  $request
+     * @param  string  $response
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function getResetFailureResponse(Request $request, $response)
+    {
+        return redirect()->back()
+            ->withErrors(['email' =>'Password Reset Failed. Please try again later, or contact Admin']);
+    }
 
 }

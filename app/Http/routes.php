@@ -29,7 +29,7 @@ Route::get('Users/Edit/{id}','AdminController@editUsers');
 /* route to activate/deactivate user*/
 Route::get('Users/Activate','AdminController@activateUsers');
 /* route to create user*/
-//Route::post('auth/createUser','Auth\AuthController@createUsers');
+Route::post('auth/resetPassword','BaseController@postReset');
 Route::post('auth/createUser','AdminController@createUser');
 Route::get('Users/Create','AdminController@createUsers');
 
@@ -102,6 +102,8 @@ Route::post('User/UpdatePassword','AdminController@updatePassword');
 
 Route::get('Users/Delete/{id}','AdminController@deleteUser');
 Route::get('Customer/Bill/Print/{id}/{prev}','AdminController@printBill');
+
+Route::post('reset/password','BaseController@resetPwd');
 
 
 
