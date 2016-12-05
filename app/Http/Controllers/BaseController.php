@@ -146,8 +146,8 @@ class BaseController extends Controller
             //$end = Carbon::parse($request['end_date'])->format('Y-m-d H:i:s');
             $state = State::find($request['state_name'])->name;
             $lg = Region::find($request['local_gov_name']);
-            if(!is_null($lg))
-            $lga = Region::find($request['local_gov_name'])->region_name;
+            if (!is_null($lg))
+                $lga = Region::find($request['local_gov_name'])->region_name;
             else
                 $lga = "";
 //            $customer = EnergyAuditData::regionRange($start, $end,$state,$lga);
@@ -163,10 +163,9 @@ class BaseController extends Controller
             $customer = CustomerNote::latest('id')->get();
 
 
-
         $dataList = array();
         foreach ($customer as $i => $item) {
-            $bills=(!empty($item->customerBill)?$item->customerBill:false);
+            $bills = (!empty($item->customerBill) ? $item->customerBill : false);
             $data['site_latitude'] = $this->checkNull($item->site_latitude);
             $data['site_longitude'] = $this->checkNull($item->site_longitude);
             $data['customer_note_id'] = $this->checkNull($item->id);
@@ -191,7 +190,7 @@ class BaseController extends Controller
             $data['meter_type'] = $this->checkNull($item->meter_type);
             $data['meter_brand'] = $this->checkNull($item->meter_brand);
             $data['meter_model'] = $this->checkNull($item->meter_model);
-            $data['bill_count'] = $bills?$bills->count():0;
+            $data['bill_count'] = $bills ? $bills->count() : 0;
 
             $dataList[] = $data;
         }
@@ -611,7 +610,7 @@ class BaseController extends Controller
     /**
      * Reset the given user's password.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function postReset(Request $request)
@@ -622,74 +621,69 @@ class BaseController extends Controller
     /**
      * Reset the given user's password.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function reset(Request $request)
     {
-        $rules=[
+        $rules = [
             'email' => 'required|email'
         ];
-        $validator=Validator::make($request->all(),$rules);
+        $validator = Validator::make($request->all(), $rules);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors(['email' => 'Invalid email entry']);
-        }
-        else{
-            $password=$this->newPassword();
-            $user = User::where('UserName','=',$request['email'])->first();
+        } else {
+            $password = $this->newPassword();
+            $user = User::where('UserName', '=', $request['email'])->first();
 
-            if(is_null($user)) {
+            if (is_null($user)) {
                 return redirect()->back()
                     ->withErrors(['email' => 'Email address not found in our database']);
             }
 
-            $response =  $this->resetPassword($user, $password);
+            $response = $this->resetPassword($user, $password);
 
-            switch ($response) {
-                case Password::PWD_RESET:
+            if ($response == true)
                 return $this->getResetSuccessResponse($user, $password);
-//                    return $this->getResetFailureResponse($request, $response);
+            return $this->getResetFailureResponse($request, $response);
 
-                default:
-                    return $this->getResetFailureResponse($request, $response);
-            }
         }
     }
 
     /**
      * Get the response for after a successful password reset.
      *
-     * @param  string  $response
+     * @param  string $response
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function getResetSuccessResponse($user, $password)
     {
         //Prepare mailer
-        $subject="Password Reset for MDAUDIT";
-        $receiver=$user->UserName;
+        $subject = "Password Reset for MDAUDIT";
+        $receiver = $user->UserName;
 
-        $text='Hi '.$user->FirstName.',<br>';
-        $text.='Your password has been reset.<br>Your new password is <b>'.$password.'</b>';
-        $text.='<br>Please endeavor to change your password once you login.<br>Thank you.';
-        $this->send_this_message($receiver,$subject,$text);
+        $text = 'Hi ' . $user->FirstName . ',<br>';
+        $text .= 'Your password has been reset.<br>Your new password is <b>' . $password . '</b>';
+        $text .= '<br>Please endeavor to change your password once you login.<br>Thank you.';
+        $this->send_this_message($receiver, $subject, $text);
 
         return redirect()->back()
-            ->withErrors(['success' => 'Password Reset Successful. Please check your mail for the new password ['.$password.']']);
+            ->withErrors(['success' => 'Password Reset Successful. Please check your mail for the new password [' . $password . ']']);
     }
 
     /**
      * Get the response for after a failing password reset.
      *
-     * @param  Request  $request
-     * @param  string  $response
+     * @param  Request $request
+     * @param  string $response
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function getResetFailureResponse(Request $request, $response)
     {
         return redirect()->back()
-            ->withErrors(['email' =>'Password Reset Failed. Please try again later, or contact Admin']);
+            ->withErrors(['email' => 'Password Reset Failed. Please try again later, or contact Admin']);
     }
 
 }

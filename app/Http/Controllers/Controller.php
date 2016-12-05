@@ -53,11 +53,10 @@ class Controller extends BaseController
             'password' => bcrypt($password),
             'remember_token' => Str::random(60),
         ]);
-        return $user->save();
-
-        //Auth::guard($this->getGuard())->login($user);
+        if ($user->save())
+            return true;
+        return false;
     }
-
 
 
     public function newPassword($lim = 8)
@@ -73,18 +72,19 @@ class Controller extends BaseController
                 $pass[] = $alphabet[$n];
             }
             $id = implode($pass); //turn the array into a string and return as pwd
-                return $id;
+            return $id;
         }
     }
 
-    public function dataExistsInTable($strData, $field, $tb){
-        $checkQuery='';
-        switch($tb){
+    public function dataExistsInTable($strData, $field, $tb)
+    {
+        $checkQuery = '';
+        switch ($tb) {
             case 'users':
-                $checkQuery = User::whereRaw($field.'=?',[$strData])->get();
+                $checkQuery = User::whereRaw($field . '=?', [$strData])->get();
                 break;
         }
-        return $checkQuery->count()>0;
+        return $checkQuery->count() > 0;
     }
 
     public function checkNull($str)
@@ -103,7 +103,7 @@ class Controller extends BaseController
 		<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
 		<title>" . $subject . "</title>
 		</head>
-		<body style=\"padding:0; margin:0; background:url('".url('imgs/mailerBg.png')."') repeat-y\">
+		<body style=\"padding:0; margin:0; background:url('" . url('imgs/mailerBg.png') . "') repeat-y\">
 <div>
     <div>
     <img src=\"" . url('imgs/mailerTop.png') . " \"/>
