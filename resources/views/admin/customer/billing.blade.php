@@ -94,6 +94,7 @@
                                     <thead>
                                     <tr>
                                         <th>SN</th>
+                                        <th></th>
                                         <th>MDA Name</th>
 
                                         <th>Distribution Company</th>

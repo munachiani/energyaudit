@@ -36,11 +36,14 @@ function setData(data) {
      dataCount=data.length;
     lastCount= nextCount;
     nextCount=lastCount + dataLim;
+    var cc=0;
     for (var x = lastCount; x < nextCount; x++) {
         if(x<dataCount){
+            cc=cc+1;
             var addr = data[x].site_latitude + ", " + data[x].site_longitude;
-            table.row.add(["<a class='btn btn-primary' data-value='" +
+            table.row.add([cc,"<a class='btn btn-primary' data-value='" +
             //data[x].customer_note_id + "' title='" + data[x].bill_count +"' onclick='viewBillData(" + data[x].customer_note_id + ")'>View Bills</a>",
+
             data[x].customer_note_id + "'  onclick='viewBillData(" + data[x].customer_note_id + ")'>View Bills</a>",
                 (user_role == 6 ? "<a class='btn btn-danger' onclick='delData(" + data[x].customer_note_id + ")'>Delete</a>" : ""),
                 data[x].mda_name,

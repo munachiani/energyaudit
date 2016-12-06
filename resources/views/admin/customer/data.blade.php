@@ -111,6 +111,7 @@
                                 <table id="datatables-4" class="table table-banded table-hover">
                                     <thead>
                                     <tr>
+                                        <th>Sn</th>
                                         <th></th>
                                         <th></th>
                                         <th>MDA Name</th>

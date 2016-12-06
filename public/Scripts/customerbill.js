@@ -33,9 +33,11 @@ function setBill(data) {
     dataCount=data.length;
     lastCount= nextCount;
     nextCount=lastCount + dataLim;
+    var cc=0;
     for (var x = lastCount; x < nextCount; x++) {
+        cc=cc+1;
         if(x<dataCount){
-            table.row.add(["<a class='btn btn-danger' data-value='" +
+            table.row.add([cc,"<a class='btn btn-danger' data-value='" +
             data[x].customer_bill_id +
             (user_role ==6?"' onclick='delBill(" +  data[x].customer_bill_id +")'>Delete</a>":""),
                 data[x].mda_name,

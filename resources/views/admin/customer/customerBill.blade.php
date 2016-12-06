@@ -81,9 +81,9 @@
                                                 {
                                                     $prev= 0;
                                                 }
-
                                                 ?>
-                                            <td><a href="{{url('Customer/Bill/Print/'.$bill->id.'/'.$prev)}}" class="btn btn-default">Print</a></td>
+                                            <!--<td><a href="{{url('Customer/Bill/Print/'.$bill->id.'/'.$prev)}}" class="btn btn-default">View scanned bill</a></td>-->
+                                            <td><a href="{{url('userimages/sample_invoice.pdf')}}" class="btn btn-default">View scanned bill</a></td>
                                         </tr>
                                         <?php $c++;$arr++;?>
                                     @endforeach

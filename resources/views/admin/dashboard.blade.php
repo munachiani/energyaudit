@@ -57,6 +57,9 @@ foreach ($disco as $item) {
     $customNotesD = \App\CustomerNote::where('disco_id', '=', $item->disco_name)->get();
     $totalMD = 0;
     $dataD = [];
+    $federalTotal=[];
+    $stateTotal=[];
+    $localTotal=[];
     foreach ($customNotesD as $tmD) {
         //fetch all customer bills belonging to the selected customer profile
         $totalCountMD = \App\CustomerBill::where('disco_account_number', '=', $tmD->disco_acct_number)->get();
@@ -64,14 +67,20 @@ foreach ($disco as $item) {
         // if (!in_array($tm->mda_name, $distinctCustomer)) {
         $nowTotalD = 0;
         foreach ($totalCountMD as $dttD) {
-            $nowTotalD += $dttD->invoice_amt;
+            if($tmD->government_level=='Federal')
+                $federalTotal[]= $dttD->invoice_amt;
+        elseif($tmD->government_level=='State')
+            $stateTotal[]= $dttD->invoice_amt;
+       else
+           $localTotal[]= $dttD->invoice_amt;
         }
-        $dataD[] = [trim($tmD->mda_name), $nowTotalD];
-
 
         foreach ($totalCountMD as $ttD)
             $totalMD += $ttD->invoice_amt;
     }
+    $dataD[] = ['Federal Government', array_sum($federalTotal)];
+    $dataD[] = ['State Government', array_sum($stateTotal)];
+    $dataD[] = ['Local Government', array_sum($localTotal)];
 
     $distinctCustomerD[] = ['name' => 'Total Debt', 'id' => $item->disco_name,
             'data' => $dataD];
