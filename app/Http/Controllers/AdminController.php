@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use App\AuditAction;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -49,6 +50,11 @@ class AdminController extends Controller
             ->with(compact('mdasUploaded', 'mdasCaptured', 'customerNotes', 'disco', 'mdaCapturedDistinct'));
     }
 
+    public function truncateReport(){
+        DB::table('customer_notes')->truncate();
+        DB::table('customer_bills')->truncate();
+        return $this->dashboard();
+    }
     public function viewUsers()
     {
         return view('admin.users.index');

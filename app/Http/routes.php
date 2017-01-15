@@ -44,6 +44,7 @@ Route::get('ReportInfo/getStateById','BaseController@getStatesInDisco');
 
 Route::get('ReportInfo/GetEnergyAudit','BaseController@getEnergyAudit');
 Route::get('ReportInfo/Exporttoexcel','BaseController@exportEnergyAudit');
+Route::get('ReportInfo/TruncateReport','AdminController@truncateReport');
 
 Route::get('ReportInfo/getCustomerNote','BaseController@getCustomerNote');
 Route::get('ReportInfo/getCustomerNote/{id}','BaseController@getCustomerNoteByDisco');

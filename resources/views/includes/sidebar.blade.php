@@ -77,6 +77,11 @@ $user = auth()->user();
                                 <span class="title"> Upload Audit Report</span>
                             </a>
                         </li>
+                        <li class="">
+                            <a onclick="return confirm('Are you sure')" href="{{url('ReportInfo/TruncateReport')}}" class="{{substr(Request::path(),0,25) == 'ReportInfo/TruncateReport'? 'active':''}}">
+                                <span class="title"> Truncate Reports</span>
+                            </a>
+                        </li>
                     @endif
                 </ul>
             </li>
