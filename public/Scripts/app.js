@@ -4535,7 +4535,7 @@ var App = {
                     "<div class='col-md-12'><div class='col-md-6' style='float:left'><input type='checkbox' checked>No of Years at location</div><div class='col-md-6' style='float:right'><b>" + data[i].num_of_years_at_location + " &nbsp;" + "</b></div></div>" +
                     "<div class='col-md-12'><div class='col-md-6' style='float:left'><input type='checkbox' checked>No of generators</div><div class='col-md-6' style='float:right'><b>" + data[i].num_of_generators + "&nbsp;</b></div></div>" +
                     "<div class='col-md-12'><div class='col-md-6' style='float:left'><input type='checkbox' checked>Generator running per hours</div><div class='col-md-6' style='float:right'><b>" + data[i].generator_running + "&nbsp; &nbsp;" + "</b></div></div>" +
-                    "<div class='col-md-10' style='float:left'><input type='checkbox' checked>Avg. Electricity Bill per month </div><div class='col-md-6' style='float:right'><b>" + data[i].avg_electricity_bill_per_month + " &nbsp;</b></div></div>" +
+                    "<div class='col-md-12'><div class='col-md-10' style='float:left'><input type='checkbox' checked>Avg. Electricity Bill per month </div><div class='col-md-6' style='float:right'><b>" + data[i].avg_electricity_bill_per_month + " &nbsp;</b></div></div>" +
                     "</div></div></div>";
 
                 position = {
