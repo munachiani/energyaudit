@@ -54,7 +54,7 @@ foreach ($disco as $item) {
     $discoAmount[] = $total;
     $discoAmountD[] = $total;
 //Get All customerNotes belonging to selected ministry
-    $customNotesD = \App\CustomerNote::where('disco_id', '=', $item->disco_name)->limit(100)->get();
+    $customNotesD = \App\CustomerNote::where('disco_id', '=', $item->disco_name)->get();
     $totalMD = 0;
     $dataD = [];
     $federalTotal=[];
@@ -62,7 +62,7 @@ foreach ($disco as $item) {
     $localTotal=[];
     foreach ($customNotesD as $tmD) {
         //fetch all customer bills belonging to the selected customer profile
-        $totalCountMD = \App\CustomerBill::where('disco_account_number', '=', $tmD->disco_acct_number)->limit(100)->get();
+        $totalCountMD = \App\CustomerBill::where('disco_account_number', '=', $tmD->disco_acct_number)->get();
 
         // if (!in_array($tm->mda_name, $distinctCustomer)) {
         $nowTotalD = 0;
@@ -106,7 +106,7 @@ foreach ($mdaCapturedDistinct as $mdasDistinct) {
     $data = [];
     foreach ($customNotes as $tm) {
         //fetch all customer bills belonging to the selected customer profile
-        $totalCountM = \App\CustomerBill::where('disco_account_number', '=', $tm->disco_acct_number)->limit(100)->get();
+        $totalCountM = \App\CustomerBill::where('disco_account_number', '=', $tm->disco_acct_number)->get();
 
         // if (!in_array($tm->mda_name, $distinctCustomer)) {
         $nowTotal = 0;
